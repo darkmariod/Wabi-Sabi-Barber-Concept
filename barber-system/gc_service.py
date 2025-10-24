@@ -1,44 +1,50 @@
-import os, json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from datetime import datetime, timedelta, time, date
 from zoneinfo import ZoneInfo
+import os
+import json
 
-# Zona horaria de Ecuador
+# ====================================
+# 🕒 Zona horaria
+# ====================================
 TZ = ZoneInfo("America/Guayaquil")
 UTC = ZoneInfo("UTC")
 
 
 class GoogleCalendar:
     def __init__(self):
-        self.service = self._create_service()
+        # 🔑 Carga las credenciales desde variable de entorno (Render)
+        credentials_str = os.getenv("GOOGLE_CREDENTIALS_JSON")
 
-    def _create_service(self):
-        """
-        Carga las credenciales desde GOOGLE_CREDENTIALS (Render)
-        o desde credentials.json (modo local).
-        """
-        creds = None
-        if "GOOGLE_CREDENTIALS" in os.environ:
-            credentials_info = json.loads(os.environ["GOOGLE_CREDENTIALS"])
-            creds = service_account.Credentials.from_service_account_info(
-                credentials_info,
-                scopes=["https://www.googleapis.com/auth/calendar"]
-            )
-        else:
-            creds = service_account.Credentials.from_service_account_file(
-                "credentials.json",
-                scopes=["https://www.googleapis.com/auth/calendar"]
-            )
+        if not credentials_str:
+            raise ValueError("❌ No se encontró GOOGLE_CREDENTIALS_JSON en el entorno.")
 
+        credentials_info = json.loads(credentials_str)
+
+        self.service = self._create_service(credentials_info)
+
+    # ====================================
+    # 🔧 Crear conexión con Google Calendar
+    # ====================================
+    def _create_service(self, credentials_info):
+        creds = service_account.Credentials.from_service_account_info(
+            credentials_info,
+            scopes=["https://www.googleapis.com/auth/calendar"]
+        )
         return build("calendar", "v3", credentials=creds)
 
+    # -----------------------------
+    # Utilidades internas
+    # -----------------------------
     def _to_utc_iso(self, dt_local: datetime) -> str:
+        """Convierte un datetime local a ISO en UTC."""
         if dt_local.tzinfo is None:
             dt_local = dt_local.replace(tzinfo=TZ)
         return dt_local.astimezone(UTC).isoformat()
 
     def _list_events(self, calendar_id: str, start_local: datetime, end_local: datetime) -> list:
+        """Obtiene eventos dentro de un rango local (se envían como UTC al API)."""
         events = self.service.events().list(
             calendarId=calendar_id,
             timeMin=self._to_utc_iso(start_local),
@@ -49,13 +55,16 @@ class GoogleCalendar:
         return events.get("items", [])
 
     def _event_interval(self, event: dict) -> tuple[datetime, datetime]:
+        """Retorna (start_utc, end_utc) siempre aware."""
         if "dateTime" in event.get("start", {}):
             start = event["start"]["dateTime"]
             end = event["end"]["dateTime"]
             s = datetime.fromisoformat(start.replace("Z", "+00:00"))
             e = datetime.fromisoformat(end.replace("Z", "+00:00"))
-            if s.tzinfo is None: s = s.replace(tzinfo=UTC)
-            if e.tzinfo is None: e = e.replace(tzinfo=UTC)
+            if s.tzinfo is None:
+                s = s.replace(tzinfo=UTC)
+            if e.tzinfo is None:
+                e = e.replace(tzinfo=UTC)
             return s.astimezone(UTC), e.astimezone(UTC)
 
         start_date = event["start"]["date"]
@@ -66,8 +75,12 @@ class GoogleCalendar:
 
     @staticmethod
     def _overlaps(a_start: datetime, a_end: datetime, b_start: datetime, b_end: datetime) -> bool:
+        """True si hay cruce entre intervalos (todos en UTC)."""
         return a_start < b_end and a_end > b_start
 
+    # ======================================================
+    # DISPONIBILIDAD DE HORAS (10:00 - 19:30 cada 30 min)
+    # ======================================================
     def get_available_hours(
         self,
         calendar_id: str,
@@ -76,13 +89,16 @@ class GoogleCalendar:
         cierre_h: int = 19,
         slot_every_min: int = 30
     ) -> list[str]:
+        """Devuelve todas las horas disponibles del día."""
         start_day = datetime(fecha.year, fecha.month, fecha.day, apertura_h, 0, tzinfo=TZ)
         end_day = datetime(fecha.year, fecha.month, fecha.day, cierre_h, 30, tzinfo=TZ)
+
         minutos_total = int((end_day - start_day).total_seconds() // 60)
         all_slots = [
             (start_day + timedelta(minutes=m)).strftime("%H:%M")
             for m in range(0, minutos_total + 1, slot_every_min)
         ]
+
         events = self._list_events(calendar_id, start_day, end_day)
         busy_blocks = [self._event_interval(e) for e in events]
 
@@ -96,13 +112,19 @@ class GoogleCalendar:
             hora_dt = datetime.strptime(slot, "%H:%M").time()
             start_local = datetime.combine(fecha, hora_dt).replace(tzinfo=TZ)
             end_local = start_local + timedelta(minutes=slot_every_min)
+
             s_utc = start_local.astimezone(UTC)
             e_utc = end_local.astimezone(UTC)
+
             ocupado = any(self._overlaps(s_utc, e_utc, b0, b1) for (b0, b1) in busy_blocks)
             if not ocupado:
                 disponibles.append(slot)
+
         return disponibles
 
+    # ======================================================
+    # CREAR EVENTO
+    # ======================================================
     def create_event(
         self,
         calendar_id: str,
@@ -114,11 +136,13 @@ class GoogleCalendar:
         hora: time,
         duracion_min: int = 60
     ):
+        """Crea el evento en el calendario."""
         if hora < time(10, 0) or hora > time(19, 30):
             raise ValueError("Solo se puede agendar entre 10:00 y 19:30.")
 
         start_local = datetime.combine(fecha, hora).replace(tzinfo=TZ)
         end_local = start_local + timedelta(minutes=duracion_min)
+
         existing = self._list_events(calendar_id, start_local, end_local)
         for e in existing:
             e_start, e_end = self._event_interval(e)
