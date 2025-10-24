@@ -1,50 +1,48 @@
+import os
 import streamlit as st
 from datetime import date, datetime
 import base64
 from pathlib import Path
 from gc_service import GoogleCalendar
 
+# 🧾 CONFIGURACIÓN PRINCIPAL DE LA APP
 st.set_page_config(page_title="Wabi Sabi Booking", layout="centered")
 
-# ===============================
-# CARGAR CSS
-# ===============================
+# 🎨 CARGAR ESTILOS CSS
 with open("styles/wizard-visual.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# ===============================
-# DATOS
-# ===============================
+# 💈 DATOS BASE: SERVICIOS Y SEDES
 SERVICIOS = [
-    ("Corte de Cabello Clásico", 
+    ("Corte de Cabello Clásico",
      "Incluye diagnóstico, corte a máquina con disminución gradual en laterales, perfilado de nuca y patillas, y estilizado final.",
      7, 40),
     ("Corte Tendencia (Fade o Degradado)",
-     "El look del momento. Incluye degradado alto, medio o bajo, o Taper Fade con máquina y navaja, conexión con parte superior y asesoramiento de estilizado.",
+     "El look del momento. Incluye degradado alto, medio o bajo, o Taper Fade con máquina y navaja.",
      8, 45),
     ("Perfilado de Cejas",
-     "Servicio de alta precisión. Incluye perfilado con navaja o pinza, recorte profesional y aplicación de gel o tónico calmante.",
+     "Perfilado con navaja o pinza, recorte profesional y aplicación de gel o tónico calmante.",
      3, 15),
     ("Diseño y Perfilado de Cejas con CERA",
-     "Incluye asesoramiento según el rostro, eliminación de vello no deseado y recorte para un acabado limpio y natural.",
+     "Eliminación de vello no deseado y acabado limpio y natural.",
      5, 20),
     ("Arreglo y Perfilado de Barba",
-     "Servicio de precisión para definir la forma. Incluye recorte y arreglo con tijera o máquina, delineado de contornos y humectación con aceite o bálsamo.",
+     "Recorte, delineado y humectación con aceite o bálsamo.",
      5, 30),
     ("Corte de Cabello y Barba",
-     "La combinación perfecta: asesoramiento, corte, peinado con productos importados y arreglo de barba con aromáticos y toalla caliente.",
+     "Corte completo + arreglo de barba con toalla caliente.",
      12, 60),
     ("Barba SPA (Ritual Tradicional)",
-     "Incluye diseño personalizado, recorte, delineado con navaja, toalla caliente con vapor de ozono y aplicación de bálsamo hidratante.",
+     "Diseño, delineado, vapor de ozono y bálsamo hidratante.",
      8, 45),
     ("Asesoría de Imagen y Estilismo Personal",
-     "Consultoría personalizada: análisis de rostro, tipo de cabello, recomendación de corte, lavado y bebida de cortesía.",
+     "Análisis de rostro, tipo de cabello y recomendaciones personalizadas.",
      15, 90),
     ("Servicio VIP Completo",
-     "La experiencia total: corte, lavado con masaje craneal, perfilado de barba con ritual de toalla caliente y mascarilla facial express.",
+     "Corte, lavado, barba y mascarilla facial express.",
      20, 120),
     ("Ritual VIP Exclusivo",
-     "Servicio premium: corte + barba + cejas, productos de alta gama y bebida de cortesía.",
+     "Corte + barba + cejas, productos premium y bebida de cortesía.",
      16, 90)
 ]
 
@@ -89,9 +87,7 @@ SEDES = {
     },
 }
 
-# ===============================
-# FUNCIONES
-# ===============================
+# 🖼️ FUNCIÓN AUXILIAR PARA IMÁGENES
 def img_tag(path, cls=""):
     p = Path(path)
     if not p.exists():
@@ -100,18 +96,14 @@ def img_tag(path, cls=""):
     b64 = base64.b64encode(p.read_bytes()).decode()
     return f"<img src='data:image/{ext};base64,{b64}' class='{cls}'>"
 
-# ===============================
-# SESIÓN
-# ===============================
+# 🧠 MANEJO DE SESIÓN
 for key in ["step", "sede", "servicio", "barbero", "fecha", "hora"]:
     if key not in st.session_state:
         st.session_state[key] = None
 if st.session_state.step is None:
     st.session_state.step = 1
 
-# ===============================
-# HEADER
-# ===============================
+# 🪪 ENCABEZADO PRINCIPAL
 st.markdown(f"""
 <div class="header">
   <img src="data:image/png;base64,{base64.b64encode(open('assets/logo.jpg','rb').read()).decode()}" class="logo">
@@ -122,6 +114,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# 🔢 INDICADOR DE PASOS
 st.markdown(f"""
 <div class="steps">
   <div class="step {'active' if st.session_state.step == 1 else ''}">1<br><span>Sede</span></div>
@@ -132,9 +125,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ===============================
-# PASO 1 - SEDE
-# ===============================
+# 🧭 PASO 1: ELEGIR SEDE
 if st.session_state.step == 1:
     st.markdown("<h4 class='section-title'>Selecciona una Sede</h4>", unsafe_allow_html=True)
     cols = st.columns(2)
@@ -155,9 +146,7 @@ if st.session_state.step == 1:
                 st.session_state.step = 2
                 st.rerun()
 
-# ===============================
-# PASO 2 - SERVICIO
-# ===============================
+# ✂️ PASO 2: ELEGIR SERVICIO
 elif st.session_state.step == 2:
     st.markdown("<h4 class='section-title'>Selecciona un Servicio</h4>", unsafe_allow_html=True)
     cols = st.columns(2)
@@ -178,9 +167,7 @@ elif st.session_state.step == 2:
         st.session_state.step = 1
         st.rerun()
 
-# ===============================
-# PASO 3 - BARBERO
-# ===============================
+# 💈 PASO 3: ELEGIR BARBERO
 elif st.session_state.step == 3:
     sede = st.session_state.sede
     st.markdown(f"<h4 class='section-title'>Barberos en {sede}</h4>", unsafe_allow_html=True)
@@ -202,15 +189,13 @@ elif st.session_state.step == 3:
         st.session_state.step = 2
         st.rerun()
 
-# ===============================
-# PASO 4 - FECHA Y HORA
-# ===============================
+# 🕒 PASO 4: ELEGIR FECHA Y HORA
 elif st.session_state.step == 4:
     st.markdown("<h4 class='section-title'>Selecciona una Fecha y Hora</h4>", unsafe_allow_html=True)
     fecha = st.date_input("📆 Fecha disponible", date.today())
 
-    calendar = GoogleCalendar("credentials.json")
-    calendar_id = "mariodanielq.p@gmail.com"
+    calendar = GoogleCalendar()
+    calendar_id = os.getenv("CALENDAR_ID", "mariodanielq.p@gmail.com")
     horas_disponibles = calendar.get_available_hours(calendar_id, fecha)
 
     if not horas_disponibles:
@@ -229,9 +214,7 @@ elif st.session_state.step == 4:
         st.session_state.step = 3
         st.rerun()
 
-# ===============================
-# PASO 5 - CONFIRMAR
-# ===============================
+# ✅ PASO 5: CONFIRMAR RESERVA
 elif st.session_state.step == 5:
     st.markdown("<h4 class='section-title'>Confirmar Reserva</h4>", unsafe_allow_html=True)
     st.markdown(f"""
@@ -250,10 +233,10 @@ elif st.session_state.step == 5:
     email = st.text_input("✉️ Correo electrónico")
 
     if st.button("✅ Confirmar Reserva", use_container_width=True):
-        calendar = GoogleCalendar("credentials.json")
+        calendar = GoogleCalendar()
         hora_obj = datetime.strptime(st.session_state.hora, "%H:%M").time()
         calendar.create_event(
-            "mariodanielq.p@gmail.com",
+            calendar_id,
             nombre, telefono, email,
             st.session_state.servicio,
             st.session_state.fecha,
@@ -261,6 +244,7 @@ elif st.session_state.step == 5:
         )
         st.success("✅ Reserva confirmada y guardada en Google Calendar")
         st.balloons()
+
         for k in ["step", "sede", "servicio", "barbero", "fecha", "hora"]:
             st.session_state[k] = None
         st.session_state.step = 1
