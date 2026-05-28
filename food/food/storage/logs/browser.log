@@ -1,0 +1,22 @@
+[2026-05-20 07:04:04] local.ERROR: TypeError Cannot read properties of null (reading '0') TypeError: Cannot read properties of null (reading '0')
+    at http://127.0.0.1:8001/admin/catalog/products/edit/1:6319:58
+    at u (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:9:8102)
+    at Array.map (<anonymous>)
+    at Di (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:9:8194)
+    at Proxy.map (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:9:7210)
+    at Proxy.created (http://127.0.0.1:8001/admin/catalog/products/edit/1:6318:61)
+    at jr (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:13:1393)
+    at Un (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:13:1456)
+    at _d (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:15:13618)
+    at Q0 (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:15:12886) {"url":"http://127.0.0.1:8001/admin/catalog/products/edit/1","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36","timestamp":"2026-05-20T12:04:03.796Z"} 
+[2026-05-20 07:12:26] local.ERROR: TypeError Cannot read properties of null (reading '0') TypeError: Cannot read properties of null (reading '0')
+    at http://127.0.0.1:8001/admin/catalog/products/edit/1:6319:58
+    at u (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:9:8102)
+    at Array.map (<anonymous>)
+    at Di (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:9:8194)
+    at Proxy.map (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:9:7210)
+    at Proxy.created (http://127.0.0.1:8001/admin/catalog/products/edit/1:6318:61)
+    at jr (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:13:1393)
+    at Un (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:13:1456)
+    at _d (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:15:13618)
+    at Q0 (http://127.0.0.1:8001/themes/admin/default/build/assets/app-CxcayUPU.js:15:12886) {"url":"http://127.0.0.1:8001/admin/catalog/products/edit/1","user_agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36","timestamp":"2026-05-20T12:12:26.294Z"} 
