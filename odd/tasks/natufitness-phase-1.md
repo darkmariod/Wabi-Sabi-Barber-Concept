@@ -29,7 +29,7 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - [x] T3 — NatuFitness child theme replicating syf.ec layout (header, nav, hero, product cards, categories, footer, WhatsApp). Route: delegated writer (writer trigger: 15 files).
 - [x] T4 — Bank transfer + DeUna static QR payment methods, plus Ecuador carriers and IVA groups found missing during browser test. Route: delegated writer (module, 8 files) + inline seed fix.
 - [ ] T5 — Datafast COPYandPAY payment module (blocked on test credentials). Route: delegated writer.
-- [ ] T6 — Order confirmation: "request invoice via WhatsApp" button. Route: TBD.
+- [x] T6 — Order confirmation: "request invoice via WhatsApp" button. Route: inline (1 template + CSS).
 - [x] T7 — Checkout branding polish: NatuFitness logo in checkout header, Spanish privacy text, reassurance items, NatuFitness footer, shop logo/favicon, shop name. Route: delegated writer + inline fixes (icon URL, duplicate terms link).
 
 ## Acceptance criteria
@@ -53,6 +53,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 
 - 2026-10-19: T7 done. `scripts/setup-branding.php` (shop name, PS_LOGO/favicon, Spanish CUSTPRIV/PSGDPR/NW texts, 3 reassurance items) + checkout header/footer overrides + shared `nf-logo.tpl`. Browser review found reassurance icons with `//modules/...` URLs (protocol-relative, broken) — fixed to `/modules/...`; and a duplicated terms link in the checkout footer — fixed. Verified in browser through the payment step at 1280px and 375px (scrollWidth 375), all Spanish, no demo strings.
 
+- 2026-10-19: T6 done. `themes/natufitness/templates/checkout/order-confirmation.tpl` extends classic and appends a "¿Necesitas factura?" card to `hook_payment_return`; WhatsApp message prefilled with order ref, total, email and — when the invoice address has them — Cédula/RUC and company. Verified in browser: order OVQXEJRXX (DeUna, with RUC) and XXEUUMGNV (transfer + store pickup, without RUC).
+
 ## Known gaps
 - WhatsApp number is placeholder 593000000000 in `themes/natufitness/templates/_partials/nf-config.tpl`.
 - Brand tiles (ON, BSN, ...) are placeholders; client must confirm brands carried.
@@ -63,7 +65,7 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 
 - Bank details, DeUna QR and home delivery rate ($4) are placeholders.
 - Products need the "EC IVA 15%" or "EC IVA 0%" tax group when loaded.
-- Test product `test_t4` (id 20) and test orders 7–10 exist in the local DB.
+- Test product `test_t4` (id 20) and test orders 7–13 exist in the local DB.
 
 ## Next step
-T5 — Datafast (blocked on test credentials) or T6/T7.
+T5 — Datafast COPYandPAY module (blocked on the client's Dataweb test credentials).

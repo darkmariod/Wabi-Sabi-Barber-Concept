@@ -335,3 +335,8 @@ a:hover, a:focus { color: var(--nf-brand-dark); }
 @media (max-width: 767px) {
   .nf-checkout-header .nf-header__inner { padding: 8px 16px; }
 }
+
+/* ---------- Order confirmation: invoice request ---------- */
+.nf-invoice-request { border: 1px solid #e3e8ee; border-left: 4px solid var(--nf-accent, #6cbf3c); border-radius: 0; }
+.nf-invoice-request__title { margin: 0 0 8px; color: var(--nf-brand); font-weight: 800; font-size: 18px; text-transform: none; }
+.nf-invoice-request__text { margin: 0 0 14px; color: #444; font-size: 14px; }
