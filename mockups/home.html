@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NatuFitness | Suplementos y Medicina Natural</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --brand: #17507d;
+    --brand-dark: #0f3a5c;
+    --accent: #6cbf3c;
+    --accent-dark: #4e9a26;
+    --gray-bg: #e6e6e6;
+    --text: #222;
+    --muted: #888;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Montserrat, Arial, sans-serif; color: var(--text); background: #fff; }
+  a { color: inherit; text-decoration: none; }
+
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 10px 40px; background: #fff; }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 18px; color: var(--brand); }
+  .logo-badge { width: 42px; height: 42px; border-radius: 50%; background: var(--brand); display: grid; place-items: center; }
+  .logo span b { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 28px; }
+  .search { width: 320px; border: 1px solid #bbb; display: flex; align-items: center; gap: 8px; padding: 7px 10px; color: var(--muted); font-size: 13px; }
+  .icon { width: 22px; height: 22px; stroke: #222; fill: none; stroke-width: 1.6; }
+  .cart { position: relative; }
+  .cart-count { position: absolute; top: -8px; right: -8px; background: var(--accent); color: #fff; font-size: 10px; border-radius: 50%; width: 16px; height: 16px; display: grid; place-items: center; font-weight: 700; }
+
+  .nav { background: var(--brand); display: flex; justify-content: center; gap: 30px; padding: 12px; }
+  .nav a { color: #fff; font-weight: 700; font-size: 12px; letter-spacing: .3px; }
+  .ship { text-align: center; font-size: 12px; padding: 8px; border-bottom: 2px solid var(--accent); display: flex; justify-content: center; align-items: center; gap: 8px; }
+
+  .hero { position: relative; height: 380px; background: linear-gradient(100deg, #0b2a44 0%, #17507d 55%, #2f7a4a 100%); overflow: hidden; display: flex; align-items: center; justify-content: flex-end; padding-right: 110px; }
+  .hero-jar { position: absolute; left: 120px; bottom: 30px; }
+  .hero-text { text-align: center; color: #fff; }
+  .hero-text small { display: block; font-weight: 600; letter-spacing: 3px; font-size: 13px; color: var(--accent); }
+  .hero-text h1 { margin: 6px 0; font-size: 40px; font-weight: 900; line-height: 1.05; letter-spacing: 1px; }
+  .hero-text h1 em { font-style: normal; color: var(--accent); }
+  .btn-dark { display: inline-block; margin-top: 12px; background: #111; color: #fff; padding: 7px 20px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 34px; height: 34px; border-radius: 50%; background: rgba(60,60,60,.85); color: #fff; display: grid; place-items: center; font-weight: 700; }
+  .arrow.l { left: 22px; } .arrow.r { right: 22px; }
+  .dots { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; }
+  .dots i { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.5); }
+  .dots i:first-child { background: #fff; }
+
+  .section-title { text-align: center; font-size: 28px; font-weight: 700; margin: 44px 0 22px; }
+  .products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; padding: 0 40px; }
+  .card { text-align: center; }
+  .card-img { position: relative; height: 210px; display: grid; place-items: center; }
+  .tag { position: absolute; top: 8px; left: 8px; background: #d93333; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 3px; }
+  .card h3 { font-size: 14px; font-weight: 700; margin: 10px 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .price { font-size: 13px; margin-bottom: 12px; }
+  .price s { color: var(--muted); margin-right: 6px; }
+  .btn-buy { display: block; background: var(--accent); color: #fff; font-weight: 700; font-size: 12px; padding: 10px; border-radius: 22px; }
+  .carousel-dots { display: flex; justify-content: center; gap: 6px; margin: 18px 0; }
+  .carousel-dots i { width: 7px; height: 7px; border-radius: 50%; background: #ccc; }
+  .carousel-dots i:first-child { background: #333; }
+
+  .partners { background: var(--gray-bg); padding: 30px 40px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+  .partner { background: #fff; border-radius: 14px; height: 80px; display: grid; place-items: center; font-weight: 900; font-size: 18px; color: #333; letter-spacing: 1px; }
+
+  .promo-block { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding: 0 40px; align-items: center; }
+  .promo-img { height: 260px; border-radius: 16px; background: linear-gradient(135deg, #2f7a4a, #17507d); display: grid; place-items: center; }
+  .promo-copy h3 { font-size: 22px; margin: 0 0 10px; color: var(--brand); }
+  .promo-copy p { font-size: 14px; color: #555; line-height: 1.6; margin: 0 0 16px; }
+  .promo-copy .btn-buy { display: inline-block; padding: 10px 28px; }
+
+  .cats { background: var(--gray-bg); padding: 30px 60px; display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+  .cat { background: #fff; border-radius: 14px; width: 230px; height: 70px; display: grid; place-items: center; font-weight: 600; color: #555; font-size: 15px; }
+
+  .footer { display: grid; grid-template-columns: 1fr 1.5fr; margin-top: 50px; }
+  .footer-left { background: linear-gradient(160deg, #0b2a44, #17507d); color: #fff; padding: 40px 30px; display: flex; flex-direction: column; justify-content: flex-end; min-height: 300px; }
+  .footer-left h4 { font-size: 20px; margin: 0 0 14px; }
+  .socials { display: flex; gap: 12px; }
+  .socials span { width: 34px; height: 34px; background: #fff; color: var(--brand); border-radius: 6px; display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+  .footer-right { background: var(--gray-bg); padding: 26px 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px; font-size: 13px; }
+  .footer-right h5 { color: var(--brand); font-size: 14px; margin: 0 0 10px; }
+  .footer-right p { margin: 0 0 9px; color: #333; }
+  .footer-right .full { grid-column: 1 / -1; font-size: 12px; }
+  .banks { display: flex; gap: 8px; margin-top: 6px; }
+  .banks span { background: #fff; border-radius: 6px; padding: 5px 10px; font-weight: 700; font-size: 11px; color: #333; }
+
+  .wa { position: fixed; right: 16px; bottom: 16px; background: #25a244; color: #fff; padding: 8px 14px; border-radius: 4px; font-size: 15px; display: flex; gap: 6px; align-items: center; }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="jar" viewBox="0 0 120 150">
+      <rect x="22" y="6" width="76" height="20" rx="4" fill="#111"/>
+      <rect x="14" y="24" width="92" height="120" rx="10" fill="currentColor"/>
+      <rect x="14" y="58" width="92" height="52" fill="#fff" opacity=".92"/>
+      <rect x="24" y="68" width="60" height="9" rx="2" fill="currentColor"/>
+      <rect x="24" y="83" width="42" height="6" rx="2" fill="#999"/>
+      <rect x="24" y="94" width="50" height="6" rx="2" fill="#999"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-badge">
+      <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 19c0-8 6-13 15-14-1 9-6 15-14 15" fill="#6cbf3c"/></svg>
+    </div>
+    <span>Natu<b>Fitness</b></span>
+  </div>
+  <div class="header-right">
+    <div class="search">
+      <svg class="icon" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="M15 15l5 5"/></svg>
+      Buscar...
+    </div>
+    <svg class="icon" viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5M4 9v11h16V9M3 9h18M9 20v-6h6v6"/></svg>
+    <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg>
+    <div class="cart">
+      <svg class="icon" viewBox="0 0 24 24"><path d="M3 4h3l2 11h11l2-8H7"/><circle cx="9" cy="19" r="1.5"/><circle cx="18" cy="19" r="1.5"/></svg>
+      <span class="cart-count">0</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav">
+  <a href="#">NUESTROS PRODUCTOS</a>
+  <a href="#">MEDICINA NATURAL</a>
+  <a href="#">PROMOCIONES</a>
+  <a href="#">COMBOS</a>
+  <a href="#">ROPA DEPORTIVA</a>
+  <a href="#">LOCAL RIOBAMBA</a>
+</nav>
+<div class="ship">
+  <svg width="20" height="14" viewBox="0 0 20 14"><path d="M0 1h12v9H0zM12 4h4l3 3v3h-7z" fill="#222"/><circle cx="4" cy="12" r="2" fill="#222"/><circle cx="15" cy="12" r="2" fill="#222"/></svg>
+  Envío GRATIS a los $35
+</div>
+
+<section class="hero">
+  <svg class="hero-jar" width="230" height="290" style="color:#17507d"><use href="#jar"/></svg>
+  <div class="hero-text">
+    <small>DISTRIBUIDORES AUTORIZADOS</small>
+    <h1>SALUD, FUERZA<br>Y <em>VITALIDAD</em></h1>
+    <a class="btn-dark" href="#">VER MÁS ›</a>
+  </div>
+  <span class="arrow l">‹</span><span class="arrow r">›</span>
+  <div class="dots"><i></i><i></i><i></i><i></i></div>
+</section>
+
+<h2 class="section-title">Promociones Exclusivas</h2>
+<div class="products">
+  <div class="card">
+    <div class="card-img"><span class="tag">-5%</span><svg width="140" height="175" style="color:#1d1d1d"><use href="#jar"/></svg></div>
+    <h3>100% Whey Gold Standard Optimum Nutrition 5 lb</h3>
+    <div class="price"><s>$ 179,00</s>$ 169,99</div>
+    <a class="btn-buy" href="#">Comprar</a>
+  </div>
+  <div class="card">
+    <div class="card-img"><span class="tag">-5%</span><svg width="140" height="175" style="color:#b8202a"><use href="#jar"/></svg></div>
+    <h3>Creatina Monohidratada 300 g</h3>
+    <div class="price"><s>$ 34,00</s>$ 32,00</div>
+    <a class="btn-buy" href="#">Comprar</a>
+  </div>
+  <div class="card">
+    <div class="card-img"><svg width="140" height="175" style="color:#2f7a4a"><use href="#jar"/></svg></div>
+    <h3>Moringa + Espirulina Natural 120 caps</h3>
+    <div class="price">$ 18,50</div>
+    <a class="btn-buy" href="#">Comprar</a>
+  </div>
+  <div class="card">
+    <div class="card-img"><span class="tag">-10%</span><svg width="140" height="175" style="color:#e07a12"><use href="#jar"/></svg></div>
+    <h3>Pre-Entreno C4 Original 30 serv.</h3>
+    <div class="price"><s>$ 42,00</s>$ 37,80</div>
+    <a class="btn-buy" href="#">Comprar</a>
+  </div>
+</div>
+<div class="carousel-dots"><i></i><i></i><i></i><i></i><i></i></div>
+
+<h2 class="section-title">Marcas Oficiales</h2>
+<div class="partners">
+  <div class="partner">ON</div>
+  <div class="partner">BSN</div>
+  <div class="partner">MUSCLETECH</div>
+  <div class="partner">UNIVERSAL</div>
+  <div class="partner">DYMATIZE</div>
+</div>
+
+<h2 class="section-title">Potencia tu rendimiento</h2>
+<div class="promo-block">
+  <div class="promo-img"><svg width="170" height="215" style="color:#0f3a5c"><use href="#jar"/></svg></div>
+  <div class="promo-copy">
+    <h3>Suplementos deportivos y medicina natural en un solo lugar</h3>
+    <p>Proteínas, creatinas, quemadores, vitaminas y productos naturistas originales. Asesoría personalizada en nuestro local de Riobamba o por WhatsApp.</p>
+    <a class="btn-buy" href="#">Ver productos</a>
+  </div>
+</div>
+
+<h2 class="section-title">Categorías</h2>
+<div class="cats">
+  <div class="cat">Nutrición Deportiva</div>
+  <div class="cat">Medicina Natural</div>
+  <div class="cat">Salud &amp; Vitaminas</div>
+  <div class="cat">Quemadores</div>
+  <div class="cat">Ropa Deportiva</div>
+  <div class="cat">Implementos</div>
+</div>
+
+<footer class="footer">
+  <div class="footer-left">
+    <h4>Conectate con nosotros</h4>
+    <div class="socials"><span>f</span><span>IG</span><span>TT</span></div>
+  </div>
+  <div class="footer-right">
+    <div>
+      <h5>Ayuda e información</h5>
+      <p>Servicio al Cliente</p><p>Local Riobamba</p><p>Devoluciones</p><p>Historial de pedidos</p>
+    </div>
+    <div>
+      <h5>Productos</h5>
+      <p>Proteínas</p><p>Creatinas</p><p>Medicina natural</p><p>Vitaminas</p>
+    </div>
+    <div>
+      <h5>Pagos seguros</h5>
+      <p>Tarjetas vía Datafast</p><p>DeUna QR</p><p>Transferencia</p>
+    </div>
+    <div>
+      <h5>Políticas</h5>
+      <p>Términos y condiciones</p><p>Políticas de envío</p>
+    </div>
+    <div class="full">
+      Bancos disponibles para transferencias
+      <div class="banks"><span>Pichincha</span><span>Guayaquil</span><span>Produbanco</span><span>Pacífico</span></div>
+    </div>
+    <div class="full">© 2026 <b>NatuFitness</b>. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<a class="wa" href="#">
+  <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z" fill="none" stroke="#fff" stroke-width="2"/></svg>
+  Escríbenos
+</a>
+</body>
+</html>
