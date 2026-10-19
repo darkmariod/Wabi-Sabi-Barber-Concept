@@ -15,6 +15,7 @@ $_SERVER['HTTP_HOST'] = getenv('PS_DOMAIN') ?: 'localhost';
 require '/var/www/html/config/config.inc.php';
 
 const SHIPPING_FREE_PRICE = 35;
+const HOME_DELIVERY_PRICE = 4.00; // Placeholder until the client confirms courier rates
 const DEMO_CATEGORY_NAMES = ['Clothes', 'Men', 'Women', 'Accessories', 'Accesorios', 'Stationery', 'Home Accessories', 'Art'];
 
 $langId = (int) Configuration::get('PS_LANG_DEFAULT');
@@ -75,6 +76,111 @@ Configuration::updateValue('PS_SHOP_COUNTRY_ID', $ecId);
 Configuration::updateValue('PS_SHOP_CITY', 'Riobamba');
 Configuration::updateValue('PS_SHIPPING_FREE_PRICE', SHIPPING_FREE_PRICE);
 out("Locale: Ecuador, USD, free shipping from \$" . SHIPPING_FREE_PRICE);
+
+Configuration::updateValue('PS_SHIPPING_HANDLING', 0);
+
+// --- Taxes: Ecuador IVA groups (assigned per product) -------------------------
+
+function ensureTaxRulesGroup(string $name, float $rate, int $countryId, int $langId): int
+{
+    $groupId = (int) TaxRulesGroup::getIdByName($name);
+    if ($groupId) {
+        return $groupId;
+    }
+
+    $tax = new Tax();
+    $tax->rate = $rate;
+    $tax->active = true;
+    foreach (Language::getIDs(false) as $id) {
+        $tax->name[$id] = $name;
+    }
+    $tax->add();
+
+    $group = new TaxRulesGroup();
+    $group->name = $name;
+    $group->active = true;
+    $group->add();
+
+    $rule = new TaxRule();
+    $rule->id_tax_rules_group = (int) $group->id;
+    $rule->id_country = $countryId;
+    $rule->id_tax = (int) $tax->id;
+    $rule->behavior = 0;
+    $rule->zipcode_from = 0;
+    $rule->zipcode_to = 0;
+    $rule->add();
+
+    out("Created tax rules group {$name}");
+
+    return (int) $group->id;
+}
+
+ensureTaxRulesGroup('EC IVA 15%', 15.0, $ecId, $langId);
+ensureTaxRulesGroup('EC IVA 0%', 0.0, $ecId, $langId);
+
+// --- Carriers (reuse demo carriers by reference, serve Ecuador's zone) ------
+
+$zoneId = (int) $ecuador->id_zone;
+$carrierSpecs = [
+    // id_reference => [name, delay, is_free]
+    1 => ['Retiro en local Riobamba', 'Listo para retirar en 24 horas', true],
+    2 => ['Envío a domicilio', 'Entrega de 24 a 72 horas hábiles', false],
+];
+
+foreach ($carrierSpecs as $reference => [$name, $delay, $isFree]) {
+    $carrier = Carrier::getCarrierByReference($reference);
+    if (!$carrier) {
+        out("Carrier reference {$reference} not found, skipped");
+        continue;
+    }
+    $carrier->name = $name;
+    foreach (Language::getIDs(false) as $id) {
+        $carrier->delay[$id] = $delay;
+    }
+    $carrier->active = true;
+    $carrier->is_free = $isFree;
+    if (!$isFree) {
+        $carrier->shipping_method = Carrier::SHIPPING_METHOD_PRICE;
+        $carrier->range_behavior = 0;
+    }
+    $carrier->shipping_handling = false;
+    $carrier->update();
+    // Shipping price is the final price shown to the customer (no extra tax on top)
+    $carrier->setTaxRulesGroup(0);
+
+    if (!$carrier->getZone($zoneId)) {
+        $carrier->addZone($zoneId);
+    }
+
+    if (!$isFree) {
+        $ranges = RangePrice::getRanges((int) $carrier->id);
+        if ($ranges) {
+            $rangeId = (int) $ranges[0]['id_range_price'];
+        } else {
+            $range = new RangePrice();
+            $range->id_carrier = (int) $carrier->id;
+            $range->delimiter1 = 0;
+            $range->delimiter2 = 1000000;
+            $range->add();
+            $rangeId = (int) $range->id;
+        }
+        // addZone() may already have created the row with price 0, so update first
+        $where = 'id_carrier = ' . (int) $carrier->id . ' AND id_range_price = ' . $rangeId . ' AND id_zone = ' . $zoneId;
+        $hasRow = (bool) Db::getInstance()->getValue('SELECT 1 FROM `' . _DB_PREFIX_ . 'delivery` WHERE ' . $where);
+        if ($hasRow) {
+            Db::getInstance()->update('delivery', ['price' => HOME_DELIVERY_PRICE], $where);
+        } else {
+            Db::getInstance()->insert('delivery', [
+                'id_carrier' => (int) $carrier->id,
+                'id_range_price' => $rangeId,
+                'id_range_weight' => null,
+                'id_zone' => $zoneId,
+                'price' => HOME_DELIVERY_PRICE,
+            ], true);
+        }
+    }
+    out("Carrier ready: {$name}");
+}
 
 // --- Remove demo catalog ---------------------------------------------------
 

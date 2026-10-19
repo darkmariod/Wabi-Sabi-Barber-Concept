@@ -44,6 +44,7 @@ services:
       - ps_data:/var/www/html
       - ./scripts:/opt/natufitness/scripts:ro
       - ./themes/natufitness:/var/www/html/themes/natufitness
+      - ./modules/nf_deuna:/var/www/html/modules/nf_deuna
 
 volumes:
   db_data:

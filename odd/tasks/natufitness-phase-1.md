@@ -27,9 +27,10 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - [x] T1 — Docker Compose stack (PrestaShop 8.2 + MySQL 8) with automated Spanish/Ecuador install. Route: inline. Commit 2b0cc89.
 - [x] T2 — Seed script: categories, free shipping $35, invoice fields enabled. Route: inline.
 - [x] T3 — NatuFitness child theme replicating syf.ec layout (header, nav, hero, product cards, categories, footer, WhatsApp). Route: delegated writer (writer trigger: 15 files).
-- [ ] T4 — Bank transfer + DeUna static QR payment methods. Route: TBD.
+- [x] T4 — Bank transfer + DeUna static QR payment methods, plus Ecuador carriers and IVA groups found missing during browser test. Route: delegated writer (module, 8 files) + inline seed fix.
 - [ ] T5 — Datafast COPYandPAY payment module (blocked on test credentials). Route: delegated writer.
 - [ ] T6 — Order confirmation: "request invoice via WhatsApp" button. Route: TBD.
+- [ ] T7 — Checkout branding polish: NatuFitness logo in checkout header (shows "my store"), Spanish GDPR privacy text, Customer Reassurance placeholders, PrestaShop footer credit, real shop logo. Route: TBD.
 
 ## Acceptance criteria
 - `docker compose up -d` yields a working store at http://localhost:8088 in Spanish with USD prices.
@@ -48,6 +49,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 
 - 2026-10-19: T3 done. Child theme `themes/natufitness` (bind-mounted) + `scripts/activate-theme.php` (idempotent, installs es pack, enables theme, clears caches). Verified: home 200, no demo strings, category page 200, desktop 1280px and mobile 375px (scrollWidth 375) visually match syf.ec structure.
 
+- 2026-10-19: T4 done. `modules/nf_deuna` (static QR, order state "Esperando pago DeUna", WhatsApp receipt button, NF_WHATSAPP_NUMBER config shared with theme) + `scripts/setup-payments.php` (wire placeholders, cheque/COD disabled) + wirepayment return override. Browser test found no carrier for Ecuador (zone 6) and a $2 handling fee: seed now configures "Retiro en local Riobamba" (free) and "Envío a domicilio" ($4 placeholder, free from $35), handling 0, and IVA 15% / 0% tax groups. Verified in browser: guest checkout order IXYZZBPEW (DeUna, $24, QR + WhatsApp link) and GROKYSIBJ (transfer, $24, WhatsApp link); seed reruns are no-ops.
+
 ## Known gaps
 - WhatsApp number is placeholder 593000000000 in `themes/natufitness/templates/_partials/nf-config.tpl`.
 - Brand tiles (ON, BSN, ...) are placeholders; client must confirm brands carried.
@@ -56,5 +59,9 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - Custom header/footer drop displayNav1/2, displayTop, displayFooterBefore, displayFooter hooks.
 - Checkout uses classic partials (no WhatsApp button there; handled in T6).
 
+- Bank details, DeUna QR and home delivery rate ($4) are placeholders.
+- Products need the "EC IVA 15%" or "EC IVA 0%" tax group when loaded.
+- Test product `test_t4` (id 20) and test orders 7–10 exist in the local DB.
+
 ## Next step
-T4 — Bank transfer + DeUna static QR payment methods.
+T5 — Datafast (blocked on test credentials) or T6/T7.

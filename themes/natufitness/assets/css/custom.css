@@ -298,3 +298,27 @@ a:hover, a:focus { color: var(--nf-brand-dark); }
   .nf-footer__left { min-height: 180px; padding: 30px 16px; }
   .nf-footer__right { grid-template-columns: 1fr 1fr; padding: 24px 16px 80px; gap: 10px 16px; }
 }
+
+/* ---- Payment: checkout option + order confirmation (nf_deuna, ps_wirepayment) ---- */
+.nf-pay-option__lead { font-weight: 700; color: var(--nf-brand); margin-bottom: 4px; }
+.nf-pay-return { margin: 16px 0; padding: 20px; border: 1px solid #e3e8ee; border-radius: 12px; background: #fff; }
+.nf-pay-return__title { margin: 0 0 14px; color: var(--nf-brand); font-weight: 800; font-size: 20px; }
+.nf-pay-return__body { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start; }
+.nf-pay-return__qr { margin: 0; flex: 0 0 auto; padding: 10px; border: 2px solid var(--nf-brand); border-radius: 12px; background: #fff; }
+.nf-pay-return__qr img { display: block; width: 240px; max-width: 100%; height: auto; }
+.nf-pay-return__info { flex: 1 1 260px; min-width: 0; }
+.nf-pay-return__details dt, .nf-pay-return dl dt { color: var(--nf-brand); font-weight: 700; margin-top: 8px; }
+.nf-pay-return__details dd, .nf-pay-return dl dd { margin: 0; }
+.nf-pay-return__amount { font-size: 26px; font-weight: 900; color: var(--nf-text); }
+.nf-pay-return__instructions { margin: 12px 0; }
+.nf-pay-return__note { margin-top: 12px; color: var(--nf-muted); font-size: 13px; }
+.nf-btn-whatsapp {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 8px; padding: 12px 26px; border-radius: 999px;
+  background: var(--nf-accent); color: #fff; font-weight: 700; text-decoration: none;
+}
+.nf-btn-whatsapp:hover, .nf-btn-whatsapp:focus { background: var(--nf-accent-dark); color: #fff; text-decoration: none; }
+@media (max-width: 575px) {
+  .nf-pay-return__qr { margin: 0 auto; }
+  .nf-btn-whatsapp { width: 100%; }
+}
