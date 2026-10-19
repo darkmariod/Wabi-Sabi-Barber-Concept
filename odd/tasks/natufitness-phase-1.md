@@ -26,7 +26,7 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 ## Tasks
 - [x] T1 — Docker Compose stack (PrestaShop 8.2 + MySQL 8) with automated Spanish/Ecuador install. Route: inline. Commit 2b0cc89.
 - [x] T2 — Seed script: categories, free shipping $35, invoice fields enabled. Route: inline.
-- [ ] T3 — NatuFitness child theme (header, nav, hero, product cards, categories, footer, WhatsApp). Route: delegated writer.
+- [x] T3 — NatuFitness child theme replicating syf.ec layout (header, nav, hero, product cards, categories, footer, WhatsApp). Route: delegated writer (writer trigger: 15 files).
 - [ ] T4 — Bank transfer + DeUna static QR payment methods. Route: TBD.
 - [ ] T5 — Datafast COPYandPAY payment module (blocked on test credentials). Route: delegated writer.
 - [ ] T6 — Order confirmation: "request invoice via WhatsApp" button. Route: TBD.
@@ -46,9 +46,15 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - 2026-10-19: T1 done. Host ports 8080 and 3306 were taken; store runs on 8088 (`PS_PORT`), MySQL unexposed. Install defaulted to EUR — fixed by the seed.
 - 2026-10-19: T2 done. `scripts/seed.php` sets USD/Ecuador/Spanish-only, free shipping $35, optional dni/company address fields, 12 categories + main menu, removes demo catalog. Verified: second run creates nothing; storefront menu shows the categories; back office login loads in Spanish.
 
+- 2026-10-19: T3 done. Child theme `themes/natufitness` (bind-mounted) + `scripts/activate-theme.php` (idempotent, installs es pack, enables theme, clears caches). Verified: home 200, no demo strings, category page 200, desktop 1280px and mobile 375px (scrollWidth 375) visually match syf.ec structure.
+
 ## Known gaps
-- Classic theme strings (e.g. search placeholder) still show in English: Spanish theme translations need importing (T3).
-- Demo banners/sliders from the classic theme remain until T3.
+- WhatsApp number is placeholder 593000000000 in `themes/natufitness/templates/_partials/nf-config.tpl`.
+- Brand tiles (ON, BSN, ...) are placeholders; client must confirm brands carried.
+- Hero/promo use CSS illustrations; replace with real NatuFitness banners.
+- Facebook/TikTok URLs unknown (icons hidden).
+- Custom header/footer drop displayNav1/2, displayTop, displayFooterBefore, displayFooter hooks.
+- Checkout uses classic partials (no WhatsApp button there; handled in T6).
 
 ## Next step
-T3 — NatuFitness child theme based on mockups/home.html.
+T4 — Bank transfer + DeUna static QR payment methods.

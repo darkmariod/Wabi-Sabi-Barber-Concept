@@ -43,6 +43,7 @@ services:
     volumes:
       - ps_data:/var/www/html
       - ./scripts:/opt/natufitness/scripts:ro
+      - ./themes/natufitness:/var/www/html/themes/natufitness
 
 volumes:
   db_data:
