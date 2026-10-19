@@ -17,12 +17,7 @@
 
       <div class="nf-logo-wrap">
         {if $page.page_name == 'index'}<h1 class="nf-logo-title">{/if}
-        <a class="nf-logo" href="{$urls.pages.index}" title="{$shop.name}">
-          <span class="nf-logo__badge" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 19c0-8 6-13 15-14-1 9-6 15-14 15" fill="#6cbf3c"/></svg>
-          </span>
-          <span class="nf-logo__text">Natu<b>Fitness</b></span>
-        </a>
+        {include file='_partials/nf-logo.tpl'}
         {if $page.page_name == 'index'}</h1>{/if}
       </div>
 

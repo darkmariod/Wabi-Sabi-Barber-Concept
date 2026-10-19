@@ -322,3 +322,16 @@ a:hover, a:focus { color: var(--nf-brand-dark); }
   .nf-pay-return__qr { margin: 0 auto; }
   .nf-btn-whatsapp { width: 100%; }
 }
+
+/* ---- Checkout: minimal header, footer and reassurance block ---- */
+.nf-checkout-header { border-bottom: 1px solid #e3e8ee; }
+.nf-checkout-help { display: inline-flex; align-items: center; gap: 8px; color: var(--nf-brand); font-weight: 700; font-size: 14px; text-decoration: none; }
+.nf-checkout-help svg { color: var(--nf-accent); flex: none; }
+.nf-checkout-help:hover, .nf-checkout-help:focus { color: var(--nf-brand-dark); text-decoration: none; }
+.nf-checkout-footer { padding: 24px 16px 32px; text-align: center; color: var(--nf-muted); font-size: 13px; }
+.nf-checkout-footer p { margin: 4px 0; }
+.nf-checkout-footer__links a { color: var(--nf-brand); }
+.nf-checkout-footer__links span { margin: 0 6px; }
+@media (max-width: 767px) {
+  .nf-checkout-header .nf-header__inner { padding: 8px 16px; }
+}

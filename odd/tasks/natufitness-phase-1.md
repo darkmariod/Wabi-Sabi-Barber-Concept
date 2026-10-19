@@ -30,7 +30,7 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - [x] T4 — Bank transfer + DeUna static QR payment methods, plus Ecuador carriers and IVA groups found missing during browser test. Route: delegated writer (module, 8 files) + inline seed fix.
 - [ ] T5 — Datafast COPYandPAY payment module (blocked on test credentials). Route: delegated writer.
 - [ ] T6 — Order confirmation: "request invoice via WhatsApp" button. Route: TBD.
-- [ ] T7 — Checkout branding polish: NatuFitness logo in checkout header (shows "my store"), Spanish GDPR privacy text, Customer Reassurance placeholders, PrestaShop footer credit, real shop logo. Route: TBD.
+- [x] T7 — Checkout branding polish: NatuFitness logo in checkout header, Spanish privacy text, reassurance items, NatuFitness footer, shop logo/favicon, shop name. Route: delegated writer + inline fixes (icon URL, duplicate terms link).
 
 ## Acceptance criteria
 - `docker compose up -d` yields a working store at http://localhost:8088 in Spanish with USD prices.
@@ -50,6 +50,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - 2026-10-19: T3 done. Child theme `themes/natufitness` (bind-mounted) + `scripts/activate-theme.php` (idempotent, installs es pack, enables theme, clears caches). Verified: home 200, no demo strings, category page 200, desktop 1280px and mobile 375px (scrollWidth 375) visually match syf.ec structure.
 
 - 2026-10-19: T4 done. `modules/nf_deuna` (static QR, order state "Esperando pago DeUna", WhatsApp receipt button, NF_WHATSAPP_NUMBER config shared with theme) + `scripts/setup-payments.php` (wire placeholders, cheque/COD disabled) + wirepayment return override. Browser test found no carrier for Ecuador (zone 6) and a $2 handling fee: seed now configures "Retiro en local Riobamba" (free) and "Envío a domicilio" ($4 placeholder, free from $35), handling 0, and IVA 15% / 0% tax groups. Verified in browser: guest checkout order IXYZZBPEW (DeUna, $24, QR + WhatsApp link) and GROKYSIBJ (transfer, $24, WhatsApp link); seed reruns are no-ops.
+
+- 2026-10-19: T7 done. `scripts/setup-branding.php` (shop name, PS_LOGO/favicon, Spanish CUSTPRIV/PSGDPR/NW texts, 3 reassurance items) + checkout header/footer overrides + shared `nf-logo.tpl`. Browser review found reassurance icons with `//modules/...` URLs (protocol-relative, broken) — fixed to `/modules/...`; and a duplicated terms link in the checkout footer — fixed. Verified in browser through the payment step at 1280px and 375px (scrollWidth 375), all Spanish, no demo strings.
 
 ## Known gaps
 - WhatsApp number is placeholder 593000000000 in `themes/natufitness/templates/_partials/nf-config.tpl`.

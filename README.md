@@ -28,6 +28,14 @@ PrestaShop 8.2 store for NatuFitness (Riobamba, Ecuador).
    ```
    See [Payments](#payments) for what it does and what the client still has to fill in.
 
+6. Apply branding (idempotent; also clears caches):
+   ```bash
+   docker compose exec -u www-data prestashop php /opt/natufitness/scripts/setup-branding.php
+   ```
+   See [Branding](#branding).
+
+Setup order: `seed.php` → `activate-theme.php` → `setup-payments.php` → `setup-branding.php`.
+
 | URL | Purpose |
 | --- | --- |
 | http://localhost:8088 | Storefront |
@@ -55,6 +63,27 @@ MySQL is not exposed to the host. Use `docker compose exec db mysql ...` for dir
   a fallback used if the `nf_deuna` module is disabled.
 - **Social links and free-shipping amount**: edit `themes/natufitness/templates/_partials/nf-config.tpl`.
   Clear the cache afterwards (re-run `activate-theme.php`).
+
+## Branding
+
+`scripts/setup-branding.php`:
+- renames the shop entity (installer default "PrestaShop") to `PS_SHOP_NAME`;
+- copies `themes/natufitness/assets/img/logo-natufitness.png` (300×80) and `favicon-natufitness.ico` to
+  `/var/www/html/img/` and sets `PS_LOGO` (emails, invoices and back office fall back to it) and
+  `PS_FAVICON`. To change the logo, replace the PNG in the theme and re-run the script;
+- sets the Spanish customer-facing texts of `ps_dataprivacy` (`CUSTPRIV_MSG_AUTH`, "Privacidad de los datos
+  del cliente"), `psgdpr` (`PSGDPR_CUSTOMER_FORM`, `PSGDPR_CREATION_FORM`) and `ps_emailsubscription`
+  (`NW_CONDITIONS`) for every language;
+- replaces the Customer Reassurance (`blockreassurance`) placeholders with three items shown in checkout and on
+  product pages: *Pago seguro*, *Envío a todo Ecuador*, *Productos originales*. The module is configured
+  (table `psreassurance`) rather than replaced by static markup, so the client can still edit the items in
+  *Módulos > Gestor de módulos > Customer Reassurance > Configurar*.
+
+Re-running it overwrites these texts with the values in the script; edit the script to change them permanently.
+
+The checkout uses a minimal header (logo + WhatsApp help link, no navigation) and a footer without the
+PrestaShop credit: `themes/natufitness/templates/checkout/_partials/header.tpl` and `footer.tpl`. The text logo
+is shared with the storefront header via `templates/_partials/nf-logo.tpl`.
 
 ## Payments
 
