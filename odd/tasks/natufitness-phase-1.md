@@ -24,8 +24,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - Datafast test credentials are pending from the client.
 
 ## Tasks
-- [ ] T1 — Docker Compose stack (PrestaShop 8.2 + MySQL 8) with automated Spanish/Ecuador install. Route: inline.
-- [ ] T2 — Seed script: categories, free shipping $35, invoice fields enabled. Route: inline.
+- [x] T1 — Docker Compose stack (PrestaShop 8.2 + MySQL 8) with automated Spanish/Ecuador install. Route: inline. Commit 2b0cc89.
+- [x] T2 — Seed script: categories, free shipping $35, invoice fields enabled. Route: inline.
 - [ ] T3 — NatuFitness child theme (header, nav, hero, product cards, categories, footer, WhatsApp). Route: delegated writer.
 - [ ] T4 — Bank transfer + DeUna static QR payment methods. Route: TBD.
 - [ ] T5 — Datafast COPYandPAY payment module (blocked on test credentials). Route: delegated writer.
@@ -43,5 +43,12 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 ## Progress
 - 2026-10-19: Repository initialized, branch `feat/phase-1-store`. Docker 29.1.3 running, arm64 images available.
 
+- 2026-10-19: T1 done. Host ports 8080 and 3306 were taken; store runs on 8088 (`PS_PORT`), MySQL unexposed. Install defaulted to EUR — fixed by the seed.
+- 2026-10-19: T2 done. `scripts/seed.php` sets USD/Ecuador/Spanish-only, free shipping $35, optional dni/company address fields, 12 categories + main menu, removes demo catalog. Verified: second run creates nothing; storefront menu shows the categories; back office login loads in Spanish.
+
+## Known gaps
+- Classic theme strings (e.g. search placeholder) still show in English: Spanish theme translations need importing (T3).
+- Demo banners/sliders from the classic theme remain until T3.
+
 ## Next step
-T1.
+T3 — NatuFitness child theme based on mockups/home.html.
