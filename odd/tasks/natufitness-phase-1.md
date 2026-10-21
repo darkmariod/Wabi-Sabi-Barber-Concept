@@ -32,6 +32,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - [x] T6 — Order confirmation: "request invoice via WhatsApp" button. Route: inline (1 template + CSS).
 - [x] T7 — Checkout branding polish: NatuFitness logo in checkout header, Spanish privacy text, reassurance items, NatuFitness footer, shop logo/favicon, shop name. Route: delegated writer + inline fixes (icon URL, duplicate terms link).
 
+- [x] T8 — Owner-editable content: header logo from PS_LOGO, homepage hero from ps_imageslider, "Potencia tu rendimiento" from ps_banner, brands from Catálogo > Marcas; all editable in the back office. Route: delegated writer.
+
 ## Acceptance criteria
 - `docker compose up -d` yields a working store at http://localhost:8088 in Spanish with USD prices.
 - Back office reachable at the configured admin folder.
@@ -54,6 +56,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - 2026-10-19: T7 done. `scripts/setup-branding.php` (shop name, PS_LOGO/favicon, Spanish CUSTPRIV/PSGDPR/NW texts, 3 reassurance items) + checkout header/footer overrides + shared `nf-logo.tpl`. Browser review found reassurance icons with `//modules/...` URLs (protocol-relative, broken) — fixed to `/modules/...`; and a duplicated terms link in the checkout footer — fixed. Verified in browser through the payment step at 1280px and 375px (scrollWidth 375), all Spanish, no demo strings.
 
 - 2026-10-19: T6 done. `themes/natufitness/templates/checkout/order-confirmation.tpl` extends classic and appends a "¿Necesitas factura?" card to `hook_payment_return`; WhatsApp message prefilled with order ref, total, email and — when the invoice address has them — Cédula/RUC and company. Verified in browser: order OVQXEJRXX (DeUna, with RUC) and XXEUUMGNV (transfer + store pickup, without RUC).
+
+- 2026-10-21: T8 done. Logo from PS_LOGO (text fallback), hero from ps_imageslider, promo from ps_banner, brands from active manufacturers; `scripts/setup-content.php` seeds defaults once. Fixed inline: setup-branding.php no longer overwrites an owner-uploaded logo (flag NF_BRANDING_LOGO_APPLIED; simulated owner logo survived a rerun). Verified: slide title edit reflected on homepage (writer), homepage renders at 1280px (parent). Not tested: uploading through the back-office forms themselves.
 
 ## Known gaps
 - WhatsApp number is placeholder 593000000000 in `themes/natufitness/templates/_partials/nf-config.tpl`.

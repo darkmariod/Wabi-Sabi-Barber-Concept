@@ -51,8 +51,8 @@ if (!is_dir($catalogueDir) || count(glob($catalogueDir . '/*.xlf')) === 0) {
 
 // --- Enable theme ----------------------------------------------------------
 // Enabling also applies config/theme.yml hooks: displayHome keeps only
-// ps_featuredproducts, which removes the classic demo slider, banner and
-// custom text blocks from the homepage.
+// ps_featuredproducts. The hero (ps_imageslider) and promo block (ps_banner)
+// are rendered as widgets by templates/index.tpl instead of on displayHome.
 
 $themeManager = (new ThemeManagerBuilder($context, Db::getInstance()))->build();
 if (!$themeManager->enable(THEME_NAME, true)) {
@@ -69,6 +69,14 @@ foreach (['ps_imageslider', 'ps_banner', 'ps_customtext', 'ps_specials', 'ps_new
         $module->unregisterHook('displayHome');
         out("Unhooked {$moduleName} from displayHome");
     }
+}
+
+// The theme renders ps_imageslider with its own markup and script (assets/js/custom.js),
+// so the module's responsiveslides CSS/JS loaded on displayHeader is not needed.
+$slider = Module::getInstanceByName('ps_imageslider');
+if ($slider && $slider->isRegisteredInHook('displayHeader')) {
+    $slider->unregisterHook('displayHeader');
+    out('Unhooked ps_imageslider from displayHeader');
 }
 
 // --- Caches ----------------------------------------------------------------

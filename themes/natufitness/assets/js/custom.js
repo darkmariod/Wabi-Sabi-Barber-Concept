@@ -7,9 +7,12 @@
   function initHero(hero) {
     var slides = hero.querySelectorAll('.nf-hero__slide');
     var dotsBox = hero.querySelector('.js-nf-hero-dots');
-    if (slides.length < 2) {
+    if (slides.length < 2 || !dotsBox) {
       return;
     }
+    // Speed and pause-on-hover come from the ps_imageslider configuration.
+    var interval = parseInt(hero.getAttribute('data-interval'), 10) || HERO_INTERVAL_MS;
+    var pauseOnHover = hero.getAttribute('data-pause') === 'hover';
     var current = 0;
     var timer = null;
     var dots = [];
@@ -26,7 +29,12 @@
 
     function restart() {
       window.clearInterval(timer);
-      timer = window.setInterval(function () { show(current + 1); }, HERO_INTERVAL_MS);
+      timer = window.setInterval(function () { show(current + 1); }, interval);
+    }
+
+    if (pauseOnHover) {
+      hero.addEventListener('mouseenter', function () { window.clearInterval(timer); });
+      hero.addEventListener('mouseleave', restart);
     }
 
     slides.forEach(function (slide, i) {

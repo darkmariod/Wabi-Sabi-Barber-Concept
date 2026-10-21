@@ -113,32 +113,53 @@ if ($shopName !== '' && $context->shop->name !== $shopName) {
 
 // --- Logo and favicon --------------------------------------------------------
 
-$imagesChanged = installImage(LOGO_FILE);
-$imagesChanged = installImage(FAVICON_FILE) || $imagesChanged;
+// The default logo/favicon are applied once. After that the owner manages them in
+// Diseño > Tema y logotipo, and re-running this script must not overwrite them.
+const LOGO_APPLIED_FLAG = 'NF_BRANDING_LOGO_APPLIED';
 
-[$logoWidth, $logoHeight] = getimagesize(_PS_IMG_DIR_ . LOGO_FILE);
-$logoKeys = ['PS_LOGO'];
-// Mail/invoice logos fall back to PS_LOGO; only override them when they were set before.
-foreach (['PS_LOGO_MAIL', 'PS_LOGO_INVOICE'] as $key) {
-    if (Configuration::get($key)) {
-        $logoKeys[] = $key;
+function applyDefaultLogo(): bool
+{
+    $imagesChanged = installImage(LOGO_FILE);
+    $imagesChanged = installImage(FAVICON_FILE) || $imagesChanged;
+
+    [$logoWidth, $logoHeight] = getimagesize(_PS_IMG_DIR_ . LOGO_FILE);
+    $logoKeys = ['PS_LOGO'];
+    // Mail/invoice logos fall back to PS_LOGO; only override them when they were set before.
+    foreach (['PS_LOGO_MAIL', 'PS_LOGO_INVOICE'] as $key) {
+        if (Configuration::get($key)) {
+            $logoKeys[] = $key;
+        }
     }
-}
-$configChanged = false;
-foreach ($logoKeys as $key) {
-    $configChanged = setConfig($key, LOGO_FILE) || $configChanged;
-}
-$configChanged = setConfig('SHOP_LOGO_WIDTH', (string) $logoWidth) || $configChanged;
-$configChanged = setConfig('SHOP_LOGO_HEIGHT', (string) $logoHeight) || $configChanged;
-$configChanged = setConfig('PS_FAVICON', FAVICON_FILE) || $configChanged;
+    $configChanged = false;
+    foreach ($logoKeys as $key) {
+        $configChanged = setConfig($key, LOGO_FILE) || $configChanged;
+    }
+    $configChanged = setConfig('SHOP_LOGO_WIDTH', (string) $logoWidth) || $configChanged;
+    $configChanged = setConfig('SHOP_LOGO_HEIGHT', (string) $logoHeight) || $configChanged;
+    $configChanged = setConfig('PS_FAVICON', FAVICON_FILE) || $configChanged;
 
-if ($imagesChanged || $configChanged) {
+    if (!$imagesChanged && !$configChanged) {
+        out('Logo and favicon unchanged');
+
+        return false;
+    }
     // Busts browser caches of the logo/favicon URLs.
     Configuration::updateValue('PS_IMG_UPDATE_TIME', time());
     out('Logo and favicon installed (' . implode(', ', $logoKeys) . ', PS_FAVICON)');
-    $changed = true;
+
+    return true;
+}
+
+$currentLogo = (string) Configuration::get('PS_LOGO');
+$ownerLogoSet = $currentLogo !== '' && !in_array($currentLogo, ['logo.png', LOGO_FILE], true);
+
+if (Configuration::get(LOGO_APPLIED_FLAG) || $ownerLogoSet) {
+    out('Logo and favicon managed in the back office, left as is');
 } else {
-    out('Logo and favicon unchanged');
+    $changed = applyDefaultLogo() || $changed;
+}
+if (!Configuration::get(LOGO_APPLIED_FLAG)) {
+    Configuration::updateValue(LOGO_APPLIED_FLAG, 1);
 }
 
 // --- Customer-facing module texts ------------------------------------------

@@ -33,12 +33,17 @@ global_settings:
   configuration:
     PS_IMAGE_QUALITY: png
   modules:
+    # ps_imageslider (hero), ps_banner (promo block) are rendered as widgets from
+    # templates/index.tpl, so they need to be enabled but not hooked on displayHome.
     to_enable:
       - ps_linklist
+      - ps_imageslider
+      - ps_banner
   hooks:
     # Each hook listed here receives exactly these modules when the theme is
     # enabled. displayHome drops the classic demo slider, banner, custom text,
-    # specials, new products and best sellers blocks.
+    # specials, new products and best sellers blocks (the theme renders the
+    # slider and banner itself at fixed positions of the homepage).
     modules_to_hook:
       displayAfterBodyOpeningTag:
         - blockreassurance

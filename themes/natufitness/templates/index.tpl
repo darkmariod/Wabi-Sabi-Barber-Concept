@@ -8,54 +8,10 @@
       {* ps_mainmenu widget variables expose the menu tree root: $children are the top-level items. *}
       {widget_block name='ps_mainmenu'}
         {assign var='nf_categories' value=$children|default:[]}
-        {if $nf_categories|count}
-          {assign var='nf_primary_url' value=$nf_categories[0].url}
-        {else}
-          {assign var='nf_primary_url' value=$urls.pages.prices_drop}
-        {/if}
 
         {block name='nf_hero'}
-          <section class="nf-hero js-nf-hero" aria-roledescription="carrusel" aria-label="Destacados">
-            <div class="nf-hero__slide is-active nf-hero__slide--1">
-              <svg class="nf-hero__jar" viewBox="0 0 120 150" aria-hidden="true" style="color:#17507d"><use href="#nf-jar"/></svg>
-              <div class="nf-hero__text">
-                <small>DISTRIBUIDORES AUTORIZADOS</small>
-                <p class="nf-hero__title">SALUD, FUERZA<br>Y <em>VITALIDAD</em></p>
-                <a class="nf-btn-dark" href="{$nf_primary_url}">VER MÁS ›</a>
-              </div>
-            </div>
-            <div class="nf-hero__slide nf-hero__slide--2">
-              <svg class="nf-hero__jar" viewBox="0 0 120 150" aria-hidden="true" style="color:#4e9a26"><use href="#nf-jar"/></svg>
-              <div class="nf-hero__text">
-                <small>MEDICINA NATURAL</small>
-                <p class="nf-hero__title">LO MEJOR DE<br>LA <em>NATURALEZA</em></p>
-                <a class="nf-btn-dark" href="{if $nf_categories|count > 1}{$nf_categories[1].url}{else}{$nf_primary_url}{/if}">VER MÁS ›</a>
-              </div>
-            </div>
-            <div class="nf-hero__slide nf-hero__slide--3">
-              <svg class="nf-hero__jar" viewBox="0 0 120 150" aria-hidden="true" style="color:#0f3a5c"><use href="#nf-jar"/></svg>
-              <div class="nf-hero__text">
-                <small>ENVÍO GRATIS</small>
-                <p class="nf-hero__title">EN COMPRAS<br>DESDE <em>${$nf_free_shipping_amount}</em></p>
-                <a class="nf-btn-dark" href="{$nf_primary_url}">VER MÁS ›</a>
-              </div>
-            </div>
-            <button type="button" class="nf-hero__arrow nf-hero__arrow--prev js-nf-hero-prev" aria-label="Anterior">‹</button>
-            <button type="button" class="nf-hero__arrow nf-hero__arrow--next js-nf-hero-next" aria-label="Siguiente">›</button>
-            <div class="nf-hero__dots js-nf-hero-dots"></div>
-          </section>
-          <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-            <defs>
-              <symbol id="nf-jar" viewBox="0 0 120 150">
-                <rect x="22" y="6" width="76" height="20" rx="4" fill="#111"/>
-                <rect x="14" y="24" width="92" height="120" rx="10" fill="currentColor"/>
-                <rect x="14" y="58" width="92" height="52" fill="#fff" opacity=".92"/>
-                <rect x="24" y="68" width="60" height="9" rx="2" fill="currentColor"/>
-                <rect x="24" y="83" width="42" height="6" rx="2" fill="#999"/>
-                <rect x="24" y="94" width="50" height="6" rx="2" fill="#999"/>
-              </symbol>
-            </defs>
-          </svg>
+          {* Slides come from ps_imageslider; markup in modules/ps_imageslider/views/templates/hook/slider.tpl. *}
+          {widget name='ps_imageslider'}
         {/block}
 
         {block name='hook_home'}
@@ -71,32 +27,38 @@
         {/block}
 
         {block name='nf_brands'}
-          <section class="nf-section">
-            <h2 class="nf-section-title">Marcas Oficiales</h2>
-            <div class="nf-band">
-              <div class="nf-tiles nf-tiles--brands">
-                {foreach from=['ON', 'BSN', 'MUSCLETECH', 'UNIVERSAL', 'DYMATIZE'] item='nf_brand'}
-                  <a class="nf-tile nf-tile--brand" href="{$urls.pages.manufacturer}">{$nf_brand}</a>
-                {/foreach}
+          {* Active brands from Catálogo > Marcas y proveedores: logo when uploaded, name otherwise. *}
+          {assign var='nf_brands' value=Manufacturer::getManufacturers(false, $language.id, true)}
+          {if $nf_brands}
+            <section class="nf-section">
+              <h2 class="nf-section-title">Marcas Oficiales</h2>
+              <div class="nf-band">
+                <div class="nf-tiles nf-tiles--brands">
+                  {foreach from=$nf_brands item='nf_brand'}
+                    {assign var='nf_brand_logo' value="`$smarty.const._PS_MANU_IMG_DIR_``$nf_brand.id_manufacturer`-medium_default.jpg"}
+                    <a class="nf-tile nf-tile--brand" href="{$link->getManufacturerLink($nf_brand.id_manufacturer, $nf_brand.link_rewrite|default:null)}" title="{$nf_brand.name}">
+                      {if Tools::file_exists_cache($nf_brand_logo)}
+                        <img class="nf-tile__logo" src="{$link->getManufacturerImageLink($nf_brand.id_manufacturer, 'medium_default')}" alt="{$nf_brand.name}" loading="lazy">
+                      {else}
+                        {$nf_brand.name}
+                      {/if}
+                    </a>
+                  {/foreach}
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          {/if}
         {/block}
 
         {block name='nf_promo_block'}
-          <section class="nf-section">
-            <h2 class="nf-section-title">Potencia tu rendimiento</h2>
-            <div class="nf-promo-block">
-              <div class="nf-promo-block__image">
-                <svg viewBox="0 0 120 150" aria-hidden="true" style="color:#0f3a5c"><use href="#nf-jar"/></svg>
-              </div>
-              <div class="nf-promo-block__copy">
-                <h3>Suplementos deportivos y medicina natural en un solo lugar</h3>
-                <p>Proteínas, creatinas, quemadores, vitaminas y productos naturistas originales. Asesoría personalizada en nuestro local de Riobamba o por WhatsApp.</p>
-                <a class="nf-btn-buy nf-btn-buy--inline" href="{$nf_primary_url}">Ver productos</a>
-              </div>
-            </div>
-          </section>
+          {* Image, link and side copy come from ps_banner; markup in modules/ps_banner/ps_banner.tpl. *}
+          {capture name='nf_promo'}{widget name='ps_banner'}{/capture}
+          {if $smarty.capture.nf_promo|trim}
+            <section class="nf-section">
+              <h2 class="nf-section-title">Potencia tu rendimiento</h2>
+              {$smarty.capture.nf_promo nofilter}
+            </section>
+          {/if}
         {/block}
 
         {block name='nf_categories'}

@@ -34,7 +34,13 @@ PrestaShop 8.2 store for NatuFitness (Riobamba, Ecuador).
    ```
    See [Branding](#branding).
 
-Setup order: `seed.php` → `activate-theme.php` → `setup-payments.php` → `setup-branding.php`.
+7. Install the default homepage content (idempotent; also clears caches):
+   ```bash
+   docker compose exec -u www-data prestashop php /opt/natufitness/scripts/setup-content.php
+   ```
+   See [Owner-editable content](#owner-editable-content).
+
+Setup order: `seed.php` → `activate-theme.php` → `setup-payments.php` → `setup-branding.php` → `setup-content.php`.
 
 | URL | Purpose |
 | --- | --- |
@@ -56,8 +62,9 @@ MySQL is not exposed to the host. Use `docker compose exec db mysql ...` for dir
 `themes/natufitness/` is a child theme of `classic`, mounted at `/var/www/html/themes/natufitness`.
 
 - Styles: `assets/css/custom.css`; behaviour (hero and product carousels): `assets/js/custom.js`.
-- Homepage: `templates/index.tpl` (hero, brands, categories); the "Promociones Exclusivas" carousel shows the
-  products of the Home category via `ps_featuredproducts`.
+- Homepage: `templates/index.tpl` (hero, brands, promo block, categories); the "Promociones Exclusivas"
+  carousel shows the products of the Home category via `ps_featuredproducts`. Hero, promo block, brands and
+  logo come from back-office data, see [Owner-editable content](#owner-editable-content).
 - **WhatsApp number**: set it once in the back office, `NF_WHATSAPP_NUMBER` (see [Payments](#payments)).
   The theme reads it in `themes/natufitness/templates/_partials/nf-config.tpl`; the literal there is only
   a fallback used if the `nf_deuna` module is disabled.
@@ -70,7 +77,7 @@ MySQL is not exposed to the host. Use `docker compose exec db mysql ...` for dir
 - renames the shop entity (installer default "PrestaShop") to `PS_SHOP_NAME`;
 - copies `themes/natufitness/assets/img/logo-natufitness.png` (300×80) and `favicon-natufitness.ico` to
   `/var/www/html/img/` and sets `PS_LOGO` (emails, invoices and back office fall back to it) and
-  `PS_FAVICON`. To change the logo, replace the PNG in the theme and re-run the script;
+  `PS_FAVICON` the first time only (see [Owner-editable content](#owner-editable-content));
 - sets the Spanish customer-facing texts of `ps_dataprivacy` (`CUSTPRIV_MSG_AUTH`, "Privacidad de los datos
   del cliente"), `psgdpr` (`PSGDPR_CUSTOMER_FORM`, `PSGDPR_CREATION_FORM`) and `ps_emailsubscription`
   (`NW_CONDITIONS`) for every language;
@@ -82,8 +89,47 @@ MySQL is not exposed to the host. Use `docker compose exec db mysql ...` for dir
 Re-running it overwrites these texts with the values in the script; edit the script to change them permanently.
 
 The checkout uses a minimal header (logo + WhatsApp help link, no navigation) and a footer without the
-PrestaShop credit: `themes/natufitness/templates/checkout/_partials/header.tpl` and `footer.tpl`. The text logo
-is shared with the storefront header via `templates/_partials/nf-logo.tpl`.
+PrestaShop credit: `themes/natufitness/templates/checkout/_partials/header.tpl` and `footer.tpl`. The logo
+(`PS_LOGO` image, text logo only as a fallback) is shared with the storefront header via
+`templates/_partials/nf-logo.tpl`.
+
+## Owner-editable content
+
+The visual content of the storefront is managed in the back office; no code changes are needed. Changes show up
+immediately (the modules clear their own cache when saved).
+
+| Content | Back-office path | Recommended image |
+| --- | --- | --- |
+| Logo (header and checkout) | *Diseño > Tema y logotipo > Logotipo de la cabecera* | PNG with transparent background, about 300×80 px |
+| Homepage hero slides | *Módulos > Gestor de módulos > Image slider > Configurar* | JPG 1920×600 px, under 300 KB; keep the important content in the center (mobile crops the sides) |
+| "Potencia tu rendimiento" block | *Módulos > Gestor de módulos > Banner > Configurar* | JPG or PNG 1200×600 px |
+| "Marcas Oficiales" | *Catálogo > Marcas y proveedores* | PNG with transparent background, 400×200 px |
+| Product photos | *Catálogo > Productos > (producto) > Imágenes* | Square, at least 800×800 px, white background |
+
+- **Hero slides**: each slide has an image, *Título* (large uppercase line), *Leyenda* (small line above the
+  title, also the image alt text), *Descripción* (optional extra text), *URL* (target of the "VER MÁS" button;
+  without URL the button is hidden), position (drag and drop) and enabled switch. Do not write text on the image
+  itself: the theme draws the title and button on top. The module's *Velocidad* and *Pausa al pasar el ratón*
+  settings drive the carousel.
+- **Promo block**: *Imagen* is shown on the left, *Enlace* is used by the image and the "Ver productos" button,
+  *Descripción* is the paragraph next to the image. The heading stays in the theme.
+- **Brands**: every enabled brand is shown, ordered by name, with its logo when one is uploaded and its name
+  otherwise; each tile links to the brand page. The section is hidden when no brand is enabled.
+
+`scripts/setup-content.php` installs the defaults once:
+- generates the default images with PHP GD into `themes/natufitness/assets/img/defaults/` (only when missing)
+  and copies them to `modules/ps_imageslider/images/` and `modules/ps_banner/img/`;
+- removes the PrestaShop demo slides and creates three NatuFitness slides only when no other slide exists, so
+  slides edited by the owner are never overwritten (deleting every slide and re-running restores the defaults);
+- sets the banner image, link (Nutrición deportiva) and description only while the module is still at its
+  defaults;
+- creates five placeholder brands (ON, BSN, MuscleTech, Universal, Dymatize, without logos) only when no brand
+  other than the PrestaShop demo ones exists; the demo brands *Studio Design* and *Graphic Corner* are then
+  disabled, not deleted.
+
+`setup-branding.php` applies the default logo and favicon only once (flag `NF_BRANDING_LOGO_APPLIED`) and never
+when `PS_LOGO` already points to a logo uploaded in the back office, so re-running it is safe after the owner
+changes the logo.
 
 ## Payments
 
