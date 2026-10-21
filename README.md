@@ -40,7 +40,13 @@ PrestaShop 8.2 store for NatuFitness (Riobamba, Ecuador).
    ```
    See [Owner-editable content](#owner-editable-content).
 
-Setup order: `seed.php` → `activate-theme.php` → `setup-payments.php` → `setup-branding.php` → `setup-content.php`.
+8. Install the owner panel "Mi Tienda" and the "Dueño" profile (idempotent):
+   ```bash
+   docker compose exec -u www-data prestashop php /opt/natufitness/scripts/setup-owner.php
+   ```
+   See [Panel Mi Tienda](#panel-mi-tienda) to create the owner's user.
+
+Setup order: `seed.php` → `activate-theme.php` → `setup-payments.php` → `setup-branding.php` → `setup-content.php` → `setup-owner.php`.
 
 | URL | Purpose |
 | --- | --- |
@@ -131,6 +137,58 @@ immediately (the modules clear their own cache when saved).
 when `PS_LOGO` already points to a logo uploaded in the back office, so re-running it is safe after the owner
 changes the logo.
 
+## Panel Mi Tienda
+
+Custom module `modules/nf_panel/` (bind-mounted) adds one back-office page, **Mi Tienda**, first in the side menu.
+It is built for the store owner on a phone: big buttons, plain Spanish, two tabs.
+
+- **Productos**: list with photo, price with IVA, offer price, stock, category and Visible/Oculto badge; search by
+  name; 20 per page. One form creates and edits a product: name, sale price **with IVA** (the tax-excluded price is
+  calculated from the "EC IVA 15%" / "EC IVA 0%" group), optional offer price (stored as a product-wide discount;
+  empty removes it), stock, category, "Mostrar en Promociones de la portada" (adds the product to the Inicio
+  category shown on the homepage), brand, photos (JPG/PNG/WEBP up to 5 MB each, all image sizes generated; choose
+  the cover, × removes a photo), description and visibility. Buttons to hide/show and delete (with confirmation).
+  Products with variants are listed but must be edited in the native editor.
+- **Pedidos**: cards filtered by Pendientes (default: not delivered and not cancelled), Todos, Entregados and
+  Cancelados, with customer, phone, payment, delivery type and address, products and the invoice data the
+  customer entered (Cédula/RUC, razón social). Each card has a WhatsApp button (prefilled greeting with the order
+  reference) and one-tap state buttons.
+
+State buttons use the core order history (stock, invoices and customer emails behave as in the native order page):
+
+| Button | Native order state | Shown when |
+| --- | --- | --- |
+| Pago recibido | Pago aceptado | the order is not paid yet |
+| Enviado | Enviado | paid, home delivery (`Envío a domicilio`) |
+| Listo para retirar | Preparación en curso | paid, store pickup (carrier name contains "Retiro"); avoids the "shipped" email |
+| Entregado | Entregado | paid, prepared or shipped |
+| Cancelar (asks first) | Cancelado | not delivered yet; stock goes back per core rules |
+
+If the customer email cannot be sent (no SMTP configured), the state still changes and the panel shows a warning.
+
+### Owner access
+
+`setup-owner.php` installs the module and creates the **Dueño** profile, which can only open Mi Tienda and lands on
+it after login. SuperAdmin keeps the full back office and also sees Mi Tienda. Create (or update) the owner's
+user; keep the password in a shell variable so it is not stored in the shell history:
+
+```bash
+read -rs OWNER_PASSWORD
+docker compose exec -u www-data prestashop php /opt/natufitness/scripts/setup-owner.php \
+  --email=dueno@ejemplo.com --firstname=Nombre --lastname=Apellido --password="$OWNER_PASSWORD"
+```
+
+The owner logs in at http://localhost:8088/admin-nf. "Ver detalle completo" (native order page) and the native
+product editor only appear for employees whose profile has access to those pages.
+
+Local cleanup of demo/test data (deletes **all** orders, the demo customer `pub@prestashop.com` and guest test
+customers `*@natufitness.test` / `test-t4-*@example.com` with their carts and addresses; add `--dry-run` to only
+list them). Never run it on a store with real orders:
+
+```bash
+docker compose exec -u www-data prestashop php /opt/natufitness/scripts/setup-owner.php --purge-demo-orders
+```
+
 ## Payments
 
 Active methods: **DeUna (QR)** (custom module `modules/nf_deuna/`, bind-mounted into the container) and
@@ -172,5 +230,6 @@ and the storefront returns HTTP 500 until ownership is restored.
 - `docker-compose.yml` — PrestaShop + MySQL stack.
 - `scripts/` — CLI scripts mounted read-only at `/opt/natufitness/scripts`.
 - `themes/natufitness/` — storefront child theme.
+- `modules/nf_deuna/`, `modules/nf_panel/` — custom modules (DeUna QR payment, Mi Tienda owner panel).
 - `mockups/` — static design references.
 - `odd/tasks/` — feature task documents.

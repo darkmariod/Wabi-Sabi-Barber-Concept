@@ -33,6 +33,7 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - [x] T7 — Checkout branding polish: NatuFitness logo in checkout header, Spanish privacy text, reassurance items, NatuFitness footer, shop logo/favicon, shop name. Route: delegated writer + inline fixes (icon URL, duplicate terms link).
 
 - [x] T8 — Owner-editable content: header logo from PS_LOGO, homepage hero from ps_imageslider, "Potencia tu rendimiento" from ps_banner, brands from Catálogo > Marcas; all editable in the back office. Route: delegated writer.
+- [x] T9 — Simple owner panel "Mi Tienda" (module `nf_panel`): one-page product CRUD with photos + order fulfilment buttons (Pago recibido → Enviado → Entregado / Cancelar), mobile-friendly; "Dueño" employee profile landing on it; demo/test orders and customers removed. Route: delegated writer (forecast >400 lines: new module + script, single coherent feature).
 
 ## Acceptance criteria
 - `docker compose up -d` yields a working store at http://localhost:8088 in Spanish with USD prices.
@@ -58,6 +59,8 @@ Launch an online store for NatuFitness (Riobamba, Ecuador) modeled on the struct
 - 2026-10-19: T6 done. `themes/natufitness/templates/checkout/order-confirmation.tpl` extends classic and appends a "¿Necesitas factura?" card to `hook_payment_return`; WhatsApp message prefilled with order ref, total, email and — when the invoice address has them — Cédula/RUC and company. Verified in browser: order OVQXEJRXX (DeUna, with RUC) and XXEUUMGNV (transfer + store pickup, without RUC).
 
 - 2026-10-21: T8 done. Logo from PS_LOGO (text fallback), hero from ps_imageslider, promo from ps_banner, brands from active manufacturers; `scripts/setup-content.php` seeds defaults once. Fixed inline: setup-branding.php no longer overwrites an owner-uploaded logo (flag NF_BRANDING_LOGO_APPLIED; simulated owner logo survived a rerun). Verified: slide title edit reflected on homepage (writer), homepage renders at 1280px (parent). Not tested: uploading through the back-office forms themselves.
+
+- 2026-10-21: T9 done (partial verification). `modules/nf_panel` (Mi Tienda tab #134, first in menu; product CRUD with photos/offer/IVA; order cards with Pago recibido → Enviado/Listo para retirar → Entregado / Cancelar, WhatsApp, invoice data) + `scripts/setup-owner.php` (profile Dueño #5, owner employee from CLI args, `--purge-demo-orders`). Demo/test orders purged (orders 0). Verified by writer in browser as test owner `dueno@natufitness.test` (create/edit/hide/delete product, storefront struck price, order state history rows) at 1280/375px; parent re-ran setup-owner (no-op) and DB checks. Not verified: Mi Tienda as SuperAdmin in a browser, real phone photo upload, products with variants.
 
 ## Known gaps
 - WhatsApp number is placeholder 593000000000 in `themes/natufitness/templates/_partials/nf-config.tpl`.
