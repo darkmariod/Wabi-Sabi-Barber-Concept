@@ -8,7 +8,7 @@
 {if isset($modules.nf_deuna.whatsapp_number) && $modules.nf_deuna.whatsapp_number}
   {assign var='nf_whatsapp_number' value=$modules.nf_deuna.whatsapp_number scope='global'}
 {else}
-  {assign var='nf_whatsapp_number' value='593000000000' scope='global'}
+  {assign var='nf_whatsapp_number' value='593983168337' scope='global'}
 {/if}
 {assign var='nf_instagram_url' value='https://www.instagram.com/natufitness.ec/' scope='global'}
 {assign var='nf_facebook_url' value='' scope='global'}
