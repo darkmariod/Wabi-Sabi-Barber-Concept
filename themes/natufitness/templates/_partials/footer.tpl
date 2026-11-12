@@ -71,6 +71,9 @@
     </div>
     <div class="nf-footer__full nf-footer__copy">
       © {'Y'|date} <b>NatuFitness</b>. Todos los derechos reservados.
+      {assign var='nf_privacy_id' value=Configuration::get('NF_PRIVACY_CMS_ID')}
+      {if $nf_privacy_id} · <a href="{$link->getCMSLink($nf_privacy_id)}">Privacidad y cookies</a>{/if}
+      · Desarrollado por <a href="https://monkeycomputer.com" target="_blank" rel="noopener">MonkeyComputer</a>
     </div>
   </div>
 </div>
@@ -83,3 +86,16 @@
   <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z" fill="none" stroke="#fff" stroke-width="2"/></svg>
   Escríbenos
 </a>
+
+{* Cookie notice: shown until the visitor chooses; the choice lives in the nf_cookie_consent cookie (assets/js/custom.js). *}
+{assign var='nf_privacy_id' value=Configuration::get('NF_PRIVACY_CMS_ID')}
+<div class="nf-cookies" id="nf-cookies" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+  <p class="nf-cookies__text">
+    Usamos cookies necesarias para que la tienda funcione (carrito y sesión) y, con tu permiso, cookies de medición para mejorar tu experiencia.
+    {if $nf_privacy_id}<a href="{$link->getCMSLink($nf_privacy_id)}">Política de privacidad y cookies</a>{/if}
+  </p>
+  <div class="nf-cookies__actions">
+    <button type="button" class="nf-cookies__btn nf-cookies__btn--ghost" data-nf-consent="necessary">Solo necesarias</button>
+    <button type="button" class="nf-cookies__btn" data-nf-consent="all">Aceptar todas</button>
+  </div>
+</div>

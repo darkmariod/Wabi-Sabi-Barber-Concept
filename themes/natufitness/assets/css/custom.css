@@ -385,3 +385,20 @@ h1, h2, h3, .nf-section-title, .nf-hero__title, .nf-tile--brand, .nf-tile--categ
   font-family: var(--nf-font-display);
 }
 h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
+
+/* ---------- Cookie notice ---------- */
+.nf-cookies {
+  position: fixed; left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 1100;
+  max-width: 560px; padding: 16px 18px; background: #fff; color: var(--nf-text);
+  border-radius: 12px; box-shadow: 0 10px 30px rgba(0, 0, 0, .18); font-size: 13px; line-height: 1.5;
+}
+.nf-cookies[hidden] { display: none; }
+.nf-cookies__text { margin: 0 0 12px; }
+.nf-cookies__text a { color: var(--nf-brand); text-decoration: underline; }
+.nf-cookies__actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.nf-cookies__btn {
+  border: 0; border-radius: 999px; padding: 9px 18px; font-weight: 700; font-size: 12px; cursor: pointer;
+  background: var(--nf-accent); color: #fff; font-family: var(--nf-font-display);
+}
+.nf-cookies__btn--ghost { background: #eef1f3; color: var(--nf-text); }
+.nf-footer__copy a { color: var(--nf-brand); font-weight: 700; }

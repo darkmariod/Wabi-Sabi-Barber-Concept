@@ -18,7 +18,7 @@
     <span class="d-block js-terms">{$tos_cms nofilter}</span>
   {/if}
   {block name='copyright_link'}
-    <p class="nf-checkout-footer__copy">© {'Y'|date} <b>NatuFitness</b>. Todos los derechos reservados.</p>
+    <p class="nf-checkout-footer__copy">© {'Y'|date} <b>NatuFitness</b>. Todos los derechos reservados. · Desarrollado por <a href="https://monkeycomputer.com" target="_blank" rel="noopener">MonkeyComputer</a></p>
     <p class="nf-checkout-footer__links">
       {if $tos_cms == false}
         <a href="{$link->getCMSLink(3)}">Términos y condiciones</a>

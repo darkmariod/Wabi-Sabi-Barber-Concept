@@ -120,11 +120,30 @@
     });
   }
 
+  // Cookie notice: remember the visitor's choice for 180 days.
+  function initCookieNotice() {
+    var notice = document.getElementById('nf-cookies');
+    if (!notice) { return; }
+    var match = document.cookie.match(/(?:^|; )nf_cookie_consent=([^;]+)/);
+    window.nfCookieConsent = match ? decodeURIComponent(match[1]) : null;
+    if (window.nfCookieConsent) { return; }
+    notice.hidden = false;
+    notice.addEventListener('click', function (event) {
+      var choice = event.target.getAttribute('data-nf-consent');
+      if (!choice) { return; }
+      var secure = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = 'nf_cookie_consent=' + choice + '; Max-Age=' + (180 * 24 * 60 * 60) + '; Path=/; SameSite=Lax' + secure;
+      window.nfCookieConsent = choice;
+      notice.hidden = true;
+    });
+  }
+
   function safely(fn) {
     try { fn(); } catch (error) { if (window.console) { console.warn('NatuFitness:', error); } }
   }
 
   function init() {
+    safely(initCookieNotice);
     safely(initReveal);
     document.querySelectorAll('.js-nf-hero').forEach(function (hero) { safely(function () { initHero(hero); }); });
     document.querySelectorAll('.js-nf-carousel').forEach(function (carousel) { safely(function () { initProductCarousel(carousel); }); });
