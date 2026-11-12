@@ -120,10 +120,14 @@
     });
   }
 
+  function safely(fn) {
+    try { fn(); } catch (error) { if (window.console) { console.warn('NatuFitness:', error); } }
+  }
+
   function init() {
-    document.querySelectorAll('.js-nf-hero').forEach(initHero);
-    document.querySelectorAll('.js-nf-carousel').forEach(initProductCarousel);
-    initReveal();
+    safely(initReveal);
+    document.querySelectorAll('.js-nf-hero').forEach(function (hero) { safely(function () { initHero(hero); }); });
+    document.querySelectorAll('.js-nf-carousel').forEach(function (carousel) { safely(function () { initProductCarousel(carousel); }); });
   }
 
   if (document.readyState === 'loading') {
