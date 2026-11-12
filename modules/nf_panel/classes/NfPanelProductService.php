@@ -309,13 +309,14 @@ class NfPanelProductService
         $product->id_category_default = $idCategory;
         $product->id_manufacturer = $idManufacturer;
         $product->active = !empty($input['active']);
+        // A product can only be bought once it has a price (catalog items start at 0).
+        $product->available_for_order = $product->price > 0;
 
         if ($isNew) {
             $product->id_shop_default = $this->idShop;
             $product->visibility = 'both';
             $product->condition = 'new';
             $product->show_price = true;
-            $product->available_for_order = true;
             $product->minimal_quantity = 1;
             $product->state = Product::STATE_SAVED;
             if (!$product->add()) {
