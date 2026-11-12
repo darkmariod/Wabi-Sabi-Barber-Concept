@@ -31,7 +31,7 @@
         {/block}
 
         {block name='product_price_and_shipping'}
-          {if $product.show_price}
+          {if $product.show_price && $product.price_amount > 0}
             <div class="product-price-and-shipping nf-card__price">
               {if $product.has_discount}
                 {hook h='displayProductPriceBlock' product=$product type="old_price"}
@@ -65,7 +65,8 @@
         {/block}
       </div>
 
-      {include file='catalog/_partials/product-flags.tpl'}
+      {* Flags (Nuevo, Fuera de stock...) only once the product is priced: catalog items stay clean. *}
+      {if $product.price_amount > 0}{include file='catalog/_partials/product-flags.tpl'}{/if}
     </div>
   </article>
 </div>

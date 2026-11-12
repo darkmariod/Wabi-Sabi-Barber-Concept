@@ -19,29 +19,17 @@
           {if $smarty.capture.nf_home_hook|trim}
             {$smarty.capture.nf_home_hook nofilter}
           {else}
-            {* Promociones: products with an offer price set in Mi Tienda (ps_specials). Hidden when there are none. *}
-            {capture assign='nf_specials'}{widget name='ps_specials'}{/capture}
-            {if $nf_specials|trim}
-              <section class="nf-section nf-promos">
-                <h2 class="nf-section-title">Promociones Exclusivas</h2>
-                {$nf_specials nofilter}
-              </section>
-            {else}
-              <section class="nf-section nf-promos">
-                <h2 class="nf-section-title">Promociones Exclusivas</h2>
-                <p class="nf-empty">Muy pronto publicaremos nuestras promociones. Escríbenos por WhatsApp para conocer las ofertas del día.</p>
-              </section>
-            {/if}
-
-            {* Más vendidos: real sales from ps_bestsellers. Hidden until there are orders. *}
-            {capture assign='nf_bestsellers'}{widget name='ps_bestsellers'}{/capture}
-            {if $nf_bestsellers|trim}
-              <section class="nf-section nf-bestsellers">
-                <h2 class="nf-section-title">Suplementos Más Vendidos</h2>
-                {$nf_bestsellers nofilter}
-              </section>
-            {/if}
+            <section class="nf-section nf-promos">
+              <h2 class="nf-section-title">Promociones Exclusivas</h2>
+              <p class="nf-empty">Muy pronto publicaremos nuestras promociones. Escríbenos por WhatsApp para conocer las ofertas del día.</p>
+            </section>
           {/if}
+        {/block}
+
+        {block name='nf_bestsellers'}
+          {* Real best sellers; until there are sales, the newest catalog products (same carousel). *}
+          {capture assign='nf_best'}{widget name='ps_bestsellers'}{/capture}
+          {if $nf_best|trim}{$nf_best nofilter}{else}{widget name='ps_newproducts'}{/if}
         {/block}
 
         {block name='nf_brands'}
