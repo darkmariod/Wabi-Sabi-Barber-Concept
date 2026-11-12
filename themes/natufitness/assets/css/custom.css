@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700,800,900&display=swap");
 /* NatuFitness child theme: loaded after classic theme.css. */
 :root {
   --nf-brand: #17507d;
@@ -7,7 +8,8 @@
   --nf-gray-bg: #e6e6e6;
   --nf-text: #222;
   --nf-muted: #888;
-  --nf-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --nf-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --nf-font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 body { overflow-x: hidden; }
@@ -377,3 +379,9 @@ a:hover, a:focus { color: var(--nf-brand-dark); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .nf-reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* ---------- Typography (syf.ec: Montserrat 800 for display, system stack for text) ---------- */
+h1, h2, h3, .nf-section-title, .nf-hero__title, .nf-tile--brand, .nf-tile--category, .nf-nav-menu a, .nf-btn-dark, .nf-btn-buy, .nf-btn-whatsapp {
+  font-family: var(--nf-font-display);
+}
+h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
