@@ -413,3 +413,15 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 .nf-whatsapp svg { width: 30px; height: 30px; }
 .nf-whatsapp:hover, .nf-whatsapp:focus { background: #25d366; color: #fff; transform: scale(1.06); }
 @media (max-width: 767px) { .nf-whatsapp { width: 52px; height: 52px; } .nf-whatsapp svg { width: 27px; height: 27px; } }
+
+/* ---------- Footer left: store photo, darkened (syf.ec style) ---------- */
+.nf-footer__left {
+  min-height: 360px;
+  background:
+    linear-gradient(to top, rgba(8, 20, 32, .85) 0%, rgba(8, 20, 32, .35) 55%, rgba(8, 20, 32, .15) 100%),
+    url("../img/footer-local.jpg") center / cover no-repeat;
+}
+.nf-footer__left h4 { font-family: var(--nf-font-display); font-size: 22px; text-shadow: 0 2px 8px rgba(0, 0, 0, .4); }
+.nf-socials a { width: 36px; height: 36px; color: #111; transition: transform .2s ease, color .2s ease; }
+.nf-socials a:hover { color: var(--nf-brand); transform: translateY(-2px); }
+@media (max-width: 767px) { .nf-footer__left { min-height: 240px; } }
