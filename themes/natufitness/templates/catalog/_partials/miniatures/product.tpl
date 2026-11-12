@@ -53,7 +53,11 @@
         {/block}
 
         {block name='product_buy'}
-          <a class="nf-btn-buy" href="{$product.url}">Comprar</a>
+          {if $product.price_amount > 0}
+            <a class="nf-btn-buy" href="{$product.url}">Comprar</a>
+          {else}
+            <span class="nf-btn-buy nf-btn-buy--soon" aria-disabled="true">Precio próximamente</span>
+          {/if}
         {/block}
 
         {block name='product_reviews'}
