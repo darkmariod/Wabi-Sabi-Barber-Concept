@@ -102,9 +102,28 @@
     render();
   }
 
+  // Sections fade in once they scroll into view (syf.ec style).
+  function initReveal() {
+    if (!('IntersectionObserver' in window)) { return; }
+    var sections = document.querySelectorAll('.nf-section');
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    Array.prototype.forEach.call(sections, function (section) {
+      section.classList.add('nf-reveal');
+      observer.observe(section);
+    });
+  }
+
   function init() {
     document.querySelectorAll('.js-nf-hero').forEach(initHero);
     document.querySelectorAll('.js-nf-carousel').forEach(initProductCarousel);
+    initReveal();
   }
 
   if (document.readyState === 'loading') {

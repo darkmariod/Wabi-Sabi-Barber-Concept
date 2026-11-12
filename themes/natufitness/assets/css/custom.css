@@ -342,3 +342,38 @@ a:hover, a:focus { color: var(--nf-brand-dark); }
 
 /* Catalog items without a price yet: visible, not purchasable */
 .nf-btn-buy--soon { opacity: .6; cursor: default; pointer-events: none; }
+
+/* ---------- Motion (syf.ec style) ---------- */
+@keyframes nfFadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes nfZoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+/* Hero: slow zoom on the active image, text enters staggered */
+.nf-hero__slide.is-active .nf-hero__image { animation: nfZoom 6s ease-out both; }
+.nf-hero__slide.is-active .nf-hero__text > * { animation: nfFadeUp .7s ease both; }
+.nf-hero__slide.is-active .nf-hero__text > *:nth-child(2) { animation-delay: .12s; }
+.nf-hero__slide.is-active .nf-hero__text > *:nth-child(3) { animation-delay: .24s; }
+.nf-hero__slide.is-active .nf-hero__text > *:nth-child(4) { animation-delay: .36s; }
+
+/* Sections fade up on scroll (class added by custom.js) */
+.nf-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+.nf-reveal.is-visible { opacity: 1; transform: none; }
+
+/* Product cards: lift and zoom the photo on hover */
+.product-miniature.nf-card { transition: transform .3s ease, box-shadow .3s ease; }
+.product-miniature.nf-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0, 0, 0, .08); border-radius: 12px; }
+.nf-card__image img { transition: transform .4s ease; }
+.product-miniature.nf-card:hover .nf-card__image img { transform: scale(1.05); }
+
+/* Tiles, buttons */
+.nf-tile { transition: transform .25s ease, box-shadow .25s ease, color .25s ease; }
+.nf-tile:hover, .nf-tile:focus { transform: translateY(-3px); }
+.nf-btn-buy { transition: background-color .25s ease, transform .15s ease; }
+.nf-btn-buy:active { transform: scale(.98); }
+.nf-btn-whatsapp { transition: background-color .25s ease, transform .15s ease; }
+.nf-btn-whatsapp:hover { transform: translateY(-2px); }
+
+/* Respect users who ask for less motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .nf-reveal { opacity: 1 !important; transform: none !important; }
+}
