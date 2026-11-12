@@ -402,3 +402,14 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 }
 .nf-cookies__btn--ghost { background: #eef1f3; color: var(--nf-text); }
 .nf-footer__copy a { color: var(--nf-brand); font-weight: 700; }
+
+/* ---------- Floating WhatsApp button (syf.ec style: round, light, official logo) ---------- */
+.nf-whatsapp {
+  width: 58px; height: 58px; padding: 0; border-radius: 50%; gap: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #f1f1f1; color: #333; box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+  transition: background-color .25s ease, color .25s ease, transform .2s ease;
+}
+.nf-whatsapp svg { width: 30px; height: 30px; }
+.nf-whatsapp:hover, .nf-whatsapp:focus { background: #25d366; color: #fff; transform: scale(1.06); }
+@media (max-width: 767px) { .nf-whatsapp { width: 52px; height: 52px; } .nf-whatsapp svg { width: 27px; height: 27px; } }
