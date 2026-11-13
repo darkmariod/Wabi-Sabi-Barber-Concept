@@ -48,7 +48,7 @@
         </ul>
       </div>
       <div class="nf-footer__col">
-        <h5>Fidelidad y Recompensas</h5>
+        <h5>Contacto</h5>
         <ul>
           <li><a href="https://wa.me/{$nf_whatsapp_number}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></li>
           <li><a href="{$link->getCategoryLink(21)}">Promociones</a></li>
