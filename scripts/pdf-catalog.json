@@ -1,0 +1,275 @@
+[
+ {
+  "name": "Sachet Cubre Canas",
+  "presentation": "10 unidades (25 ml) / Negro",
+  "category": "Belleza",
+  "photo": "sachet-cubre-canas.jpg",
+  "reference": "PDF-sachet-cubre-canas"
+ },
+ {
+  "name": "Shampoo Cubre Canas Negro",
+  "presentation": "400 ml / Negro",
+  "category": "Belleza",
+  "photo": "shampoo-cubre-canas-negro.jpg",
+  "reference": "PDF-shampoo-cubre-canas-negro"
+ },
+ {
+  "name": "Shampoo Cubre Canas Café Oscuro",
+  "presentation": "400 ml / Café oscuro",
+  "category": "Belleza",
+  "photo": "shampoo-cubre-canas-cafe-oscuro.jpg",
+  "reference": "PDF-shampoo-cubre-canas-cafe-oscuro"
+ },
+ {
+  "name": "Shampoo Cubre Canas Castaño",
+  "presentation": "400 ml / Castaño",
+  "category": "Belleza",
+  "photo": "shampoo-cubre-canas-castano.jpg",
+  "reference": "PDF-shampoo-cubre-canas-castano"
+ },
+ {
+  "name": "Shampoo Embrión de Pato",
+  "presentation": "425 ml",
+  "category": "Belleza",
+  "photo": "shampoo-embrion-de-pato.jpg",
+  "reference": "PDF-shampoo-embrion-de-pato"
+ },
+ {
+  "name": "Shampoo Cola de Caballo 425 ml",
+  "presentation": "425 ml",
+  "category": "Belleza",
+  "photo": "shampoo-cola-de-caballo-425-ml.jpg",
+  "reference": "PDF-shampoo-cola-de-caballo-425-ml"
+ },
+ {
+  "name": "Shampoo Acondicionador de Spirulina",
+  "presentation": "750 ml",
+  "category": "Belleza",
+  "photo": "shampoo-acondicionador-de-spirulina.jpg",
+  "reference": "PDF-shampoo-acondicionador-de-spirulina"
+ },
+ {
+  "name": "Shampoo Acondicionador de Ortiga",
+  "presentation": "750 ml",
+  "category": "Belleza",
+  "photo": "shampoo-acondicionador-de-ortiga.jpg",
+  "reference": "PDF-shampoo-acondicionador-de-ortiga"
+ },
+ {
+  "name": "Shampoo Acondicionador de Argán",
+  "presentation": "750 ml",
+  "category": "Belleza",
+  "photo": "shampoo-acondicionador-de-argan.jpg",
+  "reference": "PDF-shampoo-acondicionador-de-argan"
+ },
+ {
+  "name": "Shampoo de Sábila",
+  "presentation": "500 ml",
+  "category": "Belleza",
+  "photo": "shampoo-de-sabila.jpg",
+  "reference": "PDF-shampoo-de-sabila"
+ },
+ {
+  "name": "Shampoo de Manzanilla",
+  "presentation": "500 ml",
+  "category": "Belleza",
+  "photo": "shampoo-de-manzanilla.jpg",
+  "reference": "PDF-shampoo-de-manzanilla"
+ },
+ {
+  "name": "Shampoo Anticaspa 500 ml",
+  "presentation": "500 ml",
+  "category": "Belleza",
+  "photo": "shampoo-anticaspa-500-ml.jpg",
+  "reference": "PDF-shampoo-anticaspa-500-ml"
+ },
+ {
+  "name": "Shampoo de Romero",
+  "presentation": "500 ml",
+  "category": "Belleza",
+  "photo": "shampoo-de-romero.jpg",
+  "reference": "PDF-shampoo-de-romero"
+ },
+ {
+  "name": "Shampoo Anticaspa 500 ml (frasco blanco)",
+  "presentation": "500 ml",
+  "category": "Belleza",
+  "photo": "shampoo-anticaspa-500-ml-frasco-blanco.jpg",
+  "reference": "PDF-shampoo-anticaspa-500-ml-frasco-blanco"
+ },
+ {
+  "name": "Shampoo Cola de Caballo 500 ml",
+  "presentation": "500 ml",
+  "category": "Belleza",
+  "photo": "shampoo-cola-de-caballo-500-ml.jpg",
+  "reference": "PDF-shampoo-cola-de-caballo-500-ml"
+ },
+ {
+  "name": "Shampoo Anticaspa 450 ml",
+  "presentation": "450 ml",
+  "category": "Belleza",
+  "photo": "shampoo-anticaspa-450-ml.jpg",
+  "reference": "PDF-shampoo-anticaspa-450-ml"
+ },
+ {
+  "name": "Tinte Borgoña",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-borgona.jpg",
+  "reference": "PDF-tinte-borgona"
+ },
+ {
+  "name": "Tinte Café Castaño",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-cafe-castano.jpg",
+  "reference": "PDF-tinte-cafe-castano"
+ },
+ {
+  "name": "Tinte Rubio",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-rubio.jpg",
+  "reference": "PDF-tinte-rubio"
+ },
+ {
+  "name": "Tinte Champaña",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-champana.jpg",
+  "reference": "PDF-tinte-champana"
+ },
+ {
+  "name": "Tinte Cobrizo",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-cobrizo.jpg",
+  "reference": "PDF-tinte-cobrizo"
+ },
+ {
+  "name": "Tinte Café Castaño Medio",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-cafe-castano-medio.jpg",
+  "reference": "PDF-tinte-cafe-castano-medio"
+ },
+ {
+  "name": "Tinte Champaña Avellana",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-champana-avellana.jpg",
+  "reference": "PDF-tinte-champana-avellana"
+ },
+ {
+  "name": "Tinte Café Moca Claro",
+  "presentation": "80 g",
+  "category": "Belleza",
+  "photo": "tinte-cafe-moca-claro.jpg",
+  "reference": "PDF-tinte-cafe-moca-claro"
+ },
+ {
+  "name": "Guantes protectores de medio dedo azul",
+  "presentation": "Talla M, L, XL",
+  "category": "Implementos",
+  "photo": "guantes-protectores-de-medio-dedo-azul.jpg",
+  "reference": "PDF-guantes-protectores-de-medio-dedo-azul"
+ },
+ {
+  "name": "Guantes protectores de medio dedo rojo",
+  "presentation": "Talla S, M, L",
+  "category": "Implementos",
+  "photo": "guantes-protectores-de-medio-dedo-rojo.jpg",
+  "reference": "PDF-guantes-protectores-de-medio-dedo-rojo"
+ },
+ {
+  "name": "Guante con muñequera elástica",
+  "presentation": "Talla M, L, XL",
+  "category": "Implementos",
+  "photo": "guante-con-munequera-elastica.jpg",
+  "reference": "PDF-guante-con-munequera-elastica"
+ },
+ {
+  "name": "Muñequera elástica",
+  "presentation": "Una sola talla",
+  "category": "Implementos",
+  "photo": "munequera-elastica.jpg",
+  "reference": "PDF-munequera-elastica"
+ },
+ {
+  "name": "Strap con muñequera",
+  "presentation": "Una sola talla",
+  "category": "Implementos",
+  "photo": "strap-con-munequera.jpg",
+  "reference": "PDF-strap-con-munequera"
+ },
+ {
+  "name": "Rodillera con bandas",
+  "presentation": "Talla M, L, XL",
+  "category": "Implementos",
+  "photo": "rodillera-con-bandas.jpg",
+  "reference": "PDF-rodillera-con-bandas"
+ },
+ {
+  "name": "Rodillera elástica",
+  "presentation": "Una sola talla",
+  "category": "Implementos",
+  "photo": "rodillera-elastica.jpg",
+  "reference": "PDF-rodillera-elastica"
+ },
+ {
+  "name": "Cinturón deportivo de cuero",
+  "presentation": "Talla S, M, L",
+  "category": "Implementos",
+  "photo": "cinturon-deportivo-de-cuero.jpg",
+  "reference": "PDF-cinturon-deportivo-de-cuero"
+ },
+ {
+  "name": "Cubo de magnesio",
+  "presentation": "Carbonato de magnesio",
+  "category": "Implementos",
+  "photo": "cubo-de-magnesio.jpg",
+  "reference": "PDF-cubo-de-magnesio"
+ },
+ {
+  "name": "Shaker Súper Héroe",
+  "presentation": "800 ml / Libre de BPA",
+  "category": "Implementos",
+  "photo": "shaker-super-heroe.jpg",
+  "reference": "PDF-shaker-super-heroe"
+ },
+ {
+  "name": "Shaker Compartimentos 3 en 1",
+  "presentation": "450 ml / Azul, verde, rojo, blanco",
+  "category": "Implementos",
+  "photo": "shaker-compartimentos-3-en-1.jpg",
+  "reference": "PDF-shaker-compartimentos-3-en-1"
+ },
+ {
+  "name": "Shaker Beverly",
+  "presentation": "700 ml / Naranja, negro",
+  "category": "Implementos",
+  "photo": "shaker-beverly.jpg",
+  "reference": "PDF-shaker-beverly"
+ },
+ {
+  "name": "Shaker Insane Labz",
+  "presentation": "700 ml / Blanco",
+  "category": "Implementos",
+  "photo": "shaker-insane-labz.jpg",
+  "reference": "PDF-shaker-insane-labz"
+ },
+ {
+  "name": "Shaker Dragon Pharma",
+  "presentation": "700 ml / Negro",
+  "category": "Implementos",
+  "photo": "shaker-dragon-pharma.jpg",
+  "reference": "PDF-shaker-dragon-pharma"
+ },
+ {
+  "name": "Shaker Compartimentos 2 en 1",
+  "presentation": "450 ml / Azul y rojo",
+  "category": "Implementos",
+  "photo": "shaker-compartimentos-2-en-1.jpg",
+  "reference": "PDF-shaker-compartimentos-2-en-1"
+ }
+]
