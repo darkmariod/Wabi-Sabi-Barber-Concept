@@ -37,7 +37,7 @@
           {assign var='nf_brands' value=Manufacturer::getManufacturers(false, $language.id, true)}
           {if $nf_brands}
             <section class="nf-section">
-              <h2 class="nf-section-title">Marcas Oficiales</h2>
+              <h2 class="nf-section-title">Distribuidores autorizados</h2>
               <div class="nf-band nf-band--brands">
                 {* Logos scroll like syf.ec partners; the list is repeated once so the loop is seamless. *}
                 <div class="nf-marquee">
