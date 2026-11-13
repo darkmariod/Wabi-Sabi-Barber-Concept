@@ -98,5 +98,30 @@ foreach ($brands as $name => $slug) {
     }
 }
 
+// Link unbranded products to their brand by name prefix, so the "Marca" filter has data.
+$namePrefixes = [
+    'Beverly Nutrition' => 'Beverly', 'Optimum Nutrition' => 'Optimum', 'BPI Sports' => 'BPI',
+    'PhytoChemie' => 'PhytoChemie', 'Omnilife' => 'Omnilife', 'Only Natural' => 'Only Natural',
+    'Mason Natural' => 'Mason', "Nature's Garden" => "Nature's Garden", "Nature's Herbalmax" => 'Herbalmax',
+    'NOW Foods' => 'NOW', 'Mutant' => 'Mutant', 'Sascha Fitness' => 'Sascha',
+];
+$langId = (int) Configuration::get('PS_LANG_DEFAULT');
+foreach ($namePrefixes as $name => $prefix) {
+    $id = findManufacturer($name);
+    if (!$id) {
+        continue;
+    }
+    Db::getInstance()->execute(
+        'UPDATE `' . _DB_PREFIX_ . 'product` p
+         JOIN `' . _DB_PREFIX_ . 'product_lang` pl ON pl.id_product = p.id_product AND pl.id_lang = ' . $langId . '
+         SET p.id_manufacturer = ' . $id . '
+         WHERE p.id_manufacturer = 0 AND pl.name LIKE \'' . pSQL($prefix) . ' %\''
+    );
+    $linked = Db::getInstance()->Affected_Rows();
+    if ($linked) {
+        echo "Linked {$linked} products to {$name}\n";
+    }
+}
+
 Tools::clearSmartyCache();
 echo "Done\n";
