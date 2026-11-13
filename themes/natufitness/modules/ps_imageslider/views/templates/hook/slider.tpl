@@ -1,7 +1,7 @@
 {*
  * NatuFitness hero carousel (syf.ec style) fed by ps_imageslider.
- * Each slide: image (cover), legend as the small line, title, optional description and a
- * "VER MÁS" pill to the slide URL. Edit in Módulos > Image slider > Configurar.
+ * Each slide: image (cover), legend as the small line, title and optional description.
+ * Edit in Módulos > Image slider > Configurar.
  * Behaviour lives in assets/js/custom.js (.js-nf-hero); the interval comes from the module speed.
  *}
 {if $homeslider.slides}
@@ -16,7 +16,6 @@
             {if $slide.legend}<small>{$slide.legend}</small>{/if}
             {if $slide.title}<p class="nf-hero__title">{$slide.title}</p>{/if}
             {if $slide.description|strip_tags|trim}<div class="nf-hero__desc">{$slide.description nofilter}</div>{/if}
-            {if $slide.url}<a class="nf-btn-dark" href="{$slide.url}">VER MÁS ›</a>{/if}
           </div>
         {/if}
       </div>

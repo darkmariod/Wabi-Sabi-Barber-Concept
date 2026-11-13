@@ -59,7 +59,6 @@
         <ul>
           <li><a href="{$link->getCMSLink(3)}">Términos y condiciones</a></li>
           <li><a href="{$link->getCMSLink(1)}">Políticas de envío</a></li>
-          <li><a href="{$urls.pages.order_follow}">Cambios y devoluciones</a></li>
         </ul>
       </div>
     </div>

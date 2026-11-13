@@ -145,5 +145,6 @@ foreach ($catalog as $item) {
     }
 }
 
+Search::indexation(false); // new products are not indexed by add()
 Tools::clearSmartyCache();
 echo "Done: created {$created}, already existed {$skipped}\n";

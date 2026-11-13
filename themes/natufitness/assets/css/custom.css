@@ -494,3 +494,48 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 .nf-card__image img { display: block; width: 100%; }
 .product-cover, .product-cover img, .product-images > li.thumb-container .thumb, .js-qv-product-cover { background: #000; }
 #product-modal .modal-content .modal-body, #product-modal .product-cover-modal { background: #000; }
+
+/* ---------- Mobile UX: full banners and finger-sized touch targets ---------- */
+@media (max-width: 767px) {
+  /* Banners are 1920x600: show them whole instead of cropping the logo (until mobile banners exist). */
+  .nf-hero { height: auto; aspect-ratio: 1920 / 600; }
+  .nf-hero__slide { padding: 0 44px; }
+  .nf-hero__image { object-fit: contain; }
+  .nf-hero__arrow { width: 32px; height: 32px; }
+  .nf-hero__dots { bottom: 2px; }
+  #_mobile_user_info a, #_mobile_cart .blockcart, #_mobile_cart .cart-preview, #menu-icon {
+    min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center;
+  }
+}
+/* Dots keep their look but get a 24px tap area. */
+.nf-hero__dots button, .nf-carousel__dots button {
+  box-sizing: content-box; padding: 8px; background-clip: content-box; border: 0;
+}
+.nf-hero__dots, .nf-carousel__dots { gap: 0; }
+.nf-hero__dots button.is-active, .nf-carousel__dots button.is-active { background-clip: content-box; }
+
+/* ---------- Subcategories as compact chips (no category images exist) ---------- */
+#subcategories { padding: 0; margin: 0 0 18px; border: 0; box-shadow: none; background: transparent; }
+#subcategories .subcategory-heading { display: none; }
+#subcategories .subcategories-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+#subcategories .subcategories-list li { width: auto; min-height: 0; margin: 0; padding: 0; }
+#subcategories .subcategory-image { display: none; }
+#subcategories h5 { margin: 0; }
+#subcategories .subcategory-name {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border-radius: 999px;
+  border: 1px solid #d5dbe1; background: #fff; color: var(--nf-brand); font-size: 13px; font-weight: 700; text-transform: none;
+}
+#subcategories .subcategory-name:hover { border-color: var(--nf-brand); background: var(--nf-brand); color: #fff; }
+@media (max-width: 767px) {
+  #subcategories .subcategories-list { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  #subcategories .subcategories-list li { flex: none; }
+  #js-product-list-top .filter-button .btn { min-height: 44px; }
+}
+@media (max-width: 575px) {
+  #js-product-list .products { margin-left: -6px; margin-right: -6px; }
+  #js-product-list .products > .js-product { flex: 0 0 50%; max-width: 50%; width: 50%; padding: 0 6px; }
+  #js-product-list .nf-card__title { font-size: 13px; }
+  #js-product-list .nf-btn-buy { font-size: 12px; }
+  #subcategories .subcategories-list { scrollbar-width: none; }
+  #subcategories .subcategories-list::-webkit-scrollbar { display: none; }
+}
