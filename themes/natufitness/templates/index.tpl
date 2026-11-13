@@ -38,18 +38,23 @@
           {if $nf_brands}
             <section class="nf-section">
               <h2 class="nf-section-title">Marcas Oficiales</h2>
-              <div class="nf-band">
-                <div class="nf-tiles nf-tiles--brands">
-                  {foreach from=$nf_brands item='nf_brand'}
-                    {assign var='nf_brand_logo' value="`$smarty.const._PS_MANU_IMG_DIR_``$nf_brand.id_manufacturer`-medium_default.jpg"}
-                    <a class="nf-tile nf-tile--brand" href="{$link->getManufacturerLink($nf_brand.id_manufacturer, $nf_brand.link_rewrite|default:null)}" title="{$nf_brand.name}">
-                      {if Tools::file_exists_cache($nf_brand_logo)}
-                        <img class="nf-tile__logo" src="{$link->getManufacturerImageLink($nf_brand.id_manufacturer, 'medium_default')}" alt="{$nf_brand.name}" loading="lazy">
-                      {else}
-                        {$nf_brand.name}
-                      {/if}
-                    </a>
-                  {/foreach}
+              <div class="nf-band nf-band--brands">
+                {* Logos scroll like syf.ec partners; the list is repeated once so the loop is seamless. *}
+                <div class="nf-marquee">
+                  <div class="nf-marquee__track">
+                    {foreach from=[1,2] item='nf_pass'}
+                      {foreach from=$nf_brands item='nf_brand'}
+                        {assign var='nf_brand_logo' value="`$smarty.const._PS_MANU_IMG_DIR_``$nf_brand.id_manufacturer`.jpg"}
+                        <a class="nf-brand" href="{$link->getManufacturerLink($nf_brand.id_manufacturer, $nf_brand.link_rewrite|default:null)}" title="{$nf_brand.name}"{if $nf_pass == 2} aria-hidden="true" tabindex="-1"{/if}>
+                          {if Tools::file_exists_cache($nf_brand_logo)}
+                            <img src="{$urls.img_manu_url}{$nf_brand.id_manufacturer}.jpg" alt="{$nf_brand.name}" loading="lazy" width="200" height="100">
+                          {else}
+                            <span class="nf-brand__name">{$nf_brand.name}</span>
+                          {/if}
+                        </a>
+                      {/foreach}
+                    {/foreach}
+                  </div>
                 </div>
               </div>
             </section>
