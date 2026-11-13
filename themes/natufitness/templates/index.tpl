@@ -45,13 +45,12 @@
                     {foreach from=[1,2] item='nf_pass'}
                       {foreach from=$nf_brands item='nf_brand'}
                         {assign var='nf_brand_logo' value="`$smarty.const._PS_MANU_IMG_DIR_``$nf_brand.id_manufacturer`.jpg"}
-                        <a class="nf-brand" href="{$link->getManufacturerLink($nf_brand.id_manufacturer, $nf_brand.link_rewrite|default:null)}" title="{$nf_brand.name}"{if $nf_pass == 2} aria-hidden="true" tabindex="-1"{/if}>
-                          {if Tools::file_exists_cache($nf_brand_logo)}
+                        {* Only authorized distributors with a logo appear here; brands without one still work in filters. *}
+                        {if Tools::file_exists_cache($nf_brand_logo)}
+                          <a class="nf-brand" href="{$link->getManufacturerLink($nf_brand.id_manufacturer, $nf_brand.link_rewrite|default:null)}" title="{$nf_brand.name}"{if $nf_pass == 2} aria-hidden="true" tabindex="-1"{/if}>
                             <img src="{$urls.img_manu_url}{$nf_brand.id_manufacturer}.jpg" alt="{$nf_brand.name}" loading="lazy" width="200" height="100">
-                          {else}
-                            <span class="nf-brand__name">{$nf_brand.name}</span>
-                          {/if}
-                        </a>
+                          </a>
+                        {/if}
                       {/foreach}
                     {/foreach}
                   </div>

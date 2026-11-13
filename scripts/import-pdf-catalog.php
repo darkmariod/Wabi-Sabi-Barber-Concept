@@ -73,7 +73,19 @@ function ensureInMenu(int $categoryId): void
 
 function attachCover(int $productId, string $source, array $langIds, string $legend): void
 {
-    if (Image::getCover($productId)) {
+    $cover = Image::getCover($productId);
+    if ($cover) {
+        // Refresh the photo when the source changed (e.g. re-exported in higher resolution).
+        $existing = new Image((int) $cover['id_image']);
+        $base = _PS_PRODUCT_IMG_DIR_ . $existing->getImgPath();
+        if (file_exists($base . '.jpg') && md5_file($base . '.jpg') === md5_file($source)) {
+            return;
+        }
+        copy($source, $base . '.jpg');
+        foreach (ImageType::getImagesTypes('products') as $type) {
+            ImageManager::resize($source, $base . '-' . $type['name'] . '.jpg', (int) $type['width'], (int) $type['height']);
+        }
+
         return;
     }
     $image = new Image();
