@@ -26,7 +26,7 @@ const DATA_DIR = '/opt/natufitness/scripts/catalog-2026/';
 const HOME_CATEGORY_ID = 2;
 const DEMO_STOCK = 10;
 const PROMO_NAMES = [
-    'Dymatize Whey Gold Standard', 'Dymatize ISO 100', 'Carnivor Isolate', 'Insane Labz Psychotic Negro',
+    'Optimum Nutrition Whey Gold Standard', 'Dymatize ISO 100', 'Carnivor Isolate', 'Insane Labz Psychotic Negro',
     'Nutrex Lipo 6 Black', 'Dymatize Isopure', 'Dragon Pharma Mass Phorm', 'Ronnie Coleman Creatina XS',
 ];
 

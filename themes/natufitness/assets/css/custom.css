@@ -539,3 +539,8 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
   #subcategories .subcategories-list { scrollbar-width: none; }
   #subcategories .subcategories-list::-webkit-scrollbar { display: none; }
 }
+
+/* Owner request: no "Filtros activos" bar (confuses customers); "borrar todo" stays in the sidebar. */
+#js-active-search-filters, .active_filters { display: none !important; }
+/* Product page: hide the thumbnail strip when there is only one photo. */
+.product-images:has(> li:only-child), .js-qv-mask:has(.product-images > li:only-child), .scroll-box-arrows:has(~ .js-qv-mask .product-images > li:only-child) { display: none; }
