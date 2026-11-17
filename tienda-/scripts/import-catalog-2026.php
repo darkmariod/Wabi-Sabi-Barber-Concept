@@ -106,6 +106,19 @@ foreach ($catalog as $item) {
     $productId = (int) Product::getIdByReference($item['reference']);
     if ($productId) {
         $skipped++;
+        // catalog.json is the source of truth for C26 names and brands (fixes from
+        // tools/catalog/fill_missing_photos_2026.py). Note: this overwrites a name edited by hand.
+        $current = new Product($productId);
+        $brandId = manufacturerId($item['brand'], $langIds);
+        if ($current->name[(int) Configuration::get('PS_LANG_DEFAULT')] !== $item['name'] || (int) $current->id_manufacturer !== $brandId) {
+            foreach ($langIds as $lang) {
+                $current->name[$lang] = $item['name'];
+                $current->link_rewrite[$lang] = Tools::str2url($item['name']);
+            }
+            $current->id_manufacturer = $brandId;
+            $current->update();
+            echo "Renamed to {$item['name']}\n";
+        }
     } else {
         $product = new Product();
         $product->reference = $item['reference'];

@@ -6,7 +6,7 @@
   "category_id": 14,
   "page": 2,
   "reference": "C26-ronnie-coleman-bcaa-xs",
-  "photo": null
+  "photo": "ronnie-coleman-bcaa-xs.jpg"
  },
  {
   "name": "Ronnie Coleman Creatina XS",
@@ -42,7 +42,7 @@
   "category_id": 14,
   "page": 2,
   "reference": "C26-ronnie-coleman-glutamina-xs",
-  "photo": null
+  "photo": "ronnie-coleman-glutamina-xs.jpg"
  },
  {
   "name": "Ronnie Coleman L-carnitina 1500",
@@ -141,7 +141,7 @@
   "category_id": 13,
   "page": 4,
   "reference": "C26-beverly-nutrition-energy-storm",
-  "photo": null
+  "photo": "beverly-nutrition-energy-storm.jpg"
  },
  {
   "name": "Beverly Nutrition Creatina Creapure",
@@ -171,13 +171,13 @@
   "photo": "beverly-nutrition-creatina-extreme-tank.jpg"
  },
  {
-  "name": "Beverly Nutrition Pure Whey",
+  "name": "Beverly Nutrition Pure Whey Vegan",
   "brand": "Beverly Nutrition",
   "presentation": "2 Libras · Chocolate & Cookies",
   "category_id": 11,
   "page": 4,
   "reference": "C26-beverly-nutrition-pure-whey",
-  "photo": null
+  "photo": "beverly-nutrition-pure-whey-vegan.jpg"
  },
  {
   "name": "Beverly Nutrition Delux 100% Whey",
@@ -258,7 +258,7 @@
   "category_id": 11,
   "page": 5,
   "reference": "C26-carnivor-bebida-de-protena-40-g",
-  "photo": null
+  "photo": "carnivor-bebida-de-proteina-40-g.jpg"
  },
  {
   "name": "Carnivor Vitamina T",
@@ -294,7 +294,7 @@
   "category_id": 18,
   "page": 5,
   "reference": "C26-carnivor-shred",
-  "photo": null
+  "photo": "carnivor-shred.jpg"
  },
  {
   "name": "Carnivor Mass",
@@ -339,7 +339,7 @@
   "category_id": 14,
   "page": 7,
   "reference": "C26-kevin-levrone-bcaa-defender",
-  "photo": null
+  "photo": "kevin-levrone-bcaa-defender.jpg"
  },
  {
   "name": "Kevin Levrone Anabolic Glutamine",
@@ -366,7 +366,7 @@
   "category_id": 12,
   "page": 7,
   "reference": "C26-kevin-levrone-creatina-micronizada",
-  "photo": null
+  "photo": "kevin-levrone-creatina-micronizada.jpg"
  },
  {
   "name": "Kevin Levrone Pre Entreno Shaaboom",
@@ -537,7 +537,7 @@
   "category_id": 11,
   "page": 10,
   "reference": "C26-dorian-yates-shadowhey-isolate",
-  "photo": null
+  "photo": "dorian-yates-shadowhey-isolate.jpg"
  },
  {
   "name": "Dorian Yates Shado Whey",
@@ -546,7 +546,7 @@
   "category_id": 11,
   "page": 10,
   "reference": "C26-dorian-yates-shado-whey",
-  "photo": null
+  "photo": "dorian-yates-shado-whey.jpg"
  },
  {
   "name": "Dorian Yates Creatina Monohidratada",
@@ -717,7 +717,7 @@
   "category_id": 13,
   "page": 12,
   "reference": "C26-bpi-sports-one-more-rep",
-  "photo": null
+  "photo": "bpi-sports-one-more-rep.jpg"
  },
  {
   "name": "BPI Sports Creatina",
@@ -753,7 +753,7 @@
   "category_id": 11,
   "page": 12,
   "reference": "C26-bpi-sports-vegan-protein",
-  "photo": null
+  "photo": "bpi-sports-vegan-protein.jpg"
  },
  {
   "name": "Integralmedica BCAA Energy",
@@ -1032,7 +1032,7 @@
   "category_id": 12,
   "page": 17,
   "reference": "C26-allmax-creatina-micronizada",
-  "photo": null
+  "photo": "allmax-creatina-micronizada.jpg"
  },
  {
   "name": "Allmax Glutamina",
@@ -1077,7 +1077,7 @@
   "category_id": 13,
   "page": 18,
   "reference": "C26-nutrex-lipo-6-pre-entreno",
-  "photo": null
+  "photo": "nutrex-lipo-6-pre-entreno.jpg"
  },
  {
   "name": "Nutrex Isofit",
@@ -1122,7 +1122,7 @@
   "category_id": 11,
   "page": 19,
   "reference": "C26-nutrex-whey-protein",
-  "photo": null
+  "photo": "nutrex-whey-protein.jpg"
  },
  {
   "name": "Nutrex Lipo 6 Black",
@@ -1284,7 +1284,7 @@
   "category_id": 13,
   "page": 21,
   "reference": "C26-gat-sport-pre-workout",
-  "photo": null
+  "photo": "gat-sport-pre-workout.jpg"
  },
  {
   "name": "GAT Sport Mens -test",
@@ -1302,16 +1302,16 @@
   "category_id": 17,
   "page": 21,
   "reference": "C26-gat-sport-testrol-gold",
-  "photo": null
+  "photo": "gat-sport-testrol-gold.jpg"
  },
  {
-  "name": "GAT Sport Creatina Gomas",
-  "brand": "GAT Sport",
+  "name": "Beast Bites Creatina en Gomas",
+  "brand": "Beast Bites",
   "presentation": "30 Servicios / 150 Gomas",
   "category_id": 12,
   "page": 21,
   "reference": "C26-gat-sport-creatina-gomas",
-  "photo": null
+  "photo": "beast-bites-creatina-en-gomas.jpg"
  },
  {
   "name": "Dragon Pharma DR Feaar",
@@ -1374,7 +1374,7 @@
   "category_id": 12,
   "page": 22,
   "reference": "C26-dragon-pharma-creatina-saborizada",
-  "photo": null
+  "photo": "dragon-pharma-creatina-saborizada.jpg"
  },
  {
   "name": "Dragon Pharma Veinz",
@@ -1458,13 +1458,13 @@
   "photo": "dymatize-iso-100.jpg"
  },
  {
-  "name": "Dymatize Pre Work",
-  "brand": "Dymatize",
+  "name": "Optimum Nutrition Gold Standard Pre-Workout",
+  "brand": "Optimum Nutrition",
   "presentation": "5 - 10 Libras · Vainilla - Chocolate · Cookies And Cream · Fresa",
   "category_id": 13,
   "page": 24,
   "reference": "C26-dymatize-pre-work",
-  "photo": null
+  "photo": "optimum-nutrition-gold-standard-pre-workout.jpg"
  },
  {
   "name": "Dymatize Creatina",
@@ -1599,7 +1599,7 @@
   "category_id": 17,
   "page": 27,
   "reference": "C26-sascha-fitness-collagen",
-  "photo": null
+  "photo": "sascha-fitness-collagen.jpg"
  },
  {
   "name": "Sascha Fitness BCAA + Glutamina",
@@ -1626,7 +1626,7 @@
   "category_id": 17,
   "page": 28,
   "reference": "C26-windmill-picolinato-de-cromo",
-  "photo": null
+  "photo": "windmill-picolinato-de-cromo.jpg"
  },
  {
   "name": "Windmill K2 + D3",
@@ -1689,7 +1689,7 @@
   "category_id": 17,
   "page": 28,
   "reference": "C26-windmill-glicinato-de-magnesio",
-  "photo": null
+  "photo": "windmill-glicinato-de-magnesio.jpg"
  },
  {
   "name": "Windmill Cal-mag-zinc",
@@ -1698,7 +1698,7 @@
   "category_id": 17,
   "page": 28,
   "reference": "C26-windmill-cal-mag-zinc",
-  "photo": null
+  "photo": "windmill-cal-mag-zinc.jpg"
  },
  {
   "name": "Windmill Ácido Alfa Lipoico 300 mg",
@@ -1770,16 +1770,16 @@
   "category_id": 17,
   "page": 30,
   "reference": "C26-crema-de-arroz",
-  "photo": null
+  "photo": "crema-de-arroz.jpg"
  },
  {
-  "name": "BUM Geles Energéticos",
-  "brand": "BUM",
+  "name": "Geles Energéticos",
+  "brand": "",
   "presentation": "Sabores variados",
   "category_id": 17,
   "page": 30,
   "reference": "C26-bum-geles-energticos",
-  "photo": null
+  "photo": "geles-energeticos.jpg"
  },
  {
   "name": "BUM Bebida Energética",
@@ -1788,7 +1788,7 @@
   "category_id": 17,
   "page": 30,
   "reference": "C26-bum-bebida-energtica",
-  "photo": null
+  "photo": "bum-bebida-energetica.jpg"
  },
  {
   "name": "Optimum Nutrition Aminoácido + Pre Entreno",
@@ -1800,13 +1800,13 @@
   "photo": "optimum-nutrition-aminoacido-pre-entreno.jpg"
  },
  {
-  "name": "Optimum Nutrition Bebida Energizante",
-  "brand": "Optimum Nutrition",
+  "name": "Ghost Bebida Energizante 473 ml",
+  "brand": "Ghost",
   "presentation": "473ml · Limonada Rosada - Orange · Cream - Faze Pop",
   "category_id": 17,
   "page": 31,
   "reference": "C26-optimum-nutrition-bebida-energizante",
-  "photo": null
+  "photo": "ghost-bebida-energizante-473-ml.jpg"
  },
  {
   "name": "Optimum Nutrition Bebida Energizante 500ml",
@@ -1824,6 +1824,6 @@
   "category_id": 20,
   "page": 32,
   "reference": "C26-mezcladores-shaker",
-  "photo": null
+  "photo": "mezcladores-shaker.jpg"
  }
 ]
