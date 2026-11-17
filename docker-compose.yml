@@ -46,6 +46,7 @@ services:
       - ./themes/natufitness:/var/www/html/themes/natufitness
       - ./modules/nf_deuna:/var/www/html/modules/nf_deuna
       - ./modules/nf_panel:/var/www/html/modules/nf_panel
+      - ./modules/nf_orderalerts:/var/www/html/modules/nf_orderalerts
 
 volumes:
   db_data:
