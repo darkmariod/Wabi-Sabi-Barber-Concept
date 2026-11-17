@@ -37,19 +37,19 @@
       <button type="button" class="nf-mega__trigger" aria-expanded="false" aria-controls="nf-mega-promos">Promociones</button>
       <div class="nf-mega__panel nf-mega__panel--promos" id="nf-mega-promos">
         {if $nf_promos}
-          <ul class="nf-promos">
+          <ul class="nf-menu-promos">
             {foreach from=$nf_promos item='nf_p'}
               <li>
-                <a href="{$nf_p.link}" class="nf-promos__card">
-                  <span class="nf-promos__img">
+                <a href="{$nf_p.link}" class="nf-menu-promos__card">
+                  <span class="nf-menu-promos__img">
                     {if $nf_p.id_image}
                       <img src="{$link->getImageLink($nf_p.link_rewrite, $nf_p.id_image, 'home_default')}" alt="{$nf_p.name}" loading="lazy" width="120" height="120">
                     {else}
                       <img src="{$urls.no_picture_image.bySize.home_default.url}" alt="{$nf_p.name}" loading="lazy" width="120" height="120">
                     {/if}
                   </span>
-                  <span class="nf-promos__name">{$nf_p.name}</span>
-                  <span class="nf-promos__price">
+                  <span class="nf-menu-promos__name">{$nf_p.name}</span>
+                  <span class="nf-menu-promos__price">
                     <b>{Tools::displayPrice($nf_p.price)}</b>
                     {if $nf_p.price_without_reduction > $nf_p.price}<s>{Tools::displayPrice($nf_p.price_without_reduction)}</s>{/if}
                   </span>
