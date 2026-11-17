@@ -11,6 +11,6 @@
   {assign var='nf_whatsapp_number' value='593983168337' scope='global'}
 {/if}
 {assign var='nf_instagram_url' value='https://www.instagram.com/natufitness.ec/' scope='global'}
-{assign var='nf_facebook_url' value='' scope='global'}
-{assign var='nf_tiktok_url' value='' scope='global'}
+{assign var='nf_facebook_url' value='https://www.facebook.com/profile.php?id=61556023621535' scope='global'}
+{assign var='nf_tiktok_url' value='https://www.tiktok.com/@natufitness7' scope='global'}
 {assign var='nf_free_shipping_amount' value='35' scope='global'}
