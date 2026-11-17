@@ -1,8 +1,4 @@
-![Monkey Computer](img/monkey-computer-header.png)
-
-<p align="center"><img src="img/logo-natufitness.png" alt="NatuFitness" width="320"></p>
-
-# Guía de uso de tu tienda NatuFitness
+natufitness.sevenbarber.app# Guía de uso de tu tienda NatuFitness
 
 Esta guía te explica, paso a paso, cómo manejar tu tienda en internet: cómo entrar, cómo subir y cambiar productos, cómo atender pedidos y cómo cambiar las secciones y las fotos de la página.
 
