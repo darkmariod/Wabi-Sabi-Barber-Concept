@@ -138,6 +138,62 @@
     });
   }
 
+  /**
+   * syf.ec style mega menu (modules/ps_mainmenu/ps_mainmenu.tpl). Delegated listeners,
+   * because classic moves the menu into the mobile drawer on small screens.
+   * Desktop: hover or click opens a panel; hovering a category shows its subcategories.
+   * Phone: the trigger and the category arrows work as an accordion.
+   */
+  function initMegaMenu() {
+    var desktop = window.matchMedia('(min-width: 768px)');
+
+    function setOpen(item, open) {
+      item.classList.toggle('is-open', open);
+      var trigger = item.querySelector('.nf-mega__trigger');
+      if (trigger && trigger.tagName === 'BUTTON') { trigger.setAttribute('aria-expanded', open ? 'true' : 'false'); }
+    }
+    function closeAll(except) {
+      document.querySelectorAll('.js-nf-mega.is-open').forEach(function (item) { if (item !== except) { setOpen(item, false); } });
+    }
+
+    document.addEventListener('mouseover', function (event) {
+      if (!desktop.matches) { return; }
+      var item = event.target.closest('.js-nf-mega');
+      if (item && !item.classList.contains('is-open')) { closeAll(item); setOpen(item, true); }
+      var cat = event.target.closest('.js-nf-mega-cat');
+      if (cat && !cat.classList.contains('is-active')) {
+        cat.parentNode.querySelectorAll('.js-nf-mega-cat').forEach(function (c) { c.classList.toggle('is-active', c === cat); });
+      }
+    });
+    document.addEventListener('mouseout', function (event) {
+      if (!desktop.matches) { return; }
+      var item = event.target.closest('.js-nf-mega');
+      if (item && !item.contains(event.relatedTarget)) { setOpen(item, false); }
+    });
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest('.js-nf-mega > .nf-mega__trigger');
+      if (trigger) {
+        var item = trigger.parentNode;
+        var open = !item.classList.contains('is-open');
+        closeAll(item);
+        setOpen(item, open);
+        return;
+      }
+      var toggle = event.target.closest('.js-nf-mega-toggle');
+      if (toggle) {
+        var cat = toggle.closest('.js-nf-mega-cat');
+        var expanded = !cat.classList.contains('is-expanded');
+        cat.classList.toggle('is-expanded', expanded);
+        toggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        return;
+      }
+      if (desktop.matches && !event.target.closest('.js-nf-mega')) { closeAll(null); }
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') { closeAll(null); }
+    });
+  }
+
   function safely(fn) {
     try { fn(); } catch (error) { if (window.console) { console.warn('NatuFitness:', error); } }
   }
@@ -145,6 +201,7 @@
   function init() {
     safely(initCookieNotice);
     safely(initReveal);
+    safely(initMegaMenu);
     document.querySelectorAll('.js-nf-hero').forEach(function (hero) { safely(function () { initHero(hero); }); });
     document.querySelectorAll('.js-nf-carousel').forEach(function (carousel) { safely(function () { initProductCarousel(carousel); }); });
   }

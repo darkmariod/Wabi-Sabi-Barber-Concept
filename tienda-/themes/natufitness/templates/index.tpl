@@ -14,6 +14,15 @@
           {widget name='ps_imageslider'}
         {/block}
 
+        {block name='nf_trust'}
+          {* Trust strip under the banner (syf.ec style). *}
+          <ul class="nf-trust" aria-label="Por qué comprar en NatuFitness">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.4 7.2 16.9l.9-5.4L4.2 7.7l5.4-.8z M8 17.5V22l4-2 4 2v-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>Distribuidores oficiales</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.5l2.7 2.7L16.5 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Productos 100% originales</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M7 15h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Pagos seguros con DeUna y transferencia</li>
+          </ul>
+        {/block}
+
         {block name='hook_home'}
           {capture name='nf_home_hook'}{$HOOK_HOME nofilter}{/capture}
           {if $smarty.capture.nf_home_hook|trim}

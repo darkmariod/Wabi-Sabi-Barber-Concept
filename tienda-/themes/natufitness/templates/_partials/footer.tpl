@@ -66,7 +66,7 @@
     <div class="nf-footer__banks">
       <p>Bancos disponibles para transferencias</p>
       <div class="nf-banks">
-        {foreach from=['guayaquil' => 'Banco Guayaquil', 'produbanco' => 'Produbanco', 'pichincha' => 'Banco Pichincha', 'bolivariano' => 'Banco Bolivariano'] key='nf_slug' item='nf_bank'}
+        {foreach from=['pacifico' => 'Banco del Pacífico', 'produbanco' => 'Produbanco', 'pichincha' => 'Banco Pichincha'] key='nf_slug' item='nf_bank'}
           <img src="{$urls.base_url}themes/natufitness/assets/img/pay/bank-{$nf_slug}.png" alt="{$nf_bank}" title="{$nf_bank}" width="40" height="40" loading="lazy">
         {/foreach}
       </div>

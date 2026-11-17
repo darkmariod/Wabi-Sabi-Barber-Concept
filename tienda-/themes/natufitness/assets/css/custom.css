@@ -544,3 +544,80 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 #js-active-search-filters, .active_filters { display: none !important; }
 /* Product page: hide the thumbnail strip when there is only one photo. */
 .product-images:has(> li:only-child), .js-qv-mask:has(.product-images > li:only-child), .scroll-box-arrows:has(~ .js-qv-mask .product-images > li:only-child) { display: none; }
+
+/* ---------- Mega menu (syf.ec style): Nuestros productos / Promociones / Marcas ---------- */
+.nf-mega { display: flex; justify-content: center; align-items: stretch; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.nf-mega__item { position: static; }
+#header .nf-mega__trigger {
+  display: inline-flex; align-items: center; height: 40px; padding: 0 16px; border: 0; background: transparent; cursor: pointer;
+  color: #fff; font-family: var(--nf-font-display); font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
+}
+#header .nf-mega__trigger:hover, #header .nf-mega__item.is-open > .nf-mega__trigger { color: var(--nf-accent); text-decoration: none; }
+.nf-mega__panel {
+  display: none; position: absolute; left: 50%; top: 100%; transform: translateX(-50%); z-index: 30;
+  width: min(1100px, calc(100vw - 32px)); min-height: 260px; padding: 18px; border-top: 3px solid var(--nf-accent);
+  background: #fff; box-shadow: 0 18px 40px rgba(0, 0, 0, .18); border-radius: 0 0 10px 10px;
+}
+.nf-mega__item.is-open > .nf-mega__panel { display: block; }
+.nf-mega__cats { position: relative; width: 240px; min-height: 230px; margin: 0; padding: 0 12px 0 0; list-style: none; border-right: 1px solid #e6e9ec; }
+.nf-mega__cat { position: static; display: flex; align-items: center; }
+#header .nf-mega__cat-link {
+  flex: 1; display: block; padding: 10px 12px; border-radius: 6px; color: #555; font-size: 13px; font-weight: 600;
+}
+#header .nf-mega__cat.is-active > .nf-mega__cat-link { background: #f1f4f6; color: var(--nf-brand); }
+#header .nf-mega__cat-link[aria-haspopup]::after { content: "›"; float: right; color: #999; }
+.nf-mega__cat-toggle { display: none; }
+.nf-mega__subs { display: none; position: absolute; left: 252px; top: 0; width: calc(1100px - 300px); max-width: calc(100vw - 330px); }
+.nf-mega__cat.is-active > .nf-mega__subs { display: block; }
+.nf-mega__subs ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px 24px; margin: 14px 0 0; padding: 0 0 0 16px; list-style: none; }
+#header .nf-mega__subs ul a { color: var(--nf-text); font-family: var(--nf-font-display); font-size: 13px; font-weight: 800; text-transform: uppercase; }
+#header .nf-mega__subs ul a:hover { color: var(--nf-brand); }
+#header .nf-mega__all { display: inline-block; margin-left: 16px; color: var(--nf-brand); font-size: 12px; font-weight: 700; text-decoration: underline; }
+
+.nf-mega__panel--promos { min-height: 0; }
+.nf-promos { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin: 0 0 12px; padding: 0; list-style: none; }
+#header .nf-promos__card { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; color: var(--nf-text); }
+.nf-promos__img { display: block; width: 110px; height: 110px; border-radius: 8px; overflow: hidden; background: #000; }
+.nf-promos__img img { width: 100%; height: 100%; object-fit: contain; }
+.nf-promos__name { font-size: 12px; font-weight: 600; line-height: 1.25; }
+.nf-promos__price { font-size: 12px; }
+.nf-promos__price b { color: var(--nf-brand); }
+.nf-promos__price s { margin-left: 4px; color: #999; }
+#header .nf-mega__panel--promos .nf-mega__all { margin-left: 0; }
+
+/* Phones: classic moves the menu into the drawer; panels become an accordion. */
+@media (max-width: 767px) {
+  .nf-mega { flex-direction: column; gap: 0; }
+  #header .nf-mega__trigger { width: 100%; height: 48px; justify-content: space-between; padding: 0 16px; }
+  #header .js-nf-mega > .nf-mega__trigger::after { content: "+"; font-size: 18px; }
+  #header .js-nf-mega.is-open > .nf-mega__trigger::after { content: "−"; }
+  .nf-mega__panel { position: static; transform: none; width: auto; min-height: 0; padding: 0; border: 0; border-radius: 0; box-shadow: none; background: var(--nf-brand-dark); }
+  .nf-mega__cats { width: auto; min-height: 0; padding: 0; border: 0; }
+  .nf-mega__cat { flex-wrap: wrap; }
+  #header .nf-mega__cat-link { padding: 12px 16px 12px 28px; color: #fff; border-radius: 0; }
+  #header .nf-mega__cat.is-active > .nf-mega__cat-link { background: transparent; color: #fff; }
+  #header .nf-mega__cat-link[aria-haspopup]::after { content: none; }
+  .nf-mega__cat-toggle {
+    display: grid; place-items: center; width: 48px; height: 44px; border: 0; background: transparent; color: #fff; cursor: pointer;
+  }
+  .nf-mega__cat-toggle::before { content: "+"; font-size: 18px; }
+  .nf-mega__cat.is-expanded > .nf-mega__cat-toggle::before { content: "−"; }
+  .nf-mega__subs, .nf-mega__cat.is-active > .nf-mega__subs { display: none; position: static; width: 100%; max-width: none; padding: 0 0 8px; }
+  .nf-mega__cat.is-expanded > .nf-mega__subs { display: block; }
+  .nf-mega__subs ul { display: block; margin: 0; padding: 0; }
+  #header .nf-mega__subs ul a { display: block; padding: 10px 16px 10px 44px; color: #dfe7ee; font-family: inherit; font-size: 13px; font-weight: 600; text-transform: none; }
+  #header .nf-mega__all { display: block; margin: 0; padding: 10px 16px 10px 44px; color: var(--nf-accent); }
+  .nf-promos { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px 16px; }
+  #header .nf-promos__card { color: #fff; }
+  .nf-promos__price b { color: var(--nf-accent); }
+  #header .nf-mega__panel--promos .nf-mega__all { padding: 0 16px 14px; }
+}
+
+/* ---------- Trust strip under the banner (syf.ec style) ---------- */
+.nf-trust {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 28px; max-width: 1200px; margin: 14px auto 0; padding: 10px 16px;
+  list-style: none; border-radius: 8px; background: #f3f5f7; color: #555; font-size: 13px;
+}
+.nf-trust li { display: inline-flex; align-items: center; gap: 8px; }
+.nf-trust svg { width: 18px; height: 18px; color: var(--nf-accent-dark, #3f8f2b); flex: none; }
+@media (max-width: 767px) { .nf-trust { margin: 10px 16px 0; gap: 6px 16px; font-size: 12px; } }
