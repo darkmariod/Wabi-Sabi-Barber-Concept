@@ -31,10 +31,36 @@ $brands = [
     'NOW Foods' => 'now-foods',
     'Mutant' => 'mutant',
     'Sascha Fitness' => 'sascha-fitness',
+    // 2026 catalog brands (logos from tools/catalog/brand_logos_2026.py)
+    'Allmax' => 'allmax',
+    'Beast Bites' => 'beast-bites',
+    'BioTechUSA' => 'biotechusa',
+    'BUM' => 'bum',
+    'Carnivor' => 'carnivor',
+    'Dorian Yates' => 'dorian-yates',
+    'Dragon Pharma' => 'dragon-pharma',
+    'Dymatize' => 'dymatize',
+    'EVL Nutrition' => 'evl-nutrition',
+    'FA Nutrition' => 'fa-nutrition',
+    'GAT Sport' => 'gat-sport',
+    'Ghost' => 'ghost',
+    'Insane Labz' => 'insane-labz',
+    'Integralmedica' => 'integralmedica',
+    'Kevin Levrone' => 'kevin-levrone',
+    'Maximum' => 'maximum',
+    'MuscleTech' => 'muscletech',
+    'Nutrex' => 'nutrex',
+    'ProSupps' => 'prosupps',
+    'Quest' => 'quest',
+    'RedCon1' => 'redcon1',
+    'Ronnie Coleman' => 'ronnie-coleman',
+    'Windmill' => 'windmill',
 ];
-// Demo placeholders created earlier: "ON" is Optimum Nutrition, the rest are not carried.
+// Brands that still carry the demo placeholder logo: replaced by the real one.
+$replaceDemoLogo = ['Dymatize', 'MuscleTech'];
+// Demo placeholders created earlier: "ON" is Optimum Nutrition; BSN and Universal are not carried.
 $renames = ['ON' => 'Optimum Nutrition'];
-$hide = ['BSN', 'Dymatize', 'MuscleTech', 'Universal'];
+$hide = ['BSN', 'Universal']; // Dymatize and MuscleTech are carried since the 2026 catalog
 
 function findManufacturer(string $name): int
 {
@@ -89,7 +115,8 @@ foreach ($brands as $name => $slug) {
 
     $target = _PS_MANU_IMG_DIR_ . $id . '.jpg';
     $source = LOGO_DIR . $slug . '.jpg';
-    if (!file_exists($target) && file_exists($source)) {
+    $stale = in_array($name, $replaceDemoLogo, true) && file_exists($target) && file_exists($source) && md5_file($target) !== md5_file($source);
+    if ((!file_exists($target) || $stale) && file_exists($source)) {
         copy($source, $target);
         foreach (ImageType::getImagesTypes('manufacturers') as $type) {
             ImageManager::resize($source, _PS_MANU_IMG_DIR_ . $id . '-' . $type['name'] . '.jpg', (int) $type['width'], (int) $type['height']);
