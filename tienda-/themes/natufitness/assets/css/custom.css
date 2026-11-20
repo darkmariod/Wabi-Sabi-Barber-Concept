@@ -653,3 +653,31 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 .nf-confirm__wa svg { width: 24px; height: 24px; }
 /* Hide "Se ha enviado un email..." (the shop does not send emails yet). */
 .nf-confirm__wa + p { display: none; }
+
+/* ---------- Mobile UX fixes from the device tests (iPhone 13 / Android 7) ---------- */
+@media (max-width: 767px) {
+  /* Header account and cart icons were 22x22: give them a 44x44 tap area. */
+  #header .nf-icon-link { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+}
+@media (max-width: 380px) {
+  /* Floating WhatsApp covered a card button on 360px screens. */
+  .nf-whatsapp { width: 46px; height: 46px; right: 10px; bottom: 12px; }
+  .nf-whatsapp svg { width: 24px; height: 24px; }
+}
+.nf-banks__btn--deuna { width: 44px; height: 44px; font-size: 10px; }
+.nf-banks__btn img { width: 44px; height: 44px; }
+/* Quantity selector: classic stacks +/- under the number on narrow screens; keep them beside it. */
+.product-quantity .qty .bootstrap-touchspin, .cart-line-product-actions .bootstrap-touchspin { display: inline-flex; flex-wrap: nowrap; align-items: stretch; width: auto; }
+.bootstrap-touchspin .input-group-btn-vertical { display: flex; flex-direction: column; width: auto; float: none; }
+.bootstrap-touchspin .input-group-btn-vertical > .btn.btn-touchspin { position: static; width: 34px; height: 24px; margin: 0; padding: 0; display: grid; place-items: center; }
+.bootstrap-touchspin input.form-control { width: 52px; height: 48px; text-align: center; font-size: 16px; }
+.bootstrap-touchspin .btn-touchspin .material-icons { position: static; top: auto; left: auto; transform: none; font-size: 20px; line-height: 1; }
+/* Product page: quantity + add to cart + wishlist must fit narrow phones. */
+.product-add-to-cart .product-quantity { display: flex; flex-wrap: nowrap; align-items: center; gap: 8px; }
+.product-add-to-cart .product-quantity .add { flex: 1 1 0; min-width: 0; margin: 0; }
+.product-add-to-cart .product-quantity .add .add-to-cart { width: 100%; padding-left: 10px; padding-right: 10px; white-space: normal; }
+.product-add-to-cart .product-quantity .qty, .product-add-to-cart .product-quantity .wishlist-button-add { flex: none; margin: 0; }
+@media (max-width: 480px) {
+  .product-add-to-cart .add-to-cart { height: auto; min-height: 48px; white-space: nowrap; font-size: 13px; }
+  .product-add-to-cart .add-to-cart .material-icons { display: none; }
+}

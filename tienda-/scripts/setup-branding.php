@@ -41,7 +41,7 @@ const LANG_TEXTS = [
 
 const REASSURANCE_ICON_DIR = '/modules/blockreassurance/views/img/reassurance/pack2/';
 const REASSURANCE_ITEMS = [
-    ['icon' => 'security.svg', 'title' => 'Pago seguro', 'description' => 'Tarjetas con Datafast, DeUna o transferencia'],
+    ['icon' => 'security.svg', 'title' => 'Pago seguro', 'description' => 'DeUna o transferencia bancaria'],
     ['icon' => 'carrier.svg', 'title' => 'Envío a todo Ecuador', 'description' => 'Gratis desde $35 · Retiro en Riobamba'],
     ['icon' => 'trust.svg', 'title' => 'Productos originales', 'description' => 'Distribuidores autorizados'],
 ];
