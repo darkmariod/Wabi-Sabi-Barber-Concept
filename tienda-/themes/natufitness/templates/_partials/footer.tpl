@@ -72,7 +72,9 @@
             <img src="{$urls.base_url}themes/natufitness/assets/img/pay/bank-{$nf_slug}.png" alt="{$nf_bank[0]}" width="40" height="40" loading="lazy">
           </button>
         {/foreach}
+        {if !empty($modules.nf_deuna.qr_ready)}
         <button type="button" class="nf-banks__btn nf-banks__btn--deuna js-nf-pay" data-nf-bank="DeUna" data-nf-bank-key="" data-nf-pay-qr aria-haspopup="dialog" title="Pagar con DeUna (QR)">QR<br>DeUna</button>
+        {/if}
       </div>
     </div>
 
@@ -106,10 +108,12 @@
       {/foreach}
     </ul>
   </div>
+{if !empty($nf_pay.qr_ready)}
   <div class="nf-pay__qr" data-nf-pay-section="qr">
     <p><b>O paga con DeUna</b> (Banco Pichincha): escanea el QR desde la app.</p>
     {if !empty($nf_pay.qr_url)}<img src="{$nf_pay.qr_url}" alt="Código QR de DeUna{if !empty($nf_pay.holder)} de {$nf_pay.holder}{/if}" width="200" height="200">{/if}
   </div>
+  {/if}
   <a class="nf-pay__wa" href="https://wa.me/{$nf_whatsapp_number}?text={'Hola NatuFitness, envío el comprobante de pago de mi pedido.'|escape:'url'}" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
 </dialog>
 

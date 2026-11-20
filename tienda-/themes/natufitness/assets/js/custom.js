@@ -216,7 +216,7 @@
       title.textContent = isQr ? 'Paga con DeUna' : 'Paga por transferencia · ' + bank;
       var matches = key ? lines.filter(function (li) { return li.textContent.toLowerCase().indexOf(key) !== -1; }) : [];
       lines.forEach(function (li) { li.classList.toggle('is-match', matches.indexOf(li) !== -1); });
-      if (isQr) { dialog.insertBefore(qr, transfer); } else { dialog.insertBefore(transfer, qr); }
+      if (qr) { if (isQr) { dialog.insertBefore(qr, transfer); } else { dialog.insertBefore(transfer, qr); } }
       dialog.showModal();
     });
     dialog.addEventListener('click', function (event) {

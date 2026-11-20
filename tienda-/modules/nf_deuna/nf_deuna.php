@@ -364,6 +364,16 @@ class Nf_Deuna extends PaymentModule
         return $number ?: self::DEFAULT_WHATSAPP;
     }
 
+    /**
+     * True once a real QR was uploaded in the module settings (not the example image).
+     */
+    public function hasRealQr(): bool
+    {
+        $file = basename((string) Configuration::get(self::CONFIG_QR_IMAGE));
+
+        return $file !== '' && is_file(_PS_IMG_DIR_ . self::UPLOAD_SUBDIR . '/' . $file);
+    }
+
     public function getQrUrl(): string
     {
         $file = basename((string) Configuration::get(self::CONFIG_QR_IMAGE));
@@ -410,6 +420,7 @@ class Nf_Deuna extends PaymentModule
 
         return [
             'whatsapp_number' => $this->getWhatsappNumber(),
+            'qr_ready' => $this->hasRealQr(),
             'qr_url' => $this->getQrUrl(),
             'holder' => (string) Configuration::get(self::CONFIG_HOLDER),
             'transfer_owner' => (string) Configuration::get('BANK_WIRE_OWNER'),
@@ -419,7 +430,8 @@ class Nf_Deuna extends PaymentModule
 
     public function hookPaymentOptions(array $params)
     {
-        if (!$this->active || !$this->checkCurrency($params['cart'])) {
+        // Hidden until the owner uploads the real DeUna QR: never ask customers to scan the example.
+        if (!$this->active || !$this->hasRealQr() || !$this->checkCurrency($params['cart'])) {
             return [];
         }
 
