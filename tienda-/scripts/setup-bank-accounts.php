@@ -15,9 +15,10 @@ $_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['HTTP_HOST'] = getenv('PS_DOMAIN') ?: 'localhost';
 require '/var/www/html/config/config.inc.php';
 
-// Account holder and ID: pending from the owner (needed by customers to transfer).
-const HOLDER = 'PENDIENTE: nombre del titular';
-const HOLDER_ID = 'PENDIENTE';
+// Account holder name and cédula/RUC: leave empty until the owner provides them; when
+// empty only the accounts are shown to customers.
+const HOLDER = '';
+const HOLDER_ID = '';
 
 const ACCOUNTS = [
     'Banco Pichincha - Cta. Ahorros 2204192064',
@@ -26,7 +27,7 @@ const ACCOUNTS = [
 ];
 
 Configuration::updateValue('BANK_WIRE_OWNER', HOLDER);
-Configuration::updateValue('BANK_WIRE_DETAILS', implode("\n", ACCOUNTS) . "\nCédula/RUC del titular: " . HOLDER_ID);
+Configuration::updateValue('BANK_WIRE_DETAILS', implode("\n", ACCOUNTS) . (HOLDER_ID !== '' ? "\nCédula/RUC del titular: " . HOLDER_ID : ''));
 Configuration::updateValue('BANK_WIRE_ADDRESS', 'Riobamba - Ecuador');
 Tools::clearSmartyCache();
 
