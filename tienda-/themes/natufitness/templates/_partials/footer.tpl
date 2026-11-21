@@ -64,11 +64,15 @@
     </div>
 
     <div class="nf-footer__banks">
-      <p>Bancos disponibles para transferencias</p>
+      <p>Bancos disponibles para transferencias <small>(toca un banco para ver la cuenta)</small></p>
       <div class="nf-banks">
-        {foreach from=['pacifico' => 'Banco del Pacífico', 'produbanco' => 'Produbanco', 'pichincha' => 'Banco Pichincha'] key='nf_slug' item='nf_bank'}
-          <img src="{$urls.base_url}themes/natufitness/assets/img/pay/bank-{$nf_slug}.png" alt="{$nf_bank}" title="{$nf_bank}" width="40" height="40" loading="lazy">
+        {* data-nf-bank-key: word searched in the transfer details (Módulos > Transferencia bancaria) to highlight that bank's account. *}
+        {foreach from=['pacifico' => ['Banco del Pacífico', 'Pac'], 'produbanco' => ['Produbanco', 'Produbanco'], 'pichincha' => ['Banco Pichincha', 'Pichincha']] key='nf_slug' item='nf_bank'}
+          <button type="button" class="nf-banks__btn js-nf-pay" data-nf-bank="{$nf_bank[0]}" data-nf-bank-key="{$nf_bank[1]}" aria-haspopup="dialog" title="Pagar por transferencia: {$nf_bank[0]}">
+            <img src="{$urls.base_url}themes/natufitness/assets/img/pay/bank-{$nf_slug}.png" alt="{$nf_bank[0]}" width="40" height="40" loading="lazy">
+          </button>
         {/foreach}
+        <button type="button" class="nf-banks__btn nf-banks__btn--deuna js-nf-pay" data-nf-bank="DeUna" data-nf-bank-key="" data-nf-pay-qr aria-haspopup="dialog" title="Pagar con DeUna (QR)">QR<br>DeUna</button>
       </div>
     </div>
 
@@ -87,6 +91,27 @@
     </div>
   </div>
 </div>
+
+{* Payment info dialog opened by the footer bank logos (assets/js/custom.js, initPayDialog). *}
+{assign var='nf_pay' value=$modules.nf_deuna|default:[]}
+<dialog class="nf-pay" id="nf-pay" aria-labelledby="nf-pay-title">
+  <form method="dialog" class="nf-pay__close-form"><button class="nf-pay__close" aria-label="Cerrar">×</button></form>
+  <h3 class="nf-pay__title" id="nf-pay-title">Paga por transferencia</h3>
+  <p class="nf-pay__intro">Haz tu pedido en la tienda, paga con estos datos y envíanos el comprobante por WhatsApp. Con eso reservamos tu pedido.</p>
+  <div class="nf-pay__transfer" data-nf-pay-section="transfer">
+    {if !empty($nf_pay.transfer_owner)}<p class="nf-pay__owner"><b>Titular:</b> {$nf_pay.transfer_owner}</p>{/if}
+    <ul class="nf-pay__accounts">
+      {foreach from=$nf_pay.transfer_lines|default:[] item='nf_line'}
+        <li data-nf-pay-line>{$nf_line}</li>
+      {/foreach}
+    </ul>
+  </div>
+  <div class="nf-pay__qr" data-nf-pay-section="qr">
+    <p><b>O paga con DeUna</b> (Banco Pichincha): escanea el QR desde la app.</p>
+    {if !empty($nf_pay.qr_url)}<img src="{$nf_pay.qr_url}" alt="Código QR de DeUna{if !empty($nf_pay.holder)} de {$nf_pay.holder}{/if}" width="200" height="200">{/if}
+  </div>
+  <a class="nf-pay__wa" href="https://wa.me/{$nf_whatsapp_number}?text={'Hola NatuFitness, envío el comprobante de pago de mi pedido.'|escape:'url'}" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
+</dialog>
 
 {block name='hook_footer_after'}
   {hook h='displayFooterAfter'}

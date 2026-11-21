@@ -621,3 +621,22 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 .nf-trust li { display: inline-flex; align-items: center; gap: 8px; }
 .nf-trust svg { width: 18px; height: 18px; color: var(--nf-accent-dark, #3f8f2b); flex: none; }
 @media (max-width: 767px) { .nf-trust { margin: 10px 16px 0; gap: 6px 16px; font-size: 12px; } }
+
+/* ---------- Footer bank logos open the payment dialog ---------- */
+.nf-footer__banks small { color: #777; }
+.nf-banks__btn { display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: 8px; background: transparent; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+.nf-banks__btn:hover, .nf-banks__btn:focus-visible { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, .18); outline: none; }
+.nf-banks__btn--deuna { width: 40px; height: 40px; background: #ffdd00; color: #1d2a6b; font-size: 9px; font-weight: 800; line-height: 1.1; }
+.nf-pay { width: min(440px, calc(100vw - 32px)); max-height: calc(100vh - 32px); padding: 22px; border: 0; border-radius: 14px; box-shadow: 0 20px 60px rgba(0, 0, 0, .3); color: var(--nf-text); }
+.nf-pay::backdrop { background: rgba(10, 20, 30, .55); }
+.nf-pay__close-form { position: absolute; top: 8px; right: 8px; margin: 0; }
+.nf-pay__close { width: 36px; height: 36px; border: 0; border-radius: 50%; background: #f1f3f5; font-size: 22px; line-height: 1; cursor: pointer; }
+.nf-pay__title { margin: 0 36px 8px 0; color: var(--nf-brand); font-family: var(--nf-font-display); font-size: 18px; }
+.nf-pay__intro { margin: 0 0 14px; font-size: 13px; color: #555; }
+.nf-pay__owner { margin: 0 0 6px; font-size: 14px; }
+.nf-pay__accounts { margin: 0 0 14px; padding: 0; list-style: none; }
+.nf-pay__accounts li { margin: 0 0 6px; padding: 8px 10px; border-radius: 8px; background: #f3f5f7; font-size: 14px; }
+.nf-pay__accounts li.is-match { background: #e9f6e2; outline: 2px solid var(--nf-accent); font-weight: 700; }
+.nf-pay__qr { margin: 0 0 14px; text-align: center; font-size: 13px; }
+.nf-pay__qr img { display: block; margin: 8px auto 0; width: 200px; height: 200px; object-fit: contain; }
+.nf-pay__wa { display: block; padding: 12px; border-radius: 999px; background: #25d366; color: #fff !important; text-align: center; font-weight: 700; }

@@ -194,6 +194,36 @@
     });
   }
 
+  /**
+   * Footer bank logos open the payment dialog (footer.tpl #nf-pay): the account lines that
+   * mention the clicked bank are highlighted (all lines show when none matches); the DeUna
+   * button puts the QR first.
+   */
+  function initPayDialog() {
+    var dialog = document.getElementById('nf-pay');
+    if (!dialog || typeof dialog.showModal !== 'function') { return; }
+    var title = dialog.querySelector('.nf-pay__title');
+    var lines = Array.prototype.slice.call(dialog.querySelectorAll('[data-nf-pay-line]'));
+    var transfer = dialog.querySelector('[data-nf-pay-section="transfer"]');
+    var qr = dialog.querySelector('[data-nf-pay-section="qr"]');
+
+    document.addEventListener('click', function (event) {
+      var button = event.target.closest('.js-nf-pay');
+      if (!button) { return; }
+      var bank = button.getAttribute('data-nf-bank');
+      var key = (button.getAttribute('data-nf-bank-key') || '').toLowerCase();
+      var isQr = button.hasAttribute('data-nf-pay-qr');
+      title.textContent = isQr ? 'Paga con DeUna' : 'Paga por transferencia · ' + bank;
+      var matches = key ? lines.filter(function (li) { return li.textContent.toLowerCase().indexOf(key) !== -1; }) : [];
+      lines.forEach(function (li) { li.classList.toggle('is-match', matches.indexOf(li) !== -1); });
+      if (isQr) { dialog.insertBefore(qr, transfer); } else { dialog.insertBefore(transfer, qr); }
+      dialog.showModal();
+    });
+    dialog.addEventListener('click', function (event) {
+      if (event.target === dialog) { dialog.close(); } // click on the backdrop
+    });
+  }
+
   function safely(fn) {
     try { fn(); } catch (error) { if (window.console) { console.warn('NatuFitness:', error); } }
   }
@@ -202,6 +232,7 @@
     safely(initCookieNotice);
     safely(initReveal);
     safely(initMegaMenu);
+    safely(initPayDialog);
     document.querySelectorAll('.js-nf-hero').forEach(function (hero) { safely(function () { initHero(hero); }); });
     document.querySelectorAll('.js-nf-carousel').forEach(function (carousel) { safely(function () { initProductCarousel(carousel); }); });
   }

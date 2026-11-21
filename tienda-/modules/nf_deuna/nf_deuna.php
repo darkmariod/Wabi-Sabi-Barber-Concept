@@ -400,9 +400,21 @@ class Nf_Deuna extends PaymentModule
      * Exposes the WhatsApp number to every front template as
      * {$modules.nf_deuna.whatsapp_number}.
      */
+    /**
+     * Storefront variables ($modules.nf_deuna.*): WhatsApp number, DeUna QR, and the bank
+     * transfer data of ps_wirepayment, so the footer bank logos can show how to pay.
+     */
     public function hookActionFrontControllerSetVariables(array $params)
     {
-        return ['whatsapp_number' => $this->getWhatsappNumber()];
+        $details = preg_split('/\R/', (string) Configuration::get('BANK_WIRE_DETAILS')) ?: [];
+
+        return [
+            'whatsapp_number' => $this->getWhatsappNumber(),
+            'qr_url' => $this->getQrUrl(),
+            'holder' => (string) Configuration::get(self::CONFIG_HOLDER),
+            'transfer_owner' => (string) Configuration::get('BANK_WIRE_OWNER'),
+            'transfer_lines' => array_values(array_filter(array_map('trim', $details), 'strlen')),
+        ];
     }
 
     public function hookPaymentOptions(array $params)
