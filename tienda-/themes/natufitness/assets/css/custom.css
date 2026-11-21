@@ -640,3 +640,16 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
 .nf-pay__qr { margin: 0 0 14px; text-align: center; font-size: 13px; }
 .nf-pay__qr img { display: block; margin: 8px auto 0; width: 200px; height: 200px; object-fit: contain; }
 .nf-pay__wa { display: block; padding: 12px; border-radius: 999px; background: #25d366; color: #fff !important; text-align: center; font-weight: 700; }
+
+/* ---------- Order confirmation: send the order by WhatsApp ---------- */
+.nf-confirm__title { display: flex; align-items: center; gap: 8px; color: var(--nf-brand); font-size: 22px; text-transform: none; }
+.nf-confirm__title .material-icons { color: #25d366; font-size: 30px; }
+.nf-confirm__text { margin: 6px 0 14px; font-size: 15px; }
+.nf-confirm__wa {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 420px; padding: 15px 20px;
+  border-radius: 999px; background: #25d366; color: #fff !important; font-size: 16px; font-weight: 800; box-shadow: 0 6px 18px rgba(37, 211, 102, .35);
+}
+.nf-confirm__wa:hover { background: #1ebe5b; text-decoration: none; }
+.nf-confirm__wa svg { width: 24px; height: 24px; }
+/* Hide "Se ha enviado un email..." (the shop does not send emails yet). */
+.nf-confirm__wa + p { display: none; }

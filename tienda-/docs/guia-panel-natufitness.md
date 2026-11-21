@@ -2,7 +2,7 @@
 
 Tu tienda: **https://natufitness.sevenbarber.app**
 
-Esta guía te explica, paso a paso, cómo manejar tu tienda en internet: cómo entrar, cómo poner tus precios, cómo subir y cambiar productos, cómo atender pedidos, cómo te llegan los avisos de venta por WhatsApp y cómo cambiar las secciones y las fotos de la página.
+Esta guía te explica, paso a paso, cómo manejar tu tienda en internet: cómo entrar, cómo poner tus precios, cómo subir y cambiar productos, cómo te enteras de una venta y la atiendes, y cómo cambiar las secciones y las fotos de la página.
 
 No necesitas saber de computación. Si algo no sale como dice aquí, toma una captura de pantalla y envíasela a Mario por WhatsApp.
 
@@ -156,30 +156,20 @@ Cada pedido muestra: número de pedido, fecha, nombre y teléfono del cliente, t
 
 El **teléfono es obligatorio** al comprar, así siempre tienes cómo contactar al cliente.
 
-### Avisos de venta por WhatsApp
+### Cómo te enteras de una venta
 
-No necesitas estar mirando el panel: **la tienda te escribe por WhatsApp**.
+Así de simple:
 
-| Cuándo | Qué te llega |
-| --- | --- |
-| **Entra un pedido nuevo** | 🛒 *Nuevo pedido*: productos, total, forma de pago, si retira en el local o la dirección de envío, y el nombre y teléfono del cliente con un enlace para escribirle directo |
-| **Tocas "Pago recibido"** (o el cliente paga con tarjeta) | ✅ *Pago confirmado, listo para despachar*, con los mismos datos |
+1. **Llega la compra.** Al terminar, el cliente ve el botón verde **"Enviar mi pedido por WhatsApp"**. Con un toque te llega a tu WhatsApp el pedido completo: número de pedido, productos, total, forma de pago, si retira o la dirección de envío, nombre y teléfono. El pedido también queda en **Mi Tienda → Pedidos**.
+2. **Revisas el pago.** El cliente te manda el comprobante; confirma en tu banco o en tu app DeUna que el dinero llegó.
+3. **Entregas.** Toca **Pago recibido**, prepara el paquete y despacha (pasos abajo).
 
-Cada aviso llega **una sola vez** por pedido.
-
-**Activarlo (una sola vez, desde tu celular):**
-
-1. Abre **callmebot.com/blog/free-api-whatsapp-messages** y guarda en tus contactos el número de CallMeBot que aparece ahí.
-2. Desde tu WhatsApp, envíale este mensaje exacto: **I allow callmebot to send me messages**
-3. Te responde con un mensaje que trae tu **API key** (un número). Reenvíale ese mensaje a Mario.
-4. Mario lo activa y te manda un mensaje de prueba. Si te llega, ya está.
-
-> CallMeBot es un servicio gratuito. Si algún día un aviso no llega, el pedido igual está en **Pedidos**: revisa ahí de vez en cuando.
+> Revisa **Pedidos** una vez al día: si algún cliente no tocó el botón de WhatsApp, su pedido igual está ahí con su teléfono.
 
 ### Cómo atender un pedido, paso a paso
 
 1. **Espera el comprobante.** Si el cliente pagó con transferencia o con DeUna, te manda la foto del comprobante por WhatsApp. Revisa en tu banco que el dinero llegó.
-2. Toca **Pago recibido**. Te llega el aviso *Pago confirmado, listo para despachar*.
+2. Toca **Pago recibido**.
 3. Prepara el paquete.
 4. Cuando lo despachas, toca **Enviado**. Si el cliente lo retira en el local, el botón dice **Listo para retirar**.
 5. Cuando el cliente ya lo tiene, toca **Entregado**.
@@ -274,9 +264,6 @@ Esto queda aquí como referencia. El dueño no necesita hacerlo.
 **Crear una subsección**
 Igual que crear una sección, pero en **Categoría padre** elegir la sección grande (ej.: *Quemadores*). Aparece sola dentro de **Nuestros productos**. Para reordenar productos en bloque, ver `scripts/setup-subcategories.php`.
 
-**Avisos de venta por WhatsApp**
-**Módulos → Gestor de módulos** → buscar **Alertas de venta por WhatsApp** → **Configurar** → pegar la **API key** que te reenvía el dueño → **Guardar** → **Enviar prueba**. Ahí también se puede apagar o cambiar el número que recibe los avisos.
-
 **Redes sociales y bancos del pie de página**
 Las redes se cambian en `themes/natufitness/templates/_partials/nf-config.tpl` y los bancos en `themes/natufitness/templates/_partials/footer.tpl`.
 
@@ -311,8 +298,8 @@ Son precios de prueba para poder hacer compras de ensayo. Cámbialos por los rea
 **Hice una compra de prueba, ¿qué hago con ese pedido?**
 Ábrelo en **Pedidos** y tócale **Cancelar**. El stock vuelve solo.
 
-**No me llegó el aviso de WhatsApp de un pedido.**
-El pedido igual está en **Pedidos**. Avísale a Mario para que revise los avisos.
+**Un cliente compró pero no me escribió por WhatsApp.**
+Su pedido está en **Pedidos** con su teléfono: escríbele tú con el botón **WhatsApp** del pedido.
 
 **¿Qué pasa si toco un botón por error en un pedido?**
 Escríbele a Mario con el número de pedido y él lo corrige.
