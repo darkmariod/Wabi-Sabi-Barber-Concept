@@ -17,6 +17,16 @@ require_once __DIR__ . '/classes/NfPanelOrderService.php';
 class Nf_Panel extends Module
 {
     const TAB_CLASS = 'AdminNfPanel';
+    /** Core admin sections the "Dueño" profile may open, besides Mi Tienda. */
+    const OWNER_CORE_TABS = [
+        'SELL' => ['view'],
+        'AdminParentOrders' => ['view'],
+        'AdminOrders' => ['view'],
+        'AdminParentCustomer' => ['view'],
+        'AdminCustomers' => ['view'],
+        'AdminParentCustomerThreads' => ['view'],
+        'AdminCustomerThreads' => ['view', 'edit'],
+    ];
     const TAB_ICON = 'storefront';
     const TAB_NAME = 'Mi Tienda';
     const PROFILE_NAME = 'Dueño';
@@ -75,7 +85,9 @@ class Nf_Panel extends Module
         $tab = new Tab($tabId ?: null);
         $tab->class_name = self::TAB_CLASS;
         $tab->module = 'nf_panel';
-        $tab->id_parent = 0;
+        // First link of the "Vender" section, so it shows in every profile's side menu.
+        $sellId = (int) Tab::getIdFromClassName('SELL');
+        $tab->id_parent = $sellId;
         $tab->icon = self::TAB_ICON;
         $tab->active = true;
         $tab->enabled = true;
@@ -86,11 +98,11 @@ class Nf_Panel extends Module
             return 0;
         }
 
-        // Place the tab first among the top-level entries (before the dashboard).
+        // Place it first among its siblings.
         $db = Db::getInstance();
         $position = (int) $db->getValue('SELECT position FROM `' . _DB_PREFIX_ . 'tab` WHERE id_tab = ' . (int) $tab->id);
         if ($position !== 0) {
-            $db->execute('UPDATE `' . _DB_PREFIX_ . 'tab` SET position = position + 1 WHERE id_parent = 0 AND id_tab <> ' . (int) $tab->id . ' AND position < ' . $position);
+            $db->execute('UPDATE `' . _DB_PREFIX_ . 'tab` SET position = position + 1 WHERE id_parent = ' . $sellId . ' AND id_tab <> ' . (int) $tab->id . ' AND position < ' . $position);
             $db->execute('UPDATE `' . _DB_PREFIX_ . 'tab` SET position = 0 WHERE id_tab = ' . (int) $tab->id);
         }
 
@@ -123,10 +135,20 @@ class Nf_Panel extends Module
         }
         Configuration::updateGlobalValue(self::CONFIG_PROFILE_ID, $profileId);
 
-        // Grant CRUD on the Mi Tienda tab only (roles are created by Tab::add()).
+        // Grant CRUD on the Mi Tienda tab (roles are created by Tab::add()).
         $access = new Access();
         foreach (['view', 'add', 'edit', 'delete'] as $action) {
             $access->updateLgcAccess($profileId, $tabId, $action, true, false);
+        }
+        // Plus the few core sections the owner uses (everything else stays hidden for him):
+        // orders and customers read-only, customer messages readable and answerable.
+        foreach (self::OWNER_CORE_TABS as $className => $actions) {
+            $coreTabId = (int) Tab::getIdFromClassName($className);
+            foreach ($actions as $action) {
+                if ($coreTabId) {
+                    $access->updateLgcAccess($profileId, $coreTabId, $action, true, false);
+                }
+            }
         }
 
         Db::getInstance()->execute(
