@@ -1,6 +1,7 @@
 <?php
 /**
- * "Mi Tienda" back-office page: products (list + single form) and orders (cards + state buttons).
+ * "Mi Tienda" back-office page: catalog (product list + form), orders (cards + state buttons)
+ * and home page (banners + home promotions).
  */
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -8,7 +9,7 @@ if (!defined('_PS_VERSION_')) {
 
 class AdminNfPanelController extends ModuleAdminController
 {
-    const SECTIONS = ['products', 'orders'];
+    const SECTIONS = ['products', 'orders', 'home'];
     const MESSAGES = [
         'saved' => 'Producto guardado.',
         'hidden' => 'El producto ya no se muestra en la tienda.',
@@ -16,6 +17,10 @@ class AdminNfPanelController extends ModuleAdminController
         'deleted' => 'Producto eliminado.',
         'order' => 'Pedido actualizado.',
         'order_nomail' => 'Pedido actualizado, pero no se pudo enviar el correo al cliente. Avísale por WhatsApp.',
+        'banner_added' => 'Banner agregado a la portada.',
+        'banner_updated' => 'Banner actualizado.',
+        'banner_deleted' => 'Banner eliminado.',
+        'promo_removed' => 'El producto ya no sale en Promociones de la portada.',
     ];
 
     public function __construct()
@@ -74,6 +79,12 @@ class AdminNfPanelController extends ModuleAdminController
                 return $this->processProductAction('delete');
             case 'order_state':
                 return $this->processOrderState();
+            case 'add_banner':
+            case 'toggle_banner':
+            case 'move_banner':
+            case 'delete_banner':
+            case 'remove_promo':
+                return $this->processHome($action);
         }
 
         return false;
@@ -146,6 +157,48 @@ class AdminNfPanelController extends ModuleAdminController
         ]);
     }
 
+    private function processHome(string $action)
+    {
+        $this->requirePermission(in_array($action, ['delete_banner'], true) ? 'delete' : 'edit');
+        if ($this->errors) {
+            return false;
+        }
+        $service = new NfPanelHomeService($this->context);
+        $id = (int) Tools::getValue('id');
+        switch ($action) {
+            case 'add_banner':
+                $errors = [];
+                if (!$service->addBanner($_FILES['banner'] ?? null, (string) Tools::getValue('title'), (string) Tools::getValue('url'), $errors)) {
+                    $this->errors = array_merge($this->errors, $errors);
+
+                    return false;
+                }
+                $this->redirectToPanel(['section' => 'home', 'msg' => 'banner_added']);
+                // no break: redirect exits
+            case 'toggle_banner':
+                $ok = $service->toggleBanner($id);
+                $msg = 'banner_updated';
+                break;
+            case 'move_banner':
+                $ok = $service->moveBanner($id, (int) Tools::getValue('direction'));
+                $msg = 'banner_updated';
+                break;
+            case 'delete_banner':
+                $ok = $service->deleteBanner($id);
+                $msg = 'banner_deleted';
+                break;
+            default: // remove_promo
+                $ok = $service->removeFromHome($id);
+                $msg = 'promo_removed';
+        }
+        if (!$ok) {
+            $this->errors[] = $this->trans('No se pudo hacer el cambio. Recarga la página e inténtalo de nuevo.', [], 'Modules.Nfpanel.Admin');
+
+            return false;
+        }
+        $this->redirectToPanel(['section' => 'home', 'msg' => $msg]);
+    }
+
     private function requirePermission(string $legacyAction): void
     {
         if (!$this->access($legacyAction)) {
@@ -189,6 +242,8 @@ class AdminNfPanelController extends ModuleAdminController
 
         if ($section === 'orders') {
             $body = $this->renderOrders();
+        } elseif ($section === 'home') {
+            $body = $this->renderHome();
         } elseif (Tools::getIsset('edit') || ($this->errors && Tools::getValue('nf_action') === 'save_product')) {
             $body = $this->renderProductForm();
         } else {
@@ -289,6 +344,18 @@ class AdminNfPanelController extends ModuleAdminController
         ]);
 
         return $this->context->smarty->fetch($this->nfTemplate('orders.tpl'));
+    }
+
+    private function renderHome(): string
+    {
+        $service = new NfPanelHomeService($this->context);
+        $this->context->smarty->assign([
+            'nf_banners' => $service->listBanners(),
+            'nf_promos' => $service->listHomePromos(),
+            'nf_max_banner_mb' => (int) (NfPanelHomeService::MAX_BANNER_BYTES / 1048576),
+        ]);
+
+        return $this->context->smarty->fetch($this->nfTemplate('home.tpl'));
     }
 
     private function nativeProductUrl(int $idProduct): string

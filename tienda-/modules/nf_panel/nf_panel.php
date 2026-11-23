@@ -13,6 +13,7 @@ if (!defined('_PS_VERSION_')) {
 
 require_once __DIR__ . '/classes/NfPanelProductService.php';
 require_once __DIR__ . '/classes/NfPanelOrderService.php';
+require_once __DIR__ . '/classes/NfPanelHomeService.php';
 
 class Nf_Panel extends Module
 {
