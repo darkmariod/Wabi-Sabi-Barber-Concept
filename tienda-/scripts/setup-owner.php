@@ -7,7 +7,8 @@
  *
  * Create or update the owner's employee (profile Dueño, landing page Mi Tienda):
  *   --email=... --firstname=... --lastname=... --password=...
- *   (--password is required to create the employee; when updating it is optional.)
+ *   (--password is required to create the employee; when updating it is optional.
+ *    Use --password=- to type it hidden in the terminal.)
  *
  * Remove demo/test orders and customers (local cleanup, only with the explicit flag):
  *   --purge-demo-orders [--dry-run]
@@ -108,6 +109,14 @@ if ($employeeArgs) {
     $firstname = trim((string) ($options['firstname'] ?? ''));
     $lastname = trim((string) ($options['lastname'] ?? ''));
     $password = (string) ($options['password'] ?? '');
+    if ($password === '-') {
+        // --password=- : type it hidden in the terminal (not in shell history or chat).
+        echo 'Contraseña del dueño (mínimo 8 caracteres, no se verá): ';
+        system('stty -echo 2>/dev/null');
+        $password = trim((string) fgets(STDIN));
+        system('stty echo 2>/dev/null');
+        echo PHP_EOL;
+    }
 
     if (!Validate::isEmail($email)) {
         fail('--email is missing or invalid');

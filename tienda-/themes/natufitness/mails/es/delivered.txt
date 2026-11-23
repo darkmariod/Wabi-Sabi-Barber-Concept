@@ -1,0 +1,9 @@
+¡Tu pedido fue entregado!
+
+Hola {firstname} {lastname}:
+
+Tu pedido {order_name} ya fue entregado. Gracias por comprar en {shop_name}.
+
+Si tienes algún problema con tu producto o necesitas una devolución, respóndenos por WhatsApp o en nuestro local y te ayudamos.
+
+{shop_url}

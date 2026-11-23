@@ -41,7 +41,10 @@ class NfPanelProductService
     public function listProducts(string $search, int $page): array
     {
         $db = Db::getInstance();
-        $where = 'WHERE p.state = ' . (int) Product::STATE_SAVED;
+        $where = 'WHERE p.state = ' . (int) Product::STATE_SAVED
+            // The old Canva import (CANVA-*) was replaced by the 2026 catalog and kept hidden:
+            // listing it would show the owner every product twice.
+            . ' AND p.reference NOT LIKE "CANVA-%"';
         if ($search !== '') {
             $like = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $search);
             $where .= ' AND pl.name LIKE "%' . pSQL($like) . '%"';

@@ -1,0 +1,17 @@
+Nuevo pedido {order_name}
+
+Cliente: {firstname} {lastname} ({email})
+Fecha: {date}
+Pago: {payment}
+Entrega: {carrier}
+
+Qué hacer: revisa en tu banco que llegó el pago, toca "Pago recibido" en Mi Tienda > Pedidos y despacha.
+
+Productos: {total_products}
+Descuentos: {total_discounts}
+Envío: {total_shipping}
+Total pagado: {total_paid}
+
+Mensaje del cliente: {message}
+
+{shop_name}

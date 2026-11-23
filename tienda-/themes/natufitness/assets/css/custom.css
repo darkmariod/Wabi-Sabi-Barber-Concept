@@ -681,3 +681,15 @@ h1, h2, .nf-section-title, .nf-hero__title { font-weight: 800; }
   .product-add-to-cart .add-to-cart { height: auto; min-height: 48px; white-space: nowrap; font-size: 13px; }
   .product-add-to-cart .add-to-cart .material-icons { display: none; }
 }
+
+/* ---------- Add-to-cart modal on short phones (Android 360x640) ---------- */
+body.modal-open .nf-whatsapp { display: none; } /* never cover the modal buttons */
+@media (max-width: 575px), (max-height: 700px) {
+  #blockcart-modal .modal-dialog { margin: 8px; }
+  #blockcart-modal .modal-header { padding: 10px 14px; }
+  #blockcart-modal .modal-body { padding: 10px 14px; }
+  #blockcart-modal .modal-body .product-image { max-width: 110px; margin: 0 auto 6px; display: block; }
+  #blockcart-modal .modal-body p, #blockcart-modal .modal-body .cart-content p { margin-bottom: 4px; }
+  #blockcart-modal .cart-content-btn { display: flex; gap: 8px; }
+  #blockcart-modal .cart-content-btn .btn { flex: 1; margin: 0; padding: 10px 8px; }
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nuevo pedido</title></head>
+<body style="margin:0;padding:0;background:#f3f5f7;font-family:Arial,Helvetica,sans-serif;color:#222;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f5f7;padding:24px 12px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;">
+        <tr><td style="background:#17507d;padding:18px 24px;color:#ffffff;font-size:20px;font-weight:bold;">🛒 Nuevo pedido {order_name}</td></tr>
+        <tr><td style="padding:22px 24px 6px;">
+          <p style="margin:0 0 6px;font-size:15px;"><b>{firstname} {lastname}</b> · {email}</p>
+          <p style="margin:0 0 6px;font-size:15px;">Fecha: {date}</p>
+          <p style="margin:0 0 6px;font-size:15px;">Pago: <b>{payment}</b></p>
+          <p style="margin:0 0 14px;font-size:15px;">Entrega: <b>{carrier}</b></p>
+          <p style="margin:0 0 14px;padding:12px 14px;border-radius:8px;background:#e9f6e2;font-size:14px;line-height:1.5;">
+            <b>Qué hacer:</b> revisa en tu banco que llegó el pago, toca <b>Pago recibido</b> en Mi Tienda &gt; Pedidos y despacha.
+          </p>
+        </td></tr>
+        <tr><td style="padding:0 24px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;border-collapse:collapse;">
+            <tr style="background:#eef3f7;color:#17507d;"><th align="left" style="padding:8px;">Ref.</th><th align="left" style="padding:8px;">Producto</th><th align="right" style="padding:8px;">Precio</th><th align="center" style="padding:8px;">Cant.</th><th align="right" style="padding:8px;">Total</th></tr>
+            {items}
+          </table>
+        </td></tr>
+        <tr><td style="padding:12px 24px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;">
+            <tr><td>Productos</td><td align="right">{total_products}</td></tr>
+            <tr><td>Descuentos</td><td align="right">{total_discounts}</td></tr>
+            <tr><td>Envío</td><td align="right">{total_shipping}</td></tr>
+            <tr><td><b>Total pagado</b></td><td align="right"><b>{total_paid}</b></td></tr>
+          </table>
+        </td></tr>
+        <tr><td style="padding:6px 24px 18px;font-size:14px;line-height:1.5;">
+          <p style="margin:0 0 6px;font-weight:bold;color:#17507d;">Dirección de entrega</p>
+          <p style="margin:0 0 12px;">{delivery_block_html}</p>
+          <p style="margin:0 0 6px;font-weight:bold;color:#17507d;">Mensaje del cliente</p>
+          <p style="margin:0;">{message}</p>
+        </td></tr>
+        <tr><td style="padding:14px 24px;background:#f8f9fa;color:#888;font-size:12px;">{shop_name} · aviso automático de nueva venta</td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

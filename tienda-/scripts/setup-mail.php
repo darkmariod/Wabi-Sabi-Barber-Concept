@@ -73,8 +73,10 @@ $settings = [
     'PS_MAIL_PASSWD' => $password,
     'PS_MAIL_DOMAIN' => '',
     'PS_SHOP_EMAIL' => $gmail,
-    // ps_emailalerts: email the owner on every new order.
+    // ps_emailalerts: email the owner on every new order (MA_MERCHANT_ORDER_EMAILS is the
+    // new-order recipient list; MA_MERCHANT_MAILS is only for stock alerts).
     'MA_MERCHANT_ORDER' => 1,
+    'MA_MERCHANT_ORDER_EMAILS' => $gmail,
     'MA_MERCHANT_MAILS' => $gmail,
 ];
 foreach ($settings as $key => $value) {

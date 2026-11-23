@@ -25,6 +25,7 @@ class NfPanelOrderService
         'shipped' => 'PS_OS_SHIPPING',
         'delivered' => 'PS_OS_DELIVERED',
         'cancel' => 'PS_OS_CANCELED',
+        'refund' => 'PS_OS_REFUND',
     ];
 
     /** @var Context */
@@ -60,7 +61,8 @@ class NfPanelOrderService
                 $where = '1';
                 break;
             default:
-                $where = 'o.current_state NOT IN (' . $delivered . ', ' . $cancelled . ')';
+                $refunded = (int) Configuration::get('PS_OS_REFUND');
+                $where = 'o.current_state NOT IN (' . $delivered . ', ' . $cancelled . ', ' . $refunded . ')';
         }
         $where .= Shop::addSqlRestriction(false, 'o');
 
@@ -156,7 +158,10 @@ class NfPanelOrderService
         $is = function (string $config) use ($state): bool {
             return $state === (int) Configuration::get($config);
         };
-        if ($is('PS_OS_DELIVERED') || $is('PS_OS_CANCELED') || $is('PS_OS_REFUND')) {
+        if ($is('PS_OS_DELIVERED')) {
+            return ['refund']; // customer returned the product: the refund email tells them
+        }
+        if ($is('PS_OS_CANCELED') || $is('PS_OS_REFUND')) {
             return [];
         }
         $pickup = $this->isPickup($order);

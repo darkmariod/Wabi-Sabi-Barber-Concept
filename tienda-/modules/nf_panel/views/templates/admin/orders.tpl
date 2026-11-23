@@ -57,7 +57,7 @@
 
         <footer class="nfp-order__actions">
           {foreach $o.actions as $action}
-            <form method="post" action="{$nf_base_url|escape:'html':'UTF-8'}&amp;section=orders&amp;filter={$nf_filter|escape:'url'}"{if $action == 'cancel'} data-nfp-confirm="{l s='¿Cancelar el pedido %ref%? Los productos vuelven al stock.' sprintf=['%ref%' => $o.reference] d='Modules.Nfpanel.Admin'}"{/if}>
+            <form method="post" action="{$nf_base_url|escape:'html':'UTF-8'}&amp;section=orders&amp;filter={$nf_filter|escape:'url'}"{if $action == 'cancel'} data-nfp-confirm="{l s='¿Cancelar el pedido %ref%? Los productos vuelven al stock.' sprintf=['%ref%' => $o.reference] d='Modules.Nfpanel.Admin'}"{elseif $action == 'refund'} data-nfp-confirm="{l s='¿Registrar la devolución del pedido %ref%? Se le avisa al cliente por correo.' sprintf=['%ref%' => $o.reference] d='Modules.Nfpanel.Admin'}"{/if}>
               <input type="hidden" name="token" value="{$nf_token|escape:'html':'UTF-8'}">
               <input type="hidden" name="nf_action" value="order_state">
               <input type="hidden" name="id_order" value="{$o.id|intval}">
@@ -74,6 +74,8 @@
                 <button class="nfp-btn nfp-btn--primary" type="submit"><i class="material-icons" aria-hidden="true">done_all</i>{l s='Entregado' d='Modules.Nfpanel.Admin'}</button>
               {elseif $action == 'cancel'}
                 <button class="nfp-btn nfp-btn--danger" type="submit"><i class="material-icons" aria-hidden="true">close</i>{l s='Cancelar' d='Modules.Nfpanel.Admin'}</button>
+              {elseif $action == 'refund'}
+                <button class="nfp-btn nfp-btn--danger" type="submit"><i class="material-icons" aria-hidden="true">undo</i>{l s='Devolución' d='Modules.Nfpanel.Admin'}</button>
               {/if}
             </form>
           {/foreach}
