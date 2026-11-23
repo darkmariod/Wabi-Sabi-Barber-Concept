@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:700,800,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap");
 /* NatuFitness child theme: loaded after classic theme.css. */
 :root {
   --nf-brand: #17507d;
@@ -8,7 +8,8 @@
   --nf-gray-bg: #e6e6e6;
   --nf-text: #222;
   --nf-muted: #888;
-  --nf-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* Montserrat for all text (like syf.ec); system fonts only as fallback while it loads. */
+  --nf-font: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   --nf-font-display: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
@@ -693,3 +694,7 @@ body.modal-open .nf-whatsapp { display: none; } /* never cover the modal buttons
   #blockcart-modal .cart-content-btn { display: flex; gap: 8px; }
   #blockcart-modal .cart-content-btn .btn { flex: 1; margin: 0; padding: 10px 8px; }
 }
+
+/* Category header: classic reserves 220px for a category image we do not use. */
+.block-category { min-height: 0; margin-bottom: 12px; padding-bottom: 8px; }
+.block-category .block-category-inner:empty { display: none; }
