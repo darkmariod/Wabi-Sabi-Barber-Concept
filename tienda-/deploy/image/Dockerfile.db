@@ -1,0 +1,5 @@
+# NatuFitness database image: MySQL 8.0 that loads the store (products, catalogs, pages,
+# settings, accounts) the first time its data volume is created.
+FROM mysql:8.0
+COPY --chmod=644 db.sql.gz /docker-entrypoint-initdb.d/10-natufitness.sql.gz
+CMD ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]

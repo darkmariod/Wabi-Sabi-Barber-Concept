@@ -1,0 +1,25 @@
+# NatuFitness store image: PrestaShop with the full shop files (theme, modules, product
+# photos, settings) baked in. The database comes from the natufitness-db image.
+# Built by deploy/build-images.sh from a copy of the live server; do not push it to a
+# public registry (it contains the shop's secret keys).
+FROM prestashop/prestashop:8.2-apache
+
+ENV PS_INSTALL_AUTO=0 \
+    PS_ERASE_DB=0 \
+    PS_INSTALL_DB=0 \
+    PS_DEV_MODE=0 \
+    PS_FOLDER_ADMIN=admin-nf \
+    PS_FOLDER_INSTALL=install-done
+
+# The base image ships a fresh PrestaShop (with install/ and admin/); replace it entirely
+# with the shop files exported from the live server (ownership www-data kept from the archive).
+RUN find /var/www/html -mindepth 1 -delete
+ADD html.tar.gz /var/www/html/
+# Maintenance scripts (change-domain.php, setup-owner.php, setup-mail.php, ...).
+COPY scripts/ /opt/natufitness/scripts/
+# Runs on every start, before Apache (see /tmp/docker_run.sh in the base image).
+COPY --chmod=755 init-natufitness.sh /tmp/init-scripts/10-natufitness.sh
+
+RUN rm -rf /var/www/html/var/cache/* /var/www/html/var/logs/* \
+ && mkdir -p /var/www/html/var/cache /var/www/html/var/logs \
+ && chown -R www-data:www-data /var/www/html/var

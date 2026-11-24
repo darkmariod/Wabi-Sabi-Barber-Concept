@@ -1,0 +1,71 @@
+# NatuFitness store, ready to run from its two images:
+#   natufitness-web  PrestaShop with the shop files (theme, modules, photos, settings)
+#   natufitness-db   MySQL with the store database (products, catalogs, accounts)
+#
+#   cp .env.example .env    # then fill it in
+#   docker compose up -d                    # store on http://SERVER:PS_PORT
+#   docker compose --profile https up -d    # + Caddy with automatic HTTPS for PS_DOMAIN
+#
+# The first start copies the store into the volumes; later changes (orders, new products,
+# photos) live in the volumes db_data and ps_data, not in the images.
+name: natufitness
+
+services:
+  db:
+    image: natufitness-db:${NF_VERSION:-1.0}
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD in .env}
+      MYSQL_DATABASE: ${DB_NAME:-prestashop}
+      MYSQL_USER: ${DB_USER:?set DB_USER in .env}
+      MYSQL_PASSWORD: ${DB_PASSWD:?set DB_PASSWD in .env}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+      start_period: 60s
+
+  prestashop:
+    image: natufitness-web:${NF_VERSION:-1.0}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "${PS_BIND:-0.0.0.0}:${PS_PORT:-8080}:80"
+    environment:
+      DB_SERVER: db
+      DB_NAME: ${DB_NAME:-prestashop}
+      DB_USER: ${DB_USER}
+      DB_PASSWD: ${DB_PASSWD}
+      DB_PREFIX: ps_
+      PS_DOMAIN: ${PS_DOMAIN:?set PS_DOMAIN in .env}
+      PS_SSL: ${PS_SSL:-1}
+    volumes:
+      - ps_data:/var/www/html
+
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["https"]
+    restart: unless-stopped
+    depends_on:
+      - prestashop
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      PS_DOMAIN: ${PS_DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  db_data:
+  ps_data:
+  caddy_data:
+  caddy_config:
