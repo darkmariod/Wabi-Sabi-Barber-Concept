@@ -95,6 +95,15 @@ $hadTab = (int) Tab::getIdFromClassName(Nf_Panel::TAB_CLASS);
 $hadProfile = Nf_Panel::findOwnerProfileId();
 $tabId = Nf_Panel::ensureTab();
 $profileId = Nf_Panel::ensureOwnerProfile();
+// Promo cards (Mi Tienda > Portada) on existing installs: table + storefront hook.
+NfPanelPromoCardService::ensureTable();
+$nfPanel = Module::getInstanceByName('nf_panel');
+foreach (['actionFrontControllerSetVariables', 'displayBackOfficeHeader'] as $hookName) {
+    if ($nfPanel && !$nfPanel->isRegisteredInHook($hookName)) {
+        $nfPanel->registerHook($hookName);
+        out("Registered hook {$hookName}");
+    }
+}
 if (!$tabId || !$profileId) {
     fail('Could not create the Mi Tienda tab or the Dueño profile');
 }

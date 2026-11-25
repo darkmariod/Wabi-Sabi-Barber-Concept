@@ -14,6 +14,8 @@ if (!defined('_PS_VERSION_')) {
 require_once __DIR__ . '/classes/NfPanelProductService.php';
 require_once __DIR__ . '/classes/NfPanelOrderService.php';
 require_once __DIR__ . '/classes/NfPanelHomeService.php';
+require_once __DIR__ . '/classes/NfPanelPromoCardService.php';
+require_once __DIR__ . '/classes/NfPanelCategoryService.php';
 
 class Nf_Panel extends Module
 {
@@ -25,9 +27,9 @@ class Nf_Panel extends Module
         'AdminOrders' => ['view'],
         'AdminParentCustomer' => ['view'],
         'AdminCustomers' => ['view'],
-        'AdminParentCustomerThreads' => ['view'],
-        'AdminCustomerThreads' => ['view', 'edit'],
     ];
+    /** Sections taken away from the owner later (revoked on setup-owner runs). */
+    const OWNER_REVOKED_TABS = ['AdminParentCustomerThreads', 'AdminCustomerThreads'];
     const TAB_ICON = 'storefront';
     const TAB_NAME = 'Mi Tienda';
     const PROFILE_NAME = 'Dueño';
@@ -57,7 +59,10 @@ class Nf_Panel extends Module
     {
         return parent::install()
             && self::ensureTab() > 0
-            && self::ensureOwnerProfile() > 0;
+            && self::ensureOwnerProfile() > 0
+            && NfPanelPromoCardService::ensureTable()
+            && $this->registerHook('actionFrontControllerSetVariables')
+            && $this->registerHook('displayBackOfficeHeader');
     }
 
     public function uninstall()
@@ -142,7 +147,21 @@ class Nf_Panel extends Module
             $access->updateLgcAccess($profileId, $tabId, $action, true, false);
         }
         // Plus the few core sections the owner uses (everything else stays hidden for him):
-        // orders and customers read-only, customer messages readable and answerable.
+        // orders and customers, read-only.
+        // Module "view" right: without it PrestaShop skips this module's back-office hooks for
+        // the owner (the clean-header style in hookDisplayBackOfficeHeader). Adds no menu entry.
+        $moduleId = (int) Module::getModuleIdByName('nf_panel');
+        if ($moduleId) {
+            $access->updateLgcModuleAccess($profileId, $moduleId, 'view', true);
+        }
+        foreach (self::OWNER_REVOKED_TABS as $className) {
+            $revokedTabId = (int) Tab::getIdFromClassName($className);
+            foreach (['view', 'add', 'edit', 'delete'] as $action) {
+                if ($revokedTabId) {
+                    $access->updateLgcAccess($profileId, $revokedTabId, $action, false, false);
+                }
+            }
+        }
         foreach (self::OWNER_CORE_TABS as $className => $actions) {
             $coreTabId = (int) Tab::getIdFromClassName($className);
             foreach ($actions as $action) {
@@ -169,5 +188,33 @@ class Nf_Panel extends Module
         return (int) Db::getInstance()->getValue(
             'SELECT id_profile FROM `' . _DB_PREFIX_ . 'profile_lang` WHERE name = "' . pSQL(self::PROFILE_NAME) . '" ORDER BY id_profile'
         );
+    }
+
+    /**
+     * Storefront variables ($modules.nf_panel.*): the active promo cards for the home page.
+     */
+    public function hookActionFrontControllerSetVariables(array $params)
+    {
+        try {
+            $cards = (new NfPanelPromoCardService($this->context, false))->listCards(true);
+        } catch (Throwable $e) {
+            $cards = []; // table not created yet
+        }
+
+        return ['promo_cards' => $cards];
+    }
+
+    /**
+     * Owner profile only: hide the PrestaShop logo and version, "Acceso rápido" and the
+     * "Ayuda" button, so the owner sees a clean Mi Tienda. Admins keep the full header.
+     */
+    public function hookDisplayBackOfficeHeader(array $params)
+    {
+        $employee = $this->context->employee;
+        if (!$employee || (int) $employee->id_profile !== self::findOwnerProfileId()) {
+            return '';
+        }
+
+        return '<style>#header_logo, #header_quick, .btn-help { display: none !important; }</style>';
     }
 }

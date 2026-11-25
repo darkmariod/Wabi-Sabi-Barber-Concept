@@ -34,3 +34,21 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+// Catálogos: "Copiar enlace" copies the store link of the catalog.
+document.addEventListener('click', function (event) {
+  var button = event.target.closest('.js-nfp-copy');
+  if (!button) { return; }
+  var url = button.getAttribute('data-copy');
+  var done = function () {
+    var label = button.lastChild;
+    var original = label.textContent;
+    label.textContent = 'Enlace copiado';
+    setTimeout(function () { label.textContent = original; }, 1800);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(done, function () { window.prompt('Copia este enlace:', url); });
+  } else {
+    window.prompt('Copia este enlace:', url);
+  }
+});

@@ -80,7 +80,7 @@
   {/if}
 
   <h2 class="nfp-section-title"><i class="material-icons" aria-hidden="true">local_offer</i>{l s='Promociones de la portada' d='Modules.Nfpanel.Admin'}</h2>
-  <p class="nfp-help">{l s='Salen en "Promociones Exclusivas". Para agregar un producto: Catálogo > Editar > marca "Mostrar en Promociones de la portada" y pon su precio de oferta.' d='Modules.Nfpanel.Admin'}</p>
+  <p class="nfp-help">{l s='Salen en "Promociones Exclusivas". Para agregar un producto: Productos > Editar > marca "Mostrar en Promociones de la portada" y pon su precio de oferta.' d='Modules.Nfpanel.Admin'}</p>
   {if !$nf_promos}
     <div class="nfp-empty">{l s='No hay productos en promociones de la portada.' d='Modules.Nfpanel.Admin'}</div>
   {else}

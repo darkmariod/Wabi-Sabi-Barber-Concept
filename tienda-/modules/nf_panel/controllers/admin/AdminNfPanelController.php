@@ -1,7 +1,7 @@
 <?php
 /**
- * "Mi Tienda" back-office page: catalog (product list + form), orders (cards + state buttons)
- * and home page (banners + home promotions).
+ * "Mi Tienda" back-office page: products (list + form), catalogs (categories), orders
+ * (cards + state buttons) and home page (banners + home promotions).
  */
 if (!defined('_PS_VERSION_')) {
     exit;
@@ -9,7 +9,7 @@ if (!defined('_PS_VERSION_')) {
 
 class AdminNfPanelController extends ModuleAdminController
 {
-    const SECTIONS = ['products', 'orders', 'home'];
+    const SECTIONS = ['products', 'catalogs', 'orders', 'home'];
     const MESSAGES = [
         'saved' => 'Producto guardado.',
         'hidden' => 'El producto ya no se muestra en la tienda.',
@@ -21,6 +21,9 @@ class AdminNfPanelController extends ModuleAdminController
         'banner_updated' => 'Banner actualizado.',
         'banner_deleted' => 'Banner eliminado.',
         'promo_removed' => 'El producto ya no sale en Promociones de la portada.',
+        'catalog_created' => 'Catálogo creado. Ya aparece en la tienda.',
+        'catalog_updated' => 'Catálogo actualizado.',
+        'catalog_deleted' => 'Catálogo eliminado.',
     ];
 
     public function __construct()
@@ -85,6 +88,11 @@ class AdminNfPanelController extends ModuleAdminController
             case 'delete_banner':
             case 'remove_promo':
                 return $this->processHome($action);
+            case 'create_catalog':
+            case 'rename_catalog':
+            case 'toggle_catalog':
+            case 'delete_catalog':
+                return $this->processCatalog($action);
         }
 
         return false;
@@ -199,6 +207,40 @@ class AdminNfPanelController extends ModuleAdminController
         $this->redirectToPanel(['section' => 'home', 'msg' => $msg]);
     }
 
+    private function processCatalog(string $action)
+    {
+        $this->requirePermission($action === 'delete_catalog' ? 'delete' : ($action === 'create_catalog' ? 'add' : 'edit'));
+        if ($this->errors) {
+            return false;
+        }
+        $service = new NfPanelCategoryService($this->context);
+        $id = (int) Tools::getValue('id');
+        $errors = [];
+        switch ($action) {
+            case 'create_catalog':
+                $ok = $service->create((string) Tools::getValue('name'), (int) Tools::getValue('id_parent'), $errors) > 0;
+                $msg = 'catalog_created';
+                break;
+            case 'rename_catalog':
+                $ok = $service->rename($id, (string) Tools::getValue('name'), $errors);
+                $msg = 'catalog_updated';
+                break;
+            case 'toggle_catalog':
+                $ok = $service->toggle($id);
+                $msg = 'catalog_updated';
+                break;
+            default: // delete_catalog
+                $ok = $service->delete($id, $errors);
+                $msg = 'catalog_deleted';
+        }
+        if (!$ok) {
+            $this->errors = array_merge($this->errors, $errors ?: [$this->trans('No se pudo hacer el cambio. Recarga la página e inténtalo de nuevo.', [], 'Modules.Nfpanel.Admin')]);
+
+            return false;
+        }
+        $this->redirectToPanel(['section' => 'catalogs', 'msg' => $msg]);
+    }
+
     private function requirePermission(string $legacyAction): void
     {
         if (!$this->access($legacyAction)) {
@@ -244,6 +286,8 @@ class AdminNfPanelController extends ModuleAdminController
             $body = $this->renderOrders();
         } elseif ($section === 'home') {
             $body = $this->renderHome();
+        } elseif ($section === 'catalogs') {
+            $body = $this->renderCatalogs();
         } elseif (Tools::getIsset('edit') || ($this->errors && Tools::getValue('nf_action') === 'save_product')) {
             $body = $this->renderProductForm();
         } else {
@@ -344,6 +388,18 @@ class AdminNfPanelController extends ModuleAdminController
         ]);
 
         return $this->context->smarty->fetch($this->nfTemplate('orders.tpl'));
+    }
+
+    private function renderCatalogs(): string
+    {
+        $service = new NfPanelCategoryService($this->context);
+        $this->context->smarty->assign([
+            'nf_catalogs' => $service->listCatalogs(),
+            'nf_parents' => $service->parentOptions(),
+            'nf_form_name' => (string) Tools::getValue('name'),
+        ]);
+
+        return $this->context->smarty->fetch($this->nfTemplate('catalogs.tpl'));
     }
 
     private function renderHome(): string
