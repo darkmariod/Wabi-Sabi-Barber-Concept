@@ -1,0 +1,34 @@
+# Production override for the owner's own server (automatic HTTPS with Caddy).
+# Usage (from /opt/natufitness):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+# PrestaShop is reachable only from the server itself (127.0.0.1); the public
+# traffic goes through Caddy on ports 80/443, which obtains and renews the
+# Let's Encrypt certificate for PS_DOMAIN and www.PS_DOMAIN.
+# Requires Docker Compose v2.24+ (for the !override tag).
+services:
+  prestashop:
+    ports: !override
+      - "127.0.0.1:${PS_PORT:-8088}:80"
+    environment:
+      PS_INSTALL_AUTO: 0
+      PS_ENABLE_SSL: 1
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - prestashop
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      PS_DOMAIN: ${PS_DOMAIN}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

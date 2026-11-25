@@ -1,0 +1,18 @@
+# NatuFitness public entry point. PS_DOMAIN comes from .env (apex domain, no www, no port).
+# Caddy obtains and renews the HTTPS certificates automatically.
+
+www.{$PS_DOMAIN} {
+	redir https://{$PS_DOMAIN}{uri} permanent
+}
+
+{$PS_DOMAIN} {
+	encode zstd gzip
+
+	request_body {
+		max_size 64MB
+	}
+
+	reverse_proxy prestashop:80 {
+		header_up X-Forwarded-Proto https
+	}
+}

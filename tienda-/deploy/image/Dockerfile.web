@@ -16,7 +16,7 @@ ENV PS_INSTALL_AUTO=0 \
 RUN find /var/www/html -mindepth 1 -delete
 ADD html.tar.gz /var/www/html/
 # Maintenance scripts (change-domain.php, setup-owner.php, setup-mail.php, ...).
-COPY scripts/ /opt/natufitness/scripts/
+COPY --chmod=755 scripts/ /opt/natufitness/scripts/
 # Runs on every start, before Apache (see /tmp/docker_run.sh in the base image).
 COPY --chmod=755 init-natufitness.sh /tmp/init-scripts/10-natufitness.sh
 
